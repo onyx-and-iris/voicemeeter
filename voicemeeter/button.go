@@ -7,6 +7,11 @@ type button struct {
 	index int
 }
 
+// newButton returns a button type
+func newButton(i int) button {
+	return button{i}
+}
+
 // getter returns the value of a macrobutton parameter
 func (m *button) getter(mode int) bool {
 	return getMacroStatus(m.index, mode) == 1
@@ -21,11 +26,6 @@ func (m *button) setter(v bool, mode int) {
 		value = 0
 	}
 	setMacroStatus(m.index, value, mode)
-}
-
-// newButton returns a button type
-func newButton(i int) button {
-	return button{i}
 }
 
 // String implements the stringer interface
