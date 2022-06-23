@@ -12,6 +12,8 @@ type kind struct {
 	virtIn  int
 	physOut int
 	virtOut int
+	vbanIn  int
+	vbanOut int
 }
 
 func (k *kind) numStrip() int {
@@ -30,15 +32,15 @@ func (k *kind) String() string {
 
 // newBasicKind returns a basic kind struct address
 func newBasicKind() *kind {
-	return &kind{"basic", 2, 1, 1, 1}
+	return &kind{"basic", 2, 1, 1, 1, 4, 4}
 }
 
 // newBananaKind returns a banana kind struct address
 func newBananaKind() *kind {
-	return &kind{"banana", 3, 2, 3, 2}
+	return &kind{"banana", 3, 2, 3, 2, 8, 8}
 }
 
 // newPotatoKind returns a potato kind struct address
 func newPotatoKind() *kind {
-	return &kind{"potato", 5, 3, 5, 3}
+	return &kind{"potato", 5, 3, 5, 3, 8, 8}
 }
