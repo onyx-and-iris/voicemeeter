@@ -8,10 +8,12 @@ import (
 // A remote type represents the API for a kind,
 // comprised of slices representing each member
 type remote struct {
-	kind   *kind
-	Strip  []t_strip
-	Bus    []t_bus
-	Button []button
+	kind    *kind
+	Strip   []t_strip
+	Bus     []t_bus
+	Button  []button
+	Command *command
+	Vban    *vban
 }
 
 // String implements the stringer interface
@@ -65,7 +67,7 @@ func NewRemote(kind_id string) *remote {
 	}
 	_bus := make([]t_bus, _kind.numBus())
 	for i := 0; i < _kind.physOut+_kind.virtOut; i++ {
-		if i < _kind.physIn {
+		if i < _kind.physOut {
 			_bus[i] = newPhysicalBus(i, _kind)
 		} else {
 			_bus[i] = newVirtualBus(i, _kind)
@@ -75,11 +77,15 @@ func NewRemote(kind_id string) *remote {
 	for i := 0; i < 80; i++ {
 		_button[i] = newButton(i)
 	}
+	_command := newCommand()
+	_vban := newVban(_kind)
 
 	return &remote{
-		kind:   _kind,
-		Strip:  _strip,
-		Bus:    _bus,
-		Button: _button,
+		kind:    _kind,
+		Strip:   _strip,
+		Bus:     _bus,
+		Button:  _button,
+		Command: _command,
+		Vban:    _vban,
 	}
 }
