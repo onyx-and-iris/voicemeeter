@@ -13,29 +13,29 @@ import (
 var (
 	mod = syscall.NewLazyDLL(getDllPath())
 
-	vmLogin        = mod.NewProc("VBVMR_Login")
-	vmLogout       = mod.NewProc("VBVMR_Logout")
-	vmRunvm        = mod.NewProc("VBVMR_RunVoicemeeter")
-	vmGetvmType    = mod.NewProc("VBVMR_GetVoicemeeterType")
-	vmGetvmVersion = mod.NewProc("VBVMR_GetVoicemeeterVersion")
-	vmPdirty       = mod.NewProc("VBVMR_IsParametersDirty")
-	getParamFloat  = mod.NewProc("VBVMR_GetParameterFloat")
-	getParamString = mod.NewProc("VBVMR_GetParameterStringA")
+	vmLogin          = mod.NewProc("VBVMR_Login")
+	vmLogout         = mod.NewProc("VBVMR_Logout")
+	vmRunvm          = mod.NewProc("VBVMR_RunVoicemeeter")
+	vmGetvmType      = mod.NewProc("VBVMR_GetVoicemeeterType")
+	vmGetvmVersion   = mod.NewProc("VBVMR_GetVoicemeeterVersion")
+	vmPdirty         = mod.NewProc("VBVMR_IsParametersDirty")
+	vmGetParamFloat  = mod.NewProc("VBVMR_GetParameterFloat")
+	vmGetParamString = mod.NewProc("VBVMR_GetParameterStringA")
 
-	//getLevelFloat = mod.NewProc("VBVMR_GetLevel")
+	//vmGetLevelFloat = mod.NewProc("VBVMR_GetLevel")
 
-	setParamFloat  = mod.NewProc("VBVMR_SetParameterFloat")
-	setParameters  = mod.NewProc("VBVMR_SetParameters")
-	setParamString = mod.NewProc("VBVMR_SetParameterStringA")
+	vmSetParamFloat  = mod.NewProc("VBVMR_SetParameterFloat")
+	vmSetParameters  = mod.NewProc("VBVMR_SetParameters")
+	vmSetParamString = mod.NewProc("VBVMR_SetParameterStringA")
 
-	//getDevNumOut  = mod.NewProc("VBVMR_Output_GetDeviceNumber")
-	//getDevDescOut = mod.NewProc("VBVMR_Output_GetDeviceDescA")
-	//getDevNumIn   = mod.NewProc("VBVMR_Input_GetDeviceNumber")
-	//getDevDescIn  = mod.NewProc("VBVMR_Input_GetDeviceDescA")
+	//vmGetDevNumOut  = mod.NewProc("VBVMR_Output_GetDeviceNumber")
+	//vmGetDevDescOut = mod.NewProc("VBVMR_Output_GetDeviceDescA")
+	//vmGetDevNumIn   = mod.NewProc("VBVMR_Input_GetDeviceNumber")
+	//vmGetDevDescIn  = mod.NewProc("VBVMR_Input_GetDeviceDescA")
 
-	vmMdirty             = mod.NewProc("VBVMR_MacroButton_IsDirty")
-	getMacroButtonStatus = mod.NewProc("VBVMR_MacroButton_GetStatus")
-	setMacroButtonStatus = mod.NewProc("VBVMR_MacroButton_SetStatus")
+	vmMdirty         = mod.NewProc("VBVMR_MacroButton_IsDirty")
+	vmGetMacroStatus = mod.NewProc("VBVMR_MacroButton_GetStatus")
+	vmSetMacroStatus = mod.NewProc("VBVMR_MacroButton_SetStatus")
 )
 
 // login logs into the API,
@@ -139,7 +139,7 @@ func getVMType() string {
 func getParameterFloat(name string) float64 {
 	var value float32
 	b := append([]byte(name), 0)
-	res, _, _ := getParamFloat.Call(
+	res, _, _ := vmGetParamFloat.Call(
 		uintptr(unsafe.Pointer(&b[0])),
 		uintptr(unsafe.Pointer(&value)),
 	)
@@ -155,7 +155,7 @@ func getParameterFloat(name string) float64 {
 func setParameterFloat(name string, value float32) {
 	b1 := append([]byte(name), 0)
 	b2 := math.Float32bits(value)
-	res, _, _ := setParamFloat.Call(
+	res, _, _ := vmSetParamFloat.Call(
 		uintptr(unsafe.Pointer(&b1[0])),
 		uintptr(b2),
 	)
@@ -171,7 +171,7 @@ func setParameterFloat(name string, value float32) {
 func getParameterString(name string) string {
 	b1 := append([]byte(name), 0)
 	var b2 [512]byte
-	res, _, _ := getParamString.Call(
+	res, _, _ := vmGetParamString.Call(
 		uintptr(unsafe.Pointer(&b1[0])),
 		uintptr(unsafe.Pointer(&b2[0])),
 	)
@@ -188,7 +188,7 @@ func getParameterString(name string) string {
 func setParameterString(name, value string) {
 	b1 := append([]byte(name), 0)
 	b2 := append([]byte(value), 0)
-	res, _, _ := setParamString.Call(
+	res, _, _ := vmSetParamString.Call(
 		uintptr(unsafe.Pointer(&b1[0])),
 		uintptr(unsafe.Pointer(&b2[0])),
 	)
@@ -203,7 +203,7 @@ func setParameterString(name, value string) {
 // setParametersMulti sets multiple parameters with a script
 func setParametersMulti(script string) {
 	b1 := append([]byte(script), 0)
-	res, _, _ := setParameters.Call(
+	res, _, _ := vmSetParameters.Call(
 		uintptr(unsafe.Pointer(&b1[0])),
 	)
 	if res != 0 {
@@ -216,7 +216,7 @@ func setParametersMulti(script string) {
 // getMacroStatus gets a macrobutton value
 func getMacroStatus(id, mode int) float32 {
 	var state float32
-	res, _, _ := getMacroButtonStatus.Call(
+	res, _, _ := vmGetMacroStatus.Call(
 		uintptr(id),
 		uintptr(unsafe.Pointer(&state)),
 		uintptr(mode),
@@ -231,7 +231,7 @@ func getMacroStatus(id, mode int) float32 {
 
 // setMacroStatus sets a macrobutton value
 func setMacroStatus(id, state, mode int) {
-	res, _, _ := setMacroButtonStatus.Call(
+	res, _, _ := vmSetMacroStatus.Call(
 		uintptr(id),
 		uintptr(state),
 		uintptr(mode),
