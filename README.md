@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/onyx-and-iris/voicemeeter-api-go.svg)](https://pkg.go.dev/github.com/onyx-and-iris/voicemeeter-api-go)
+
 # A Go Wrapper for Voicemeeter API
 
 A WIP...
