@@ -49,3 +49,27 @@ func TestStrip5Gain(t *testing.T) {
 		t.Error("TestStrip5Gain did not match -20.8")
 	}
 }
+
+func TestStrip3Mc(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Strip[3].SetMc(true)
+	if vmRem.Strip[3].GetMc() != true {
+		t.Error("TestStrip3Mc did not match true")
+	}
+}
+
+func TestBus3Eq(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Bus[0].SetEq(true)
+	if vmRem.Bus[0].GetEq() != true {
+		t.Error("TestBus3Eq did not match true")
+	}
+}
+
+func TestBus4Label(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Bus[4].SetLabel("test0")
+	if vmRem.Bus[4].GetLabel() != "test0" {
+		t.Error("TestBus4Label did not match test0")
+	}
+}
