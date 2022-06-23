@@ -20,7 +20,7 @@ type t_bus interface {
 // bus represents a bus channel
 // embeds channel struct
 type bus struct {
-	channel
+	iRemote
 }
 
 // String implements the stringer interface
@@ -86,7 +86,7 @@ type physicalBus struct {
 }
 
 func newPhysicalBus(i int, k *kind) t_bus {
-	pb := physicalBus{bus{channel{"bus", i, *k}}}
+	pb := physicalBus{bus{iRemote{"bus", i, k}}}
 	return t_bus(&pb)
 }
 
@@ -95,6 +95,6 @@ type virtualBus struct {
 }
 
 func newVirtualBus(i int, k *kind) t_bus {
-	vb := virtualBus{bus{channel{"bus", i, *k}}}
+	vb := virtualBus{bus{iRemote{"bus", i, k}}}
 	return t_bus(&vb)
 }

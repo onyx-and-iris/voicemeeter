@@ -30,7 +30,7 @@ type t_strip interface {
 // strip represents a strip channel
 // embeds channel struct
 type strip struct {
-	channel
+	iRemote
 }
 
 // implement stringer interface in fmt
@@ -106,7 +106,7 @@ type physicalStrip struct {
 }
 
 func newPhysicalStrip(i int, k *kind) t_strip {
-	ps := physicalStrip{strip{channel{"strip", i, *k}}}
+	ps := physicalStrip{strip{iRemote{"strip", i, k}}}
 	return t_strip(&ps)
 }
 
@@ -155,7 +155,7 @@ type virtualStrip struct {
 }
 
 func newVirtualStrip(i int, k *kind) t_strip {
-	vs := virtualStrip{strip{channel{"strip", i, *k}}}
+	vs := virtualStrip{strip{iRemote{"strip", i, k}}}
 	return t_strip(&vs)
 }
 
