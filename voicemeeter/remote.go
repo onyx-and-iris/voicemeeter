@@ -9,8 +9,8 @@ import (
 // comprised of slices representing each member
 type remote struct {
 	kind   *kind
-	Strip  []strip
-	Bus    []bus
+	Strip  []t_strip
+	Bus    []t_bus
 	Button []button
 }
 
@@ -40,8 +40,8 @@ func (r *remote) SendText(script string) {
 }
 
 // NewRemote returns a remote type of a kind,
-// this exported method is the interface entry point.
-func NewRemote(kind_id string) remote {
+// this is the interface entry point.
+func NewRemote(kind_id string) *remote {
 	kindMap := map[string]*kind{
 		"basic":  newBasicKind(),
 		"banana": newBananaKind(),
@@ -55,20 +55,28 @@ func NewRemote(kind_id string) remote {
 		os.Exit(1)
 	}
 
-	_strip := make([]strip, _kind.numStrip())
+	_strip := make([]t_strip, _kind.numStrip())
 	for i := 0; i < _kind.physIn+_kind.virtIn; i++ {
-		_strip[i] = newStrip(i, _kind)
+		if i < _kind.physIn {
+			_strip[i] = newPhysicalStrip(i, _kind)
+		} else {
+			_strip[i] = newVirtualStrip(i, _kind)
+		}
 	}
-	_bus := make([]bus, _kind.numBus())
+	_bus := make([]t_bus, _kind.numBus())
 	for i := 0; i < _kind.physOut+_kind.virtOut; i++ {
-		_bus[i] = newBus(i, _kind)
+		if i < _kind.physIn {
+			_bus[i] = newPhysicalBus(i, _kind)
+		} else {
+			_bus[i] = newVirtualBus(i, _kind)
+		}
 	}
 	_button := make([]button, 80)
 	for i := 0; i < 80; i++ {
 		_button[i] = newButton(i)
 	}
 
-	return remote{
+	return &remote{
 		kind:   _kind,
 		Strip:  _strip,
 		Bus:    _bus,
