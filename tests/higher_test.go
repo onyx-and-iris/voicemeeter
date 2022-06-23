@@ -73,3 +73,19 @@ func TestBus4Label(t *testing.T) {
 		t.Error("TestBus4Label did not match test0")
 	}
 }
+
+func TestVbanInStream0On(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Vban.InStream[0].SetOn(true)
+	if vmRem.Vban.InStream[0].GetOn() != true {
+		t.Error("TestVbanInStream0On did not match true")
+	}
+}
+
+func TestVbanOutStream6On(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Vban.OutStream[6].SetOn(true)
+	if vmRem.Vban.OutStream[6].GetOn() != true {
+		t.Error("TestVbanOutStream6On did not match true")
+	}
+}
