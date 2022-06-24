@@ -43,16 +43,10 @@ func (r *remote) SendText(script string) {
 
 // NewRemote returns a remote type of a kind,
 // this is the interface entry point.
-func NewRemote(kind_id string) *remote {
-	kindMap := map[string]*kind{
-		"basic":  newBasicKind(),
-		"banana": newBananaKind(),
-		"potato": newPotatoKind(),
-	}
-
-	_kind, ok := kindMap[kind_id]
+func NewRemote(kindId string) *remote {
+	_kind, ok := kindMap[kindId]
 	if !ok {
-		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kind_id)
+		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
 		fmt.Println(err)
 		os.Exit(1)
 	}

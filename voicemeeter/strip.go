@@ -51,22 +51,22 @@ func (s *strip) SetMute(val bool) {
 	s.setter_bool("Mute", val)
 }
 
-// GetMono returns the value of the Mute parameter
+// GetMono returns the value of the Mono parameter
 func (s *strip) GetMono() bool {
 	return s.getter_bool("Mono")
 }
 
-// SetMono sets the value of the Mute parameter
+// SetMono sets the value of the Mono parameter
 func (s *strip) SetMono(val bool) {
 	s.setter_bool("Mono", val)
 }
 
-// GetSolo returns the value of the Mute parameter
+// GetSolo returns the value of the Solo parameter
 func (s *strip) GetSolo() bool {
 	return s.getter_bool("Solo")
 }
 
-// SetSolo sets the value of the Mute parameter
+// SetSolo sets the value of the Solo parameter
 func (s *strip) SetSolo(val bool) {
 	s.setter_bool("Solo", val)
 }
@@ -81,12 +81,12 @@ func (s *strip) SetLimit(val int) {
 	s.setter_int("Limit", val)
 }
 
-// GetLabel returns the value of the MC parameter
+// GetLabel returns the value of the Label parameter
 func (s *strip) GetLabel() string {
 	return s.getter_string("Label")
 }
 
-// SetLabel sets the value of the MC parameter
+// SetLabel sets the value of the Label parameter
 func (s *strip) SetLabel(val string) {
 	s.setter_string("Label", val)
 }
@@ -110,32 +110,32 @@ func newPhysicalStrip(i int, k *kind) t_strip {
 	return t_strip(&ps)
 }
 
-// GetComp returns the value of the Mute parameter
+// GetComp returns the value of the Comp parameter
 func (p *physicalStrip) GetComp() bool {
 	return p.getter_bool("Comp")
 }
 
-// SetComp sets the value of the Mute parameter
+// SetComp sets the value of the Comp parameter
 func (p *physicalStrip) SetComp(val bool) {
 	p.setter_bool("Comp", val)
 }
 
-// GetGate returns the value of the Mute parameter
+// GetGate returns the value of the Gate parameter
 func (p *physicalStrip) GetGate() bool {
 	return p.getter_bool("Gate")
 }
 
-// SetGate sets the value of the Mute parameter
+// SetGate sets the value of the Gate parameter
 func (p *physicalStrip) SetGate(val bool) {
 	p.setter_bool("Gate", val)
 }
 
-// GetAudibility returns the value of the Mute parameter
+// GetAudibility returns the value of the Audibility parameter
 func (p *physicalStrip) GetAudibility() bool {
 	return p.getter_bool("Audibility")
 }
 
-// SetAudibility sets the value of the Mute parameter
+// SetAudibility sets the value of the Audibility parameter
 func (p *physicalStrip) SetAudibility(val bool) {
 	p.setter_bool("Audibility", val)
 }

@@ -40,10 +40,10 @@ var (
 
 // login logs into the API,
 // then attempts to launch Voicemeeter if it's not running.
-func login(kind_id string) {
+func login(kindId string) {
 	res, _, _ := vmLogin.Call()
 	if res == 1 {
-		runVoicemeeter(kind_id)
+		runVoicemeeter(kindId)
 		time.Sleep(time.Second)
 	} else if res != 0 {
 		err := fmt.Errorf("VBVMR_Login returned %d", res)
@@ -68,13 +68,13 @@ func logout() {
 }
 
 // runVoicemeeter attempts to launch a Voicemeeter GUI of a kind.
-func runVoicemeeter(kind_id string) {
+func runVoicemeeter(kindId string) {
 	vals := map[string]uint64{
 		"basic":  1,
 		"banana": 2,
 		"potato": 3,
 	}
-	res, _, _ := vmRunvm.Call(uintptr(vals[kind_id]))
+	res, _, _ := vmRunvm.Call(uintptr(vals[kindId]))
 	if res != 0 {
 		err := fmt.Errorf("VBVMR_RunVoicemeeter returned %d", res)
 		fmt.Println(err)

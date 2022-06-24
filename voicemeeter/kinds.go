@@ -7,13 +7,8 @@ import (
 
 // A kind represents a Voicemeeter kinds layout
 type kind struct {
-	name    string
-	physIn  int
-	virtIn  int
-	physOut int
-	virtOut int
-	vbanIn  int
-	vbanOut int
+	name                                              string
+	physIn, virtIn, physOut, virtOut, vbanIn, vbanOut int
 }
 
 func (k *kind) numStrip() int {
@@ -44,3 +39,11 @@ func newBananaKind() *kind {
 func newPotatoKind() *kind {
 	return &kind{"potato", 5, 3, 5, 3, 8, 8}
 }
+
+var (
+	kindMap = map[string]*kind{
+		"basic":  newBasicKind(),
+		"banana": newBananaKind(),
+		"potato": newPotatoKind(),
+	}
+)
