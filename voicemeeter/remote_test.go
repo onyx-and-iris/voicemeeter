@@ -8,7 +8,7 @@ import (
 
 func TestGetBasicRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem := NewRemote("basic")
+	__rem := GetRemote("basic")
 	t.Run("Should return a remote basic type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
@@ -25,7 +25,7 @@ func TestGetBasicRemote(t *testing.T) {
 
 func TestGetBananaRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem := NewRemote("banana")
+	__rem := GetRemote("banana")
 	t.Run("Should return a remote banana type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
@@ -42,7 +42,7 @@ func TestGetBananaRemote(t *testing.T) {
 
 func TestGetPotatoRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem := NewRemote("potato")
+	__rem := GetRemote("potato")
 	t.Run("Should return a remote basic type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
