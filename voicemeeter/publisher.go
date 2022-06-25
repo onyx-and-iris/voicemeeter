@@ -47,10 +47,10 @@ func newPooler() *Pooler {
 func (r *Pooler) runner() {
 	for r.run {
 		if pdirty() {
-			r.Publisher.notify("pdirty")
+			r.notify("pdirty")
 		}
 		if mdirty() {
-			r.Publisher.notify("mdirty")
+			r.notify("mdirty")
 		}
 	}
 }
