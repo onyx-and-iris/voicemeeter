@@ -14,6 +14,8 @@ type remote struct {
 	Button  []button
 	Command *command
 	Vban    *vban
+
+	Pooler *Pooler
 }
 
 // String implements the stringer interface
@@ -22,10 +24,12 @@ func (r *remote) String() string {
 }
 
 func (r *remote) Login() {
+	r.Pooler = newPooler()
 	login(r.kind.name)
 }
 
 func (r *remote) Logout() {
+	r.Pooler.run = false
 	logout()
 }
 
@@ -117,15 +121,13 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 
 func (b *genericBuilder) makeCommand() remoteBuilder {
 	fmt.Println("building command")
-	_command := newCommand()
-	b.r.Command = _command
+	b.r.Command = newCommand()
 	return b
 }
 
 func (b *genericBuilder) makeVban() remoteBuilder {
 	fmt.Println("building vban")
-	_vban := newVban(b.k)
-	b.r.Vban = _vban
+	b.r.Vban = newVban(b.k)
 	return b
 }
 
