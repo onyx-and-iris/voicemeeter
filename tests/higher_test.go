@@ -10,12 +10,12 @@ func TestStrip0Mute(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[0].SetMute(true)
 	t.Run("Should return true when SetMute(true)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[0].GetMute(), true)
+		assert.True(t, vmRem.Strip[0].GetMute())
 	})
 
 	vmRem.Strip[0].SetMute(false)
 	t.Run("Should return false when SetMute(false)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[0].GetMute(), false)
+		assert.False(t, vmRem.Strip[0].GetMute())
 	})
 }
 
@@ -63,12 +63,12 @@ func TestStrip3Mc(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[3].SetMc(true)
 	t.Run("Should return true when SetMc(true)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[3].GetMc(), true)
+		assert.True(t, vmRem.Strip[3].GetMc())
 	})
 
 	vmRem.Strip[3].SetMc(false)
 	t.Run("Should return false when SetMc(false)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[3].GetMc(), false)
+		assert.False(t, vmRem.Strip[3].GetMc())
 	})
 }
 
@@ -76,12 +76,12 @@ func TestBus3Eq(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Bus[3].SetEq(true)
 	t.Run("Should return true when SetEq(true)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Bus[3].GetEq(), true)
+		assert.True(t, vmRem.Bus[3].GetEq())
 	})
 
 	vmRem.Bus[3].SetEq(false)
 	t.Run("Should return false when SetEq(false)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Bus[3].GetEq(), false)
+		assert.False(t, vmRem.Bus[3].GetEq())
 	})
 }
 
@@ -102,12 +102,12 @@ func TestVbanInStream0On(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Vban.InStream[0].SetOn(true)
 	t.Run("Should return true when SetOn(true)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.InStream[0].GetOn(), true)
+		assert.True(t, vmRem.Vban.InStream[0].GetOn())
 	})
 
 	vmRem.Vban.InStream[0].SetOn(false)
 	t.Run("Should return false when SetOn(false)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.InStream[0].GetOn(), false)
+		assert.False(t, vmRem.Vban.InStream[0].GetOn())
 	})
 }
 
@@ -115,11 +115,49 @@ func TestVbanOutStream6On(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Vban.OutStream[6].SetOn(true)
 	t.Run("Should return true when SetOn(true)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.OutStream[6].GetOn(), true)
+		assert.True(t, vmRem.Vban.OutStream[6].GetOn())
 	})
 
 	vmRem.Vban.OutStream[6].SetOn(false)
 	t.Run("Should return false when SetOn(false)", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.OutStream[6].GetOn(), false)
+		assert.False(t, vmRem.Vban.OutStream[6].GetOn())
+	})
+}
+
+func TestVbanOutStream3Name(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Vban.OutStream[3].SetName("test0")
+	t.Run("Should return test0 when SetName('test0')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[3].GetName(), "test0")
+	})
+
+	vmRem.Vban.OutStream[3].SetName("test1")
+	t.Run("Should return test1 when SetName('test1')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[3].GetName(), "test1")
+	})
+}
+
+func TestVbanInStream4Bit(t *testing.T) {
+	//t.Skip("skipping test")
+	t.Run("Should panic when instream SetBit(16)", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("expected panic")
+			}
+		}()
+		vmRem.Vban.InStream[4].SetBit(16)
+	})
+}
+
+func TestVbanOutStream4Bit(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Vban.OutStream[4].SetBit(16)
+	t.Run("Should return 16 when SetBit(16)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[4].GetBit(), 16)
+	})
+
+	vmRem.Vban.OutStream[4].SetBit(24)
+	t.Run("Should return 24 when SetBit(24)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[4].GetBit(), 24)
 	})
 }
