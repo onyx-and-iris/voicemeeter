@@ -111,7 +111,7 @@ func mdirty() bool {
 }
 
 func sync() {
-	time.Sleep(5 * time.Millisecond)
+	time.Sleep(20 * time.Millisecond)
 	for pdirty() || mdirty() {
 	}
 }
@@ -151,7 +151,7 @@ func getParameterFloat(name string) float64 {
 	return math.Round(float64(value)*10) / 10
 }
 
-// getParameterFloat sets the value of a float parameter
+// setParameterFloat sets the value of a float parameter
 func setParameterFloat(name string, value float32) {
 	b1 := append([]byte(name), 0)
 	b2 := math.Float32bits(value)

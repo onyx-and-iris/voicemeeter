@@ -23,8 +23,8 @@ type vbanInStream struct {
 	vbanStream
 }
 
-func newVbanInStream(i int, k *kind) t_vban {
-	vbi := vbanInStream{vbanStream{iRemote{"vban.instream", i, k}}}
+func newVbanInStream(i int) t_vban {
+	vbi := vbanInStream{vbanStream{iRemote{"vban.instream", i}}}
 	return t_vban(&vbi)
 }
 
@@ -32,8 +32,8 @@ type vbanOutStream struct {
 	vbanStream
 }
 
-func newVbanOutStream(i int, k *kind) t_vban {
-	vbo := vbanOutStream{vbanStream{iRemote{"vban.outstream", i, k}}}
+func newVbanOutStream(i int) t_vban {
+	vbo := vbanOutStream{vbanStream{iRemote{"vban.outstream", i}}}
 	return t_vban(&vbo)
 }
 
@@ -45,11 +45,11 @@ type vban struct {
 func newVban(k *kind) *vban {
 	_vbanIn := make([]t_vban, k.vbanIn)
 	for i := 0; i < k.vbanIn; i++ {
-		_vbanIn[i] = newVbanInStream(i, k)
+		_vbanIn[i] = newVbanInStream(i)
 	}
 	_vbanOut := make([]t_vban, k.vbanOut)
 	for i := 0; i < k.vbanOut; i++ {
-		_vbanOut[i] = newVbanOutStream(i, k)
+		_vbanOut[i] = newVbanOutStream(i)
 	}
 	return &vban{
 		InStream:  _vbanIn,

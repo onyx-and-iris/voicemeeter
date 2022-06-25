@@ -52,19 +52,19 @@ func NewRemote(kindId string) *remote {
 	}
 
 	_strip := make([]t_strip, _kind.numStrip())
-	for i := 0; i < _kind.physIn+_kind.virtIn; i++ {
+	for i := 0; i < _kind.numStrip(); i++ {
 		if i < _kind.physIn {
-			_strip[i] = newPhysicalStrip(i, _kind)
+			_strip[i] = newPhysicalStrip(i)
 		} else {
-			_strip[i] = newVirtualStrip(i, _kind)
+			_strip[i] = newVirtualStrip(i)
 		}
 	}
 	_bus := make([]t_bus, _kind.numBus())
-	for i := 0; i < _kind.physOut+_kind.virtOut; i++ {
+	for i := 0; i < _kind.numBus(); i++ {
 		if i < _kind.physOut {
-			_bus[i] = newPhysicalBus(i, _kind)
+			_bus[i] = newPhysicalBus(i)
 		} else {
-			_bus[i] = newVirtualBus(i, _kind)
+			_bus[i] = newVirtualBus(i)
 		}
 	}
 	_button := make([]button, 80)

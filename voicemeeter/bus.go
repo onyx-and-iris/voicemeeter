@@ -5,6 +5,7 @@ import (
 )
 
 type t_bus interface {
+	String() string
 	GetMute() bool
 	SetMute(val bool)
 	GetEq() bool
@@ -21,14 +22,6 @@ type t_bus interface {
 // embeds channel struct
 type bus struct {
 	iRemote
-}
-
-// String implements the stringer interface
-func (b *bus) String() string {
-	if b.index < b.kind.physOut {
-		return fmt.Sprintf("PhysicalBus%d\n", b.index)
-	}
-	return fmt.Sprintf("VirtualBus%d\n", b.index)
 }
 
 // GetMute returns the value of the Mute parameter
@@ -85,16 +78,26 @@ type physicalBus struct {
 	bus
 }
 
-func newPhysicalBus(i int, k *kind) t_bus {
-	pb := physicalBus{bus{iRemote{"bus", i, k}}}
+func newPhysicalBus(i int) t_bus {
+	pb := physicalBus{bus{iRemote{"bus", i}}}
 	return t_bus(&pb)
+}
+
+// String implements the stringer interface
+func (p *physicalBus) String() string {
+	return fmt.Sprintf("PhysicalBus%d", p.index)
 }
 
 type virtualBus struct {
 	bus
 }
 
-func newVirtualBus(i int, k *kind) t_bus {
-	vb := virtualBus{bus{iRemote{"bus", i, k}}}
+func newVirtualBus(i int) t_bus {
+	vb := virtualBus{bus{iRemote{"bus", i}}}
 	return t_bus(&vb)
+}
+
+// String implements the stringer interface
+func (v *virtualBus) String() string {
+	return fmt.Sprintf("VirtualBus%d", v.index)
 }

@@ -30,7 +30,7 @@ func (m *button) setter(v bool, mode int) {
 
 // String implements the stringer interface
 func (m *button) String() string {
-	return fmt.Sprintf("MacroButton%d\n", m.index)
+	return fmt.Sprintf("MacroButton%d", m.index)
 }
 
 // GetState returns the value of the State parameter

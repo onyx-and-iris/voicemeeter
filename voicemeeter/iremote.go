@@ -8,7 +8,6 @@ import (
 type iRemote struct {
 	_identifier string
 	index       int
-	kind        *kind
 }
 
 func (c *iRemote) identifier() string {

@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+var basic, banana, potato *kind
+
 // A kind represents a Voicemeeter kinds layout
 type kind struct {
 	name                                              string
@@ -27,17 +29,26 @@ func (k *kind) String() string {
 
 // newBasicKind returns a basic kind struct address
 func newBasicKind() *kind {
-	return &kind{"basic", 2, 1, 1, 1, 4, 4}
+	if basic == nil {
+		basic = &kind{"basic", 2, 1, 1, 1, 4, 4}
+	}
+	return basic
 }
 
 // newBananaKind returns a banana kind struct address
 func newBananaKind() *kind {
-	return &kind{"banana", 3, 2, 3, 2, 8, 8}
+	if banana == nil {
+		banana = &kind{"banana", 3, 2, 3, 2, 8, 8}
+	}
+	return banana
 }
 
 // newPotatoKind returns a potato kind struct address
 func newPotatoKind() *kind {
-	return &kind{"potato", 5, 3, 5, 3, 8, 8}
+	if potato == nil {
+		potato = &kind{"potato", 5, 3, 5, 3, 8, 8}
+	}
+	return potato
 }
 
 var (

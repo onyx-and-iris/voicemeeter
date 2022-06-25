@@ -5,6 +5,7 @@ import (
 )
 
 type t_strip interface {
+	String() string
 	GetMute() bool
 	SetMute(val bool)
 	GetMono() bool
@@ -31,14 +32,6 @@ type t_strip interface {
 // embeds channel struct
 type strip struct {
 	iRemote
-}
-
-// implement stringer interface in fmt
-func (s *strip) String() string {
-	if s.index < s.kind.physIn {
-		return fmt.Sprintf("PhysicalStrip%d\n", s.index)
-	}
-	return fmt.Sprintf("VirtualStrip%d\n", s.index)
 }
 
 // GetMute returns the value of the Mute parameter
@@ -105,9 +98,14 @@ type physicalStrip struct {
 	strip
 }
 
-func newPhysicalStrip(i int, k *kind) t_strip {
-	ps := physicalStrip{strip{iRemote{"strip", i, k}}}
+func newPhysicalStrip(i int) t_strip {
+	ps := physicalStrip{strip{iRemote{"strip", i}}}
 	return t_strip(&ps)
+}
+
+// implement stringer interface in fmt
+func (p *physicalStrip) String() string {
+	return fmt.Sprintf("PhysicalStrip%d", p.index)
 }
 
 // GetComp returns the value of the Comp parameter
@@ -154,9 +152,14 @@ type virtualStrip struct {
 	strip
 }
 
-func newVirtualStrip(i int, k *kind) t_strip {
-	vs := virtualStrip{strip{iRemote{"strip", i, k}}}
+func newVirtualStrip(i int) t_strip {
+	vs := virtualStrip{strip{iRemote{"strip", i}}}
 	return t_strip(&vs)
+}
+
+// implement stringer interface in fmt
+func (v *virtualStrip) String() string {
+	return fmt.Sprintf("VirtualStrip%d", v.index)
 }
 
 // GetMc returns the value of the MC parameter
