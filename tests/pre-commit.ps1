@@ -1,5 +1,5 @@
 Function RunTests {
-    $run_tests = "go clean -testcache; go test ../..."
+	$run_tests = "cd ../; go clean -testcache; go test ./..."
 
 	Invoke-Expression $run_tests
 }
