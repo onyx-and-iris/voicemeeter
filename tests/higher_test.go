@@ -1,91 +1,125 @@
 package voicemeeter_test
 
 import (
-	"os"
 	"testing"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go/voicemeeter"
+	"github.com/stretchr/testify/assert"
 )
-
-var (
-	vmRem = voicemeeter.NewRemote("banana")
-)
-
-func TestMain(m *testing.M) {
-	vmRem.Login()
-	code := m.Run()
-	vmRem.Logout()
-	os.Exit(code)
-}
 
 func TestStrip0Mute(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[0].SetMute(true)
-	if vmRem.Strip[0].GetMute() != true {
-		t.Error("TestStrip0Mute did not match true")
-	}
+	t.Run("Should return true when SetMute(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[0].GetMute(), true)
+	})
+
+	vmRem.Strip[0].SetMute(false)
+	t.Run("Should return false when SetMute(false)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[0].GetMute(), false)
+	})
 }
 
 func TestStrip2Limit(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[2].SetLimit(-8)
-	if vmRem.Strip[2].GetLimit() != -8 {
-		t.Error("TestStrip3Limit did not match -8")
-	}
+	t.Run("Should return -8 when SetLimit(-8)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[2].GetLimit(), -8)
+	})
+
+	vmRem.Strip[2].SetLimit(-32)
+	t.Run("Should return -32 when SetLimit(-8)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[2].GetLimit(), -32)
+	})
+
 }
 
 func TestStrip4Label(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[4].SetLabel("test0")
-	if vmRem.Strip[4].GetLabel() != "test0" {
-		t.Error("TestStrip4Label did not match test0")
-	}
+	t.Run("Should return test0 when SetLimit('test0')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetLabel(), "test0")
+	})
+
+	vmRem.Strip[4].SetLabel("test1")
+	t.Run("Should return test1 when SetLimit('test1')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetLabel(), "test1")
+	})
 }
 
 func TestStrip5Gain(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[4].SetGain(-20.8)
-	if vmRem.Strip[4].GetGain() != -20.8 {
-		t.Error("TestStrip5Gain did not match -20.8")
-	}
+	t.Run("Should return -20.8 when SetGain(-20.8)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetGain(), -20.8)
+	})
+
+	vmRem.Strip[4].SetGain(-3.6)
+	t.Run("Should return -3.6 when SetGain(-3.6)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetGain(), -3.6)
+	})
 }
 
 func TestStrip3Mc(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[3].SetMc(true)
-	if vmRem.Strip[3].GetMc() != true {
-		t.Error("TestStrip3Mc did not match true")
-	}
+	t.Run("Should return true when SetMc(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[3].GetMc(), true)
+	})
+
+	vmRem.Strip[3].SetMc(false)
+	t.Run("Should return false when SetMc(false)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[3].GetMc(), false)
+	})
 }
 
 func TestBus3Eq(t *testing.T) {
 	//t.Skip("skipping test")
-	vmRem.Bus[0].SetEq(true)
-	if vmRem.Bus[0].GetEq() != true {
-		t.Error("TestBus3Eq did not match true")
-	}
+	vmRem.Bus[3].SetEq(true)
+	t.Run("Should return true when SetEq(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Bus[3].GetEq(), true)
+	})
+
+	vmRem.Bus[3].SetEq(false)
+	t.Run("Should return false when SetEq(false)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Bus[3].GetEq(), false)
+	})
 }
 
 func TestBus4Label(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Bus[4].SetLabel("test0")
-	if vmRem.Bus[4].GetLabel() != "test0" {
-		t.Error("TestBus4Label did not match test0")
-	}
+	t.Run("Should return test0 when SetEq('test0')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Bus[4].GetLabel(), "test0")
+	})
+
+	vmRem.Bus[4].SetLabel("test1")
+	t.Run("Should return test1 when SetEq('test1')", func(t *testing.T) {
+		assert.Equal(t, vmRem.Bus[4].GetLabel(), "test1")
+	})
 }
 
 func TestVbanInStream0On(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Vban.InStream[0].SetOn(true)
-	if vmRem.Vban.InStream[0].GetOn() != true {
-		t.Error("TestVbanInStream0On did not match true")
-	}
+	t.Run("Should return true when SetOn(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.InStream[0].GetOn(), true)
+	})
+
+	vmRem.Vban.InStream[0].SetOn(false)
+	t.Run("Should return false when SetOn(false)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.InStream[0].GetOn(), false)
+	})
 }
 
 func TestVbanOutStream6On(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Vban.OutStream[6].SetOn(true)
-	if vmRem.Vban.OutStream[6].GetOn() != true {
-		t.Error("TestVbanOutStream6On did not match true")
-	}
+	t.Run("Should return true when SetOn(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[6].GetOn(), true)
+	})
+
+	vmRem.Vban.OutStream[6].SetOn(false)
+	t.Run("Should return false when SetOn(false)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Vban.OutStream[6].GetOn(), false)
+	})
 }
