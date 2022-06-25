@@ -26,12 +26,14 @@ type t_strip interface {
 	SetGate(val bool)
 	GetAudibility() bool
 	SetAudibility(val bool)
+	t_outputs
 }
 
 // strip represents a strip channel
 // embeds channel struct
 type strip struct {
 	iRemote
+	outputs
 }
 
 // GetMute returns the value of the Mute parameter
@@ -99,7 +101,8 @@ type physicalStrip struct {
 }
 
 func newPhysicalStrip(i int) t_strip {
-	ps := physicalStrip{strip{iRemote{"strip", i}}}
+	o := newOutputs("strip", i)
+	ps := physicalStrip{strip{iRemote{"strip", i}, o}}
 	return t_strip(&ps)
 }
 
@@ -153,7 +156,8 @@ type virtualStrip struct {
 }
 
 func newVirtualStrip(i int) t_strip {
-	vs := virtualStrip{strip{iRemote{"strip", i}}}
+	o := newOutputs("strip", i)
+	vs := virtualStrip{strip{iRemote{"strip", i}, o}}
 	return t_strip(&vs)
 }
 
