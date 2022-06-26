@@ -15,7 +15,7 @@ type remote struct {
 	Command *command
 	Vban    *vban
 
-	Pooler *Pooler
+	pooler *pooler
 }
 
 // String implements the fmt.stringer interface
@@ -26,14 +26,14 @@ func (r *remote) String() string {
 // Login logs into the API
 // then it intializes the pooler
 func (r *remote) Login() {
-	r.Pooler = newPooler()
+	r.pooler = newPooler()
 	login(r.kind.name)
 }
 
 // Logout logs out of the API
 // it also terminates the pooler
 func (r *remote) Logout() {
-	r.Pooler.run = false
+	r.pooler.run = false
 	logout()
 }
 
@@ -51,12 +51,12 @@ func (r *remote) SendText(script string) {
 
 // Register forwards the register method to Pooler
 func (r *remote) Register(o observer) {
-	r.Pooler.Register(o)
+	r.pooler.Register(o)
 }
 
 // Register forwards the deregister method to Pooler
 func (r *remote) Deregister(o observer) {
-	r.Pooler.Deregister(o)
+	r.pooler.Deregister(o)
 }
 
 type remoteBuilder interface {

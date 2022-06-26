@@ -6,17 +6,17 @@ type observer interface {
 }
 
 // Publisher defines methods that support observers
-type Publisher struct {
+type publisher struct {
 	observerList []observer
 }
 
 // Register adds an observer to observerList
-func (p *Publisher) Register(o observer) {
+func (p *publisher) Register(o observer) {
 	p.observerList = append(p.observerList, o)
 }
 
 // Deregister removes an observer from observerList
-func (p *Publisher) Deregister(o observer) {
+func (p *publisher) Deregister(o observer) {
 	var indexToRemove int
 
 	for i, observer := range p.observerList {
@@ -30,7 +30,7 @@ func (p *Publisher) Deregister(o observer) {
 }
 
 // notify updates observers of any changes
-func (p *Publisher) notify(subject string) {
+func (p *publisher) notify(subject string) {
 	for _, observer := range p.observerList {
 		observer.OnUpdate(subject)
 	}
@@ -38,20 +38,20 @@ func (p *Publisher) notify(subject string) {
 
 // Pooler continuously polls the dirty paramters
 // it is expected to be run in a goroutine
-type Pooler struct {
+type pooler struct {
 	run bool
-	Publisher
+	publisher
 }
 
-func newPooler() *Pooler {
-	p := &Pooler{
+func newPooler() *pooler {
+	p := &pooler{
 		run: true,
 	}
 	go p.runner()
 	return p
 }
 
-func (p *Pooler) runner() {
+func (p *pooler) runner() {
 	for p.run {
 		if pdirty() {
 			p.notify("pdirty")
