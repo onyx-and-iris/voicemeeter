@@ -18,16 +18,20 @@ type remote struct {
 	Pooler *Pooler
 }
 
-// String implements the stringer interface
+// String implements the fmt.stringer interface
 func (r *remote) String() string {
 	return fmt.Sprintf("Voicemeeter %s", r.kind)
 }
 
+// Login logs into the API
+// then it intializes the pooler
 func (r *remote) Login() {
 	r.Pooler = newPooler()
 	login(r.kind.name)
 }
 
+// Logout logs out of the API
+// it also terminates the pooler
 func (r *remote) Logout() {
 	r.Pooler.run = false
 	logout()
@@ -45,6 +49,16 @@ func (r *remote) SendText(script string) {
 	setParametersMulti(script)
 }
 
+// Register forwards the register method to Pooler
+func (r *remote) Register(o observer) {
+	r.Pooler.Register(o)
+}
+
+// Register forwards the deregister method to Pooler
+func (r *remote) Deregister(o observer) {
+	r.Pooler.Deregister(o)
+}
+
 type remoteBuilder interface {
 	setKind() remoteBuilder
 	makeStrip() remoteBuilder
@@ -55,18 +69,22 @@ type remoteBuilder interface {
 	Get() *remote
 }
 
+// directory is responsible for directing the genericBuilder
 type director struct {
 	builder remoteBuilder
 }
 
+// SetBuilder sets the appropriate builder type for a kind
 func (d *director) SetBuilder(b remoteBuilder) {
 	d.builder = b
 }
 
+// Construct defines the steps required for building a remote type
 func (d *director) Construct() {
 	d.builder.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban()
 }
 
+// Get forwards the Get method to the builder
 func (d *director) Get() *remote {
 	return d.builder.Get()
 }
@@ -81,6 +99,8 @@ func (b *genericBuilder) setKind() remoteBuilder {
 	return b
 }
 
+// makeStrip makes a strip slice and assigns it to remote.Strip
+// []t_strip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
 	fmt.Println("building strip")
 	_strip := make([]t_strip, b.k.numStrip())
@@ -95,6 +115,8 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 	return b
 }
 
+// makeBus makes a bus slice and assigns it to remote.Bus
+// []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
 	fmt.Println("building bus")
 	_bus := make([]t_bus, b.k.numBus())
@@ -109,6 +131,7 @@ func (b *genericBuilder) makeBus() remoteBuilder {
 	return b
 }
 
+// makeButton makes a button slice and assigns it to remote.Button
 func (b *genericBuilder) makeButton() remoteBuilder {
 	fmt.Println("building button")
 	_button := make([]button, 80)
@@ -119,18 +142,21 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 	return b
 }
 
+// makeCommand makes a Command type and assignss it to remote.Command
 func (b *genericBuilder) makeCommand() remoteBuilder {
 	fmt.Println("building command")
 	b.r.Command = newCommand()
 	return b
 }
 
+// makeVban makes a Vban type and assignss it to remote.Vban
 func (b *genericBuilder) makeVban() remoteBuilder {
 	fmt.Println("building vban")
 	b.r.Vban = newVban(b.k)
 	return b
 }
 
+// Get returns a fully constructed remote type for a kind
 func (b *genericBuilder) Get() *remote {
 	return &b.r
 }
@@ -147,6 +173,8 @@ type potatoBuilder struct {
 	genericBuilder
 }
 
+// GetRemote returns a remote type for a kind
+// this is the interface entry point
 func GetRemote(kindId string) *remote {
 	_kind, ok := kindMap[kindId]
 	if !ok {

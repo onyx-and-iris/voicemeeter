@@ -28,7 +28,7 @@ func (m *button) setter(v bool, mode int) {
 	setMacroStatus(m.index, value, mode)
 }
 
-// String implements the stringer interface
+// String implements the fmt.stringer interface
 func (m *button) String() string {
 	return fmt.Sprintf("MacroButton%d", m.index)
 }

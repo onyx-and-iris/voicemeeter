@@ -83,7 +83,7 @@ func newPhysicalBus(i int) t_bus {
 	return t_bus(&pb)
 }
 
-// String implements the stringer interface
+// String implements the fmt.stringer interface
 func (p *physicalBus) String() string {
 	return fmt.Sprintf("PhysicalBus%d", p.index)
 }
@@ -97,7 +97,7 @@ func newVirtualBus(i int) t_bus {
 	return t_bus(&vb)
 }
 
-// String implements the stringer interface
+// String implements the fmt.stringer interface
 func (v *virtualBus) String() string {
 	return fmt.Sprintf("VirtualBus%d", v.index)
 }

@@ -106,7 +106,7 @@ func newPhysicalStrip(i int) t_strip {
 	return t_strip(&ps)
 }
 
-// implement stringer interface in fmt
+// implement fmt.stringer interface in fmt
 func (p *physicalStrip) String() string {
 	return fmt.Sprintf("PhysicalStrip%d", p.index)
 }
@@ -161,7 +161,7 @@ func newVirtualStrip(i int) t_strip {
 	return t_strip(&vs)
 }
 
-// implement stringer interface in fmt
+// implement fmt.stringer interface in fmt
 func (v *virtualStrip) String() string {
 	return fmt.Sprintf("VirtualStrip%d", v.index)
 }

@@ -13,16 +13,19 @@ type kind struct {
 	physIn, virtIn, physOut, virtOut, vbanIn, vbanOut int
 }
 
+// numStrip returns the total number of strips for a kind
 func (k *kind) numStrip() int {
 	n := k.physIn + k.virtIn
 	return n
 }
 
+// numBus returns the total number of buses for a kind
 func (k *kind) numBus() int {
 	n := k.physOut + k.virtOut
 	return n
 }
 
+// String implements the fmt.stringer interface
 func (k *kind) String() string {
 	return fmt.Sprintf("%s%s", strings.ToUpper(k.name[:1]), k.name[1:])
 }
