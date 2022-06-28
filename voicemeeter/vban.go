@@ -1,5 +1,7 @@
 package voicemeeter
 
+import "fmt"
+
 type t_vban interface {
 	GetOn() bool
 	SetOn(val bool)
@@ -132,7 +134,7 @@ type vbanInStream struct {
 }
 
 func newVbanInStream(i int) t_vban {
-	vbi := vbanInStream{vbanStream{iRemote{"vban.instream", i}}}
+	vbi := vbanInStream{vbanStream{iRemote{fmt.Sprintf("vban.instream[%d]", i), i}}}
 	return t_vban(&vbi)
 }
 
@@ -156,7 +158,7 @@ type vbanOutStream struct {
 }
 
 func newVbanOutStream(i int) t_vban {
-	vbo := vbanOutStream{vbanStream{iRemote{"vban.outstream", i}}}
+	vbo := vbanOutStream{vbanStream{iRemote{fmt.Sprintf("vban.outstream[%d]", i), i}}}
 	return t_vban(&vbo)
 }
 

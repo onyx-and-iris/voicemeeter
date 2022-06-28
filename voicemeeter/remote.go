@@ -8,12 +8,13 @@ import (
 // A remote type represents the API for a kind,
 // comprised of slices representing each member
 type remote struct {
-	kind    *kind
-	Strip   []t_strip
-	Bus     []t_bus
-	Button  []button
-	Command *command
-	Vban    *vban
+	kind     *kind
+	Strip    []t_strip
+	Bus      []t_bus
+	Button   []button
+	Command  *command
+	Vban     *vban
+	Recorder *recorder
 
 	pooler *pooler
 }
@@ -66,6 +67,8 @@ type remoteBuilder interface {
 	makeButton() remoteBuilder
 	makeCommand() remoteBuilder
 	makeVban() remoteBuilder
+	makeRecorder() remoteBuilder
+	Build() remoteBuilder
 	Get() *remote
 }
 
@@ -79,9 +82,9 @@ func (d *director) SetBuilder(b remoteBuilder) {
 	d.builder = b
 }
 
-// Construct defines the steps required for building a remote type
+// Construct calls the build function for the specific builder
 func (d *director) Construct() {
-	d.builder.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban()
+	d.builder.Build()
 }
 
 // Get forwards the Get method to the builder
@@ -156,6 +159,13 @@ func (b *genericBuilder) makeVban() remoteBuilder {
 	return b
 }
 
+// makeVban makes a Vban type and assignss it to remote.Vban
+func (b *genericBuilder) makeRecorder() remoteBuilder {
+	fmt.Println("building recorder")
+	b.r.Recorder = newRecorder()
+	return b
+}
+
 // Get returns a fully constructed remote type for a kind
 func (b *genericBuilder) Get() *remote {
 	return &b.r
@@ -165,12 +175,27 @@ type basicBuilder struct {
 	genericBuilder
 }
 
+// Build defines the steps required to build a basic type
+func (basb *genericBuilder) Build() remoteBuilder {
+	return basb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban()
+}
+
 type bananaBuilder struct {
 	genericBuilder
 }
 
+// Build defines the steps required to build a banana type
+func (banb *bananaBuilder) Build() remoteBuilder {
+	return banb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeRecorder()
+}
+
 type potatoBuilder struct {
 	genericBuilder
+}
+
+// Build defines the steps required to build a potato type
+func (potb *potatoBuilder) Build() remoteBuilder {
+	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeRecorder()
 }
 
 // GetRemote returns a remote type for a kind

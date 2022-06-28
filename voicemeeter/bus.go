@@ -79,7 +79,7 @@ type physicalBus struct {
 }
 
 func newPhysicalBus(i int) t_bus {
-	pb := physicalBus{bus{iRemote{"bus", i}}}
+	pb := physicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}}}
 	return t_bus(&pb)
 }
 
@@ -93,7 +93,7 @@ type virtualBus struct {
 }
 
 func newVirtualBus(i int) t_bus {
-	vb := virtualBus{bus{iRemote{"bus", i}}}
+	vb := virtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}}}
 	return t_bus(&vb)
 }
 

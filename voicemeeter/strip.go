@@ -102,7 +102,7 @@ type physicalStrip struct {
 
 func newPhysicalStrip(i int) t_strip {
 	o := newOutputs("strip", i)
-	ps := physicalStrip{strip{iRemote{"strip", i}, o}}
+	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o}}
 	return t_strip(&ps)
 }
 
@@ -157,7 +157,7 @@ type virtualStrip struct {
 
 func newVirtualStrip(i int) t_strip {
 	o := newOutputs("strip", i)
-	vs := virtualStrip{strip{iRemote{"strip", i}, o}}
+	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o}}
 	return t_strip(&vs)
 }
 

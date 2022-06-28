@@ -21,6 +21,15 @@ func TestGetBasicRemote(t *testing.T) {
 	t.Run("Should bus length equal 2", func(t *testing.T) {
 		assert.Equal(t, 2, len(__rem.Bus))
 	})
+	t.Run("Should return a valid command pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Command)
+	})
+	t.Run("Should return a valid vban pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Vban)
+	})
+	t.Run("Should return nil recorder pointer", func(t *testing.T) {
+		assert.Nil(t, __rem.Recorder)
+	})
 }
 
 func TestGetBananaRemote(t *testing.T) {
@@ -38,6 +47,15 @@ func TestGetBananaRemote(t *testing.T) {
 	t.Run("Should bus length equal 5", func(t *testing.T) {
 		assert.Equal(t, 5, len(__rem.Bus))
 	})
+	t.Run("Should return a valid command pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Command)
+	})
+	t.Run("Should return a valid vban pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Vban)
+	})
+	t.Run("Should return a valid recorder", func(t *testing.T) {
+		assert.NotNil(t, __rem.Recorder)
+	})
 }
 
 func TestGetPotatoRemote(t *testing.T) {
@@ -54,5 +72,14 @@ func TestGetPotatoRemote(t *testing.T) {
 	})
 	t.Run("Should bus length equal 8", func(t *testing.T) {
 		assert.Equal(t, 8, len(__rem.Bus))
+	})
+	t.Run("Should return a valid command pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Command)
+	})
+	t.Run("Should return a valid vban pointer", func(t *testing.T) {
+		assert.NotNil(t, __rem.Vban)
+	})
+	t.Run("Should return a valid recorder", func(t *testing.T) {
+		assert.NotNil(t, __rem.Recorder)
 	})
 }
