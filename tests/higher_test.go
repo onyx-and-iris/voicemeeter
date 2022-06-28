@@ -98,6 +98,14 @@ func TestBus4Label(t *testing.T) {
 	})
 }
 
+func TestBus3ModeAmix(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Bus[3].Mode().SetAmix(true)
+	t.Run("Should return true when Mode().SetAmix(true)", func(t *testing.T) {
+		assert.True(t, vmRem.Bus[3].Mode().GetAmix())
+	})
+}
+
 func TestVbanInStream0On(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Vban.InStream[0].SetOn(true)

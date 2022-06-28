@@ -30,7 +30,6 @@ type t_strip interface {
 }
 
 // strip represents a strip channel
-// embeds channel struct
 type strip struct {
 	iRemote
 	outputs
