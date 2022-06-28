@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"strings"
 	"syscall"
 	"time"
 	"unsafe"
@@ -28,10 +29,10 @@ var (
 	vmSetParameters  = mod.NewProc("VBVMR_SetParameters")
 	vmSetParamString = mod.NewProc("VBVMR_SetParameterStringA")
 
-	//vmGetDevNumOut  = mod.NewProc("VBVMR_Output_GetDeviceNumber")
-	//vmGetDevDescOut = mod.NewProc("VBVMR_Output_GetDeviceDescA")
-	//vmGetDevNumIn   = mod.NewProc("VBVMR_Input_GetDeviceNumber")
-	//vmGetDevDescIn  = mod.NewProc("VBVMR_Input_GetDeviceDescA")
+	vmGetDevNumIn   = mod.NewProc("VBVMR_Input_GetDeviceNumber")
+	vmGetDevDescIn  = mod.NewProc("VBVMR_Input_GetDeviceDescA")
+	vmGetDevNumOut  = mod.NewProc("VBVMR_Output_GetDeviceNumber")
+	vmGetDevDescOut = mod.NewProc("VBVMR_Output_GetDeviceDescA")
 
 	vmMdirty         = mod.NewProc("VBVMR_MacroButton_IsDirty")
 	vmGetMacroStatus = mod.NewProc("VBVMR_MacroButton_GetStatus")
@@ -243,6 +244,50 @@ func setMacroStatus(id, state, mode int) {
 	}
 	time.Sleep(30 * time.Millisecond)
 	sync()
+}
+
+func get_num_devices(dir string) uint64 {
+	if strings.Compare(dir, "in") == 0 {
+		res, _, _ := vmGetDevNumIn.Call()
+		return uint64(res)
+	} else {
+		res, _, _ := vmGetDevNumOut.Call()
+		return uint64(res)
+	}
+}
+
+func get_device_description(i int, dir string) (string, uint64, string) {
+	var t_ uint64
+	var b1 [512]byte
+	var b2 [512]byte
+	if strings.Compare(dir, "in") == 0 {
+		res, _, _ := vmGetDevDescIn.Call(
+			uintptr(i),
+			uintptr(unsafe.Pointer(&t_)),
+			uintptr(unsafe.Pointer(&b1[0])),
+			uintptr(unsafe.Pointer(&b2[0])),
+		)
+		if res != 0 {
+			err := fmt.Errorf("VBVMR_Input_GetDeviceDescA returned %d", res)
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	} else {
+		res, _, _ := vmGetDevDescOut.Call(
+			uintptr(i),
+			uintptr(unsafe.Pointer(&t_)),
+			uintptr(unsafe.Pointer(&b1[0])),
+			uintptr(unsafe.Pointer(&b2[0])),
+		)
+		if res != 0 {
+			err := fmt.Errorf("VBVMR_Output_GetDeviceDescA returned %d", res)
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
+	name := bytes.Trim(b1[:], "\x00")
+	hwid := bytes.Trim(b2[:], "\x00")
+	return string(name), t_, string(hwid)
 }
 
 /*

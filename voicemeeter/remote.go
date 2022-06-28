@@ -14,6 +14,7 @@ type remote struct {
 	Button   []button
 	Command  *command
 	Vban     *vban
+	Device   *device
 	Recorder *recorder
 
 	pooler *pooler
@@ -67,6 +68,7 @@ type remoteBuilder interface {
 	makeButton() remoteBuilder
 	makeCommand() remoteBuilder
 	makeVban() remoteBuilder
+	makeDevice() remoteBuilder
 	makeRecorder() remoteBuilder
 	Build() remoteBuilder
 	Get() *remote
@@ -145,21 +147,28 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 	return b
 }
 
-// makeCommand makes a Command type and assignss it to remote.Command
+// makeCommand makes a Command type and assigns it to remote.Command
 func (b *genericBuilder) makeCommand() remoteBuilder {
 	fmt.Println("building command")
 	b.r.Command = newCommand()
 	return b
 }
 
-// makeVban makes a Vban type and assignss it to remote.Vban
+// makeVban makes a Vban type and assigns it to remote.Vban
 func (b *genericBuilder) makeVban() remoteBuilder {
 	fmt.Println("building vban")
 	b.r.Vban = newVban(b.k)
 	return b
 }
 
-// makeVban makes a Vban type and assignss it to remote.Vban
+// makeVban makes a Vban type and assigns it to remote.Vban
+func (b *genericBuilder) makeDevice() remoteBuilder {
+	fmt.Println("building recorder")
+	b.r.Device = newDevice()
+	return b
+}
+
+// makeRecorder makes a recorder type and assigns it to remote.Vban
 func (b *genericBuilder) makeRecorder() remoteBuilder {
 	fmt.Println("building recorder")
 	b.r.Recorder = newRecorder()
@@ -177,7 +186,7 @@ type basicBuilder struct {
 
 // Build defines the steps required to build a basic type
 func (basb *genericBuilder) Build() remoteBuilder {
-	return basb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban()
+	return basb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice()
 }
 
 type bananaBuilder struct {
@@ -186,7 +195,7 @@ type bananaBuilder struct {
 
 // Build defines the steps required to build a banana type
 func (banb *bananaBuilder) Build() remoteBuilder {
-	return banb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeRecorder()
+	return banb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
 }
 
 type potatoBuilder struct {
@@ -195,7 +204,7 @@ type potatoBuilder struct {
 
 // Build defines the steps required to build a potato type
 func (potb *potatoBuilder) Build() remoteBuilder {
-	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeRecorder()
+	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
 }
 
 // GetRemote returns a remote type for a kind
