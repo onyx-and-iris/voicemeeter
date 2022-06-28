@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	vmRem = voicemeeter.GetRemote("banana")
+	vmRem = voicemeeter.GetRemote("potato")
 )
 
 func TestMain(m *testing.M) {

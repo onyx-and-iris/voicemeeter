@@ -87,7 +87,7 @@ type physicalBus struct {
 func newPhysicalBus(i int) t_bus {
 	pb := physicalBus{bus{
 		iRemote{fmt.Sprintf("bus[%d]", i), i},
-		busMode{iRemote{fmt.Sprintf("bus[%d].mode", i), i}},
+		newBusMode(i),
 	}}
 	return t_bus(&pb)
 }
@@ -104,7 +104,7 @@ type virtualBus struct {
 func newVirtualBus(i int) t_bus {
 	vb := virtualBus{bus{
 		iRemote{fmt.Sprintf("bus[%d]", i), i},
-		busMode{iRemote{fmt.Sprintf("bus[%d].mode", i), i}},
+		newBusMode(i),
 	}}
 	return t_bus(&vb)
 }
@@ -143,6 +143,10 @@ type t_busMode interface {
 
 type busMode struct {
 	iRemote
+}
+
+func newBusMode(i int) busMode {
+	return busMode{iRemote{fmt.Sprintf("bus[%d].mode", i), i}}
 }
 
 func (bm *busMode) SetNormal(val bool) {

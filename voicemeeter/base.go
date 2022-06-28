@@ -112,7 +112,7 @@ func mdirty() bool {
 }
 
 func sync() {
-	time.Sleep(20 * time.Millisecond)
+	time.Sleep(30 * time.Millisecond)
 	for pdirty() || mdirty() {
 	}
 }

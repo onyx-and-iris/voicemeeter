@@ -37,12 +37,12 @@ func TestStrip4Label(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[4].SetLabel("test0")
 	t.Run("Should return test0 when SetLimit('test0')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[4].GetLabel(), "test0")
+		assert.Equal(t, "test0", vmRem.Strip[4].GetLabel())
 	})
 
 	vmRem.Strip[4].SetLabel("test1")
 	t.Run("Should return test1 when SetLimit('test1')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Strip[4].GetLabel(), "test1")
+		assert.Equal(t, "test1", vmRem.Strip[4].GetLabel())
 	})
 }
 
@@ -59,16 +59,29 @@ func TestStrip5Gain(t *testing.T) {
 	})
 }
 
-func TestStrip3Mc(t *testing.T) {
+func TestStrip5Mc(t *testing.T) {
 	//t.Skip("skipping test")
-	vmRem.Strip[3].SetMc(true)
+	vmRem.Strip[5].SetMc(true)
 	t.Run("Should return true when SetMc(true)", func(t *testing.T) {
-		assert.True(t, vmRem.Strip[3].GetMc())
+		assert.True(t, vmRem.Strip[5].GetMc())
 	})
 
-	vmRem.Strip[3].SetMc(false)
+	vmRem.Strip[5].SetMc(false)
 	t.Run("Should return false when SetMc(false)", func(t *testing.T) {
-		assert.False(t, vmRem.Strip[3].GetMc())
+		assert.False(t, vmRem.Strip[5].GetMc())
+	})
+}
+
+func TestStrip2GainLayer3(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Strip[2].GainLayer()[3].Set(-18.3)
+	t.Run("Should return -18.3 when SetMc(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[2].GainLayer()[3].Get(), -18.3)
+	})
+
+	vmRem.Strip[2].GainLayer()[3].Set(-25.6)
+	t.Run("Should return -25.6 when SetMc(true)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[2].GainLayer()[3].Get(), -25.6)
 	})
 }
 
@@ -89,12 +102,12 @@ func TestBus4Label(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Bus[4].SetLabel("test0")
 	t.Run("Should return test0 when SetEq('test0')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Bus[4].GetLabel(), "test0")
+		assert.Equal(t, "test0", vmRem.Bus[4].GetLabel())
 	})
 
 	vmRem.Bus[4].SetLabel("test1")
 	t.Run("Should return test1 when SetEq('test1')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Bus[4].GetLabel(), "test1")
+		assert.Equal(t, "test1", vmRem.Bus[4].GetLabel())
 	})
 }
 
@@ -133,20 +146,20 @@ func TestVbanOutStream6On(t *testing.T) {
 }
 
 func TestVbanOutStream3Name(t *testing.T) {
-	//t.Skip("skipping test")
+	t.Skip("skipping test")
 	vmRem.Vban.OutStream[3].SetName("test0")
 	t.Run("Should return test0 when SetName('test0')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.OutStream[3].GetName(), "test0")
+		assert.Equal(t, "test0", vmRem.Vban.OutStream[3].GetName())
 	})
 
 	vmRem.Vban.OutStream[3].SetName("test1")
 	t.Run("Should return test1 when SetName('test1')", func(t *testing.T) {
-		assert.Equal(t, vmRem.Vban.OutStream[3].GetName(), "test1")
+		assert.Equal(t, "test1", vmRem.Vban.OutStream[3].GetName())
 	})
 }
 
 func TestVbanInStream4Bit(t *testing.T) {
-	//t.Skip("skipping test")
+	t.Skip("skipping test")
 	t.Run("Should panic when instream SetBit(16)", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r == nil {

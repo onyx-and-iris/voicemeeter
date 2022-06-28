@@ -26,6 +26,7 @@ type t_strip interface {
 	SetGate(val bool)
 	GetAudibility() bool
 	SetAudibility(val bool)
+	GainLayer() []gainLayer
 	t_outputs
 }
 
@@ -33,6 +34,7 @@ type t_strip interface {
 type strip struct {
 	iRemote
 	outputs
+	gainLayer []gainLayer
 }
 
 // GetMute returns the value of the Mute parameter
@@ -95,13 +97,22 @@ func (s *strip) SetGain(val float32) {
 	s.setter_float("Gain", val)
 }
 
+// Mode returns address of a busMode struct
+func (s *strip) GainLayer() []gainLayer {
+	return s.gainLayer
+}
+
 type physicalStrip struct {
 	strip
 }
 
 func newPhysicalStrip(i int) t_strip {
 	o := newOutputs("strip", i)
-	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o}}
+	gl := make([]gainLayer, 8)
+	for j := 0; j < 8; j++ {
+		gl[j] = newGainLayer(i, j)
+	}
+	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl}}
 	return t_strip(&ps)
 }
 
@@ -156,7 +167,11 @@ type virtualStrip struct {
 
 func newVirtualStrip(i int) t_strip {
 	o := newOutputs("strip", i)
-	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o}}
+	gl := make([]gainLayer, 8)
+	for j := 0; j < 8; j++ {
+		gl[j] = newGainLayer(i, j)
+	}
+	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl}}
 	return t_strip(&vs)
 }
 
@@ -203,4 +218,21 @@ func (v *virtualStrip) GetAudibility() bool {
 // SetAudibility panics reason invalid parameter
 func (v *virtualStrip) SetAudibility(val bool) {
 	panic("invalid parameter Audibility for virtualStrip")
+}
+
+type gainLayer struct {
+	iRemote
+	index int
+}
+
+func newGainLayer(i, j int) gainLayer {
+	return gainLayer{iRemote{fmt.Sprintf("strip[%d]", i), i}, j}
+}
+
+func (gl *gainLayer) Get() float64 {
+	return gl.getter_float(fmt.Sprintf("gainlayer[%d]", gl.index))
+}
+
+func (gl *gainLayer) Set(val float32) {
+	gl.setter_float(fmt.Sprintf("gainlayer[%d]", gl.index), val)
 }
