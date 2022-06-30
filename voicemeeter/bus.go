@@ -252,8 +252,7 @@ func (bm *busMode) GetRearOnly() bool {
 }
 
 func newBusLevels(i int, k *kind) levels {
-	var init int
-	init = i * 8
+	init := i * 8
 	return levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8}
 }
 
