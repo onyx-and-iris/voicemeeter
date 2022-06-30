@@ -19,7 +19,7 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Installation
 
-Add to your go.mod file:
+Add to your `go.mod` file:
 
 `require github.com/onyx-and-iris/voicemeeter-api-go v1.0.0`
 
@@ -120,7 +120,92 @@ The following functions are available
 -   `GetA1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
 
+### Bus
 
+The following functions are available
+
+-	`String() string`
+-	`GetMute() bool`
+-	`SetMute(val bool)`
+-	`GetEq() bool`
+-	`SetEq(val bool)`
+-	`GetMono() bool`
+-	`SetMono(val bool)`
+-	`GetLabel() string`
+-	`SetLabel(val string)`
+-	`GetGain() float64`
+-	`SetGain(val float32)` from -60.0 to 12.0
+
+### Button
+
+The following functions are available
+
+-	`GetState() bool`
+-	`SetState(val bool)`
+-	`GetStateOnly() bool`
+-	`SetStateOnly(val bool)`
+-	`GetTrigger() bool`
+-	`SetTrigger(val bool)`
+
+### Command
+
+The following functions are available
+
+-	`Show()`
+-	`Hide()`
+-	`Shutdown()`
+-	`Restart()`
+-	`Lock(val bool)`
+
+### VBAN
+
+-   `vmRem.Vban.Enable()` `vmRem.Vban.Disable()` Turn VBAN on or off
+
+##### Instream | Outstream
+
+-   `vmRem.Vban.InStream` `vmRem.Vban.OutStream`
+
+The following functions are available
+
+-	`GetOn() bool`
+-	`SetOn(val bool)`
+-	`GetName() string`
+-	`SetName(val string)`
+-	`GetIp() string`
+-	`SetIp(val string)`
+-	`GetPort() int`
+-	`SetPort(val int)` from 1024 to 65535
+-	`GetSr() int`
+-	`SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
+-	`GetChannel() int`
+-	`SetChannel(val int)` from 1 to 8
+-	`GetBit() int`
+-	`SetBit(val int)` 16 or 24
+-	`GetQuality() int`
+-	`SetQuality(val int)` from 0 to 4
+-	`GetRoute() int`
+-	`SetRoute(val int)` from 0 to 8
+
+### Device
+
+The following functions are available
+
+-	`Ins`
+-	`Outs`
+-	`Input(val int)`
+-	`Output(val int)`
+
+### Recorder
+
+The following functions are available
+
+-	`Play()`
+-	`Stop()`
+-	`Pause()`
+-	`Replay()`
+-	`Record()`
+-	`Ff()`
+-	`Rew()`
 
 ### Run tests
 
