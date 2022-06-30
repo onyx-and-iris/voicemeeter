@@ -59,6 +59,19 @@ func TestStrip5Gain(t *testing.T) {
 	})
 }
 
+func TestStrip3Comp(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Strip[4].SetComp(8.1)
+	t.Run("Should return 8.1 when SetGain(8.1)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetComp(), 8.1)
+	})
+
+	vmRem.Strip[4].SetComp(1.6)
+	t.Run("Should return 1.6 when SetGain(1.6)", func(t *testing.T) {
+		assert.Equal(t, vmRem.Strip[4].GetComp(), 1.6)
+	})
+}
+
 func TestStrip5Mc(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[5].SetMc(true)

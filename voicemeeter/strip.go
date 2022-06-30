@@ -20,12 +20,12 @@ type t_strip interface {
 	SetGain(val float32)
 	GetMc() bool
 	SetMc(val bool)
-	GetComp() bool
-	SetComp(val bool)
-	GetGate() bool
-	SetGate(val bool)
-	GetAudibility() bool
-	SetAudibility(val bool)
+	GetComp() float64
+	SetComp(val float32)
+	GetGate() float64
+	SetGate(val float32)
+	GetAudibility() float64
+	SetAudibility(val float32)
 	GainLayer() []gainLayer
 	Levels() *levels
 	t_outputs
@@ -130,33 +130,33 @@ func (p *physicalStrip) String() string {
 }
 
 // GetComp returns the value of the Comp parameter
-func (p *physicalStrip) GetComp() bool {
-	return p.getter_bool("Comp")
+func (p *physicalStrip) GetComp() float64 {
+	return p.getter_float("Comp")
 }
 
 // SetComp sets the value of the Comp parameter
-func (p *physicalStrip) SetComp(val bool) {
-	p.setter_bool("Comp", val)
+func (p *physicalStrip) SetComp(val float32) {
+	p.setter_float("Comp", val)
 }
 
 // GetGate returns the value of the Gate parameter
-func (p *physicalStrip) GetGate() bool {
-	return p.getter_bool("Gate")
+func (p *physicalStrip) GetGate() float64 {
+	return p.getter_float("Gate")
 }
 
 // SetGate sets the value of the Gate parameter
-func (p *physicalStrip) SetGate(val bool) {
-	p.setter_bool("Gate", val)
+func (p *physicalStrip) SetGate(val float32) {
+	p.setter_float("Gate", val)
 }
 
 // GetAudibility returns the value of the Audibility parameter
-func (p *physicalStrip) GetAudibility() bool {
-	return p.getter_bool("Audibility")
+func (p *physicalStrip) GetAudibility() float64 {
+	return p.getter_float("Audibility")
 }
 
 // SetAudibility sets the value of the Audibility parameter
-func (p *physicalStrip) SetAudibility(val bool) {
-	p.setter_bool("Audibility", val)
+func (p *physicalStrip) SetAudibility(val float32) {
+	p.setter_float("Audibility", val)
 }
 
 // GetMc panics reason invalid parameter
@@ -200,32 +200,32 @@ func (v *virtualStrip) SetMc(val bool) {
 }
 
 // GetComp panics reason invalid parameter
-func (v *virtualStrip) GetComp() bool {
+func (v *virtualStrip) GetComp() float64 {
 	panic("invalid parameter Comp for virtualStrip")
 }
 
 // SetComp panics reason invalid parameter
-func (v *virtualStrip) SetComp(val bool) {
+func (v *virtualStrip) SetComp(val float32) {
 	panic("invalid parameter Comp for virtualStrip")
 }
 
 // GetGate panics reason invalid parameter
-func (v *virtualStrip) GetGate() bool {
+func (v *virtualStrip) GetGate() float64 {
 	panic("invalid parameter Gate for virtualStrip")
 }
 
 // SetGate panics reason invalid parameter
-func (v *virtualStrip) SetGate(val bool) {
+func (v *virtualStrip) SetGate(val float32) {
 	panic("invalid parameter Gate for virtualStrip")
 }
 
 // GetAudibility panics reason invalid parameter
-func (v *virtualStrip) GetAudibility() bool {
+func (v *virtualStrip) GetAudibility() float64 {
 	panic("invalid parameter Audibility for virtualStrip")
 }
 
 // SetAudibility panics reason invalid parameter
-func (v *virtualStrip) SetAudibility(val bool) {
+func (v *virtualStrip) SetAudibility(val float32) {
 	panic("invalid parameter Audibility for virtualStrip")
 }
 
