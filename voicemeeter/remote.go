@@ -173,7 +173,7 @@ func (b *genericBuilder) makeVban() remoteBuilder {
 
 // makeVban makes a Vban type and assigns it to remote.Vban
 func (b *genericBuilder) makeDevice() remoteBuilder {
-	fmt.Println("building recorder")
+	fmt.Println("building device")
 	b.r.Device = newDevice()
 	return b
 }

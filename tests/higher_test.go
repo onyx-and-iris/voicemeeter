@@ -21,6 +21,21 @@ func TestStrip0Mute(t *testing.T) {
 	})
 }
 
+func TestStrip3A1(t *testing.T) {
+	//t.Skip("skipping test")
+	vmRem.Strip[3].SetA1(true)
+	sync()
+	t.Run("Should return true when SetA1(true)", func(t *testing.T) {
+		assert.True(t, vmRem.Strip[3].GetA1())
+	})
+
+	vmRem.Strip[3].SetA1(false)
+	sync()
+	t.Run("Should return false when SetA1(false)", func(t *testing.T) {
+		assert.False(t, vmRem.Strip[3].GetA1())
+	})
+}
+
 func TestStrip2Limit(t *testing.T) {
 	//t.Skip("skipping test")
 	vmRem.Strip[2].SetLimit(-8)

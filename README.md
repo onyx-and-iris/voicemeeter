@@ -79,17 +79,20 @@ pointer to device type, represents physical input/output hardware devices
 #### `vmRem.Recorder`
 pointer to recorder type, represents the recorder
 
-#### `vmRem.Type`
+#### `vmRem.Type()`
 returns the type of Voicemeeter as a string
-#### `vmRem.Version`
+#### `vmRem.Version()`
 returns the version of Voicemeeter as a string
-#### `vmRem.SendText`
-sets many parameters in script format ("Strip[0].Mute=1;Bus[3].Gain=3.6")
-#### `vmRem.Register`
+#### `vmRem.SendText(<script>)`
+sets many parameters in script format eg. ("Strip[0].Mute=1;Bus[3].Gain=3.6")
+#### `vmRem.Register(o observer)`
 register an object as an observer
-#### `vmRem.Deregister`
+#### `vmRem.Deregister(o observer)`
 deregister an object as an observer
-
+#### `vmRem.Pdirty()`
+returns True iff a GUI parameter has changed
+#### `vmRem.Mdirty()`
+returns True iff a macrobutton paramter has changed
 
 ## `Available commands`
 
@@ -119,6 +122,13 @@ The following functions are available
 -	`SetAudibility(val float32)` from 0.0 to 10.0
 -   `GetA1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
+
+example:
+
+```go
+vmRem.Strip[3].SetGain(3.7)
+fmt.Println(vmRem.Strip[0].GetLabel())
+```
 
 ### Bus
 
