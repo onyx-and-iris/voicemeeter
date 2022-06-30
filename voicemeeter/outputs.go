@@ -1,5 +1,7 @@
 package voicemeeter
 
+import "fmt"
+
 type t_outputs interface {
 	GetA1() bool
 	SetA1(val bool)
@@ -23,8 +25,8 @@ type outputs struct {
 	iRemote
 }
 
-func newOutputs(id string, i int) outputs {
-	o := outputs{iRemote{id, i}}
+func newOutputs(i int) outputs {
+	o := outputs{iRemote{fmt.Sprintf("strip[%d]", i), i}}
 	return o
 }
 
