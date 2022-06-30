@@ -17,12 +17,14 @@ type t_bus interface {
 	GetGain() float64
 	SetGain(val float32)
 	Mode() t_busMode
+	Levels() *levels
 }
 
 // bus represents a bus channel
 type bus struct {
 	iRemote
 	mode busMode
+	levels
 }
 
 // GetMute returns the value of the Mute parameter
@@ -80,15 +82,20 @@ func (b *bus) Mode() t_busMode {
 	return &b.mode
 }
 
+// Levels returns the gainlayer field
+func (b *bus) Levels() *levels {
+	return &b.levels
+}
+
 type physicalBus struct {
 	bus
 }
 
-func newPhysicalBus(i int) t_bus {
-	pb := physicalBus{bus{
-		iRemote{fmt.Sprintf("bus[%d]", i), i},
-		newBusMode(i),
-	}}
+func newPhysicalBus(i int, k *kind) t_bus {
+	b := newBusMode(i)
+	l := newBusLevels(i, k)
+	pb := physicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, b, l}}
+
 	return t_bus(&pb)
 }
 
@@ -101,11 +108,10 @@ type virtualBus struct {
 	bus
 }
 
-func newVirtualBus(i int) t_bus {
-	vb := virtualBus{bus{
-		iRemote{fmt.Sprintf("bus[%d]", i), i},
-		newBusMode(i),
-	}}
+func newVirtualBus(i int, k *kind) t_bus {
+	b := newBusMode(i)
+	l := newBusLevels(i, k)
+	vb := virtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, b, l}}
 	return t_bus(&vb)
 }
 
@@ -243,4 +249,18 @@ func (bm *busMode) SetRearOnly(val bool) {
 
 func (bm *busMode) GetRearOnly() bool {
 	return bm.getter_bool("RearOnly")
+}
+
+func newBusLevels(i int, k *kind) levels {
+	var init int
+	init = i * 8
+	return levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8}
+}
+
+func (l *levels) All() []float32 {
+	var levels []float32
+	for i := l.init; i < l.init+l.offset; i++ {
+		levels = append(levels, l.convertLevel(getLevel(3, i)))
+	}
+	return levels
 }

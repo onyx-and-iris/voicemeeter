@@ -111,9 +111,9 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 	_strip := make([]t_strip, b.k.numStrip())
 	for i := 0; i < b.k.numStrip(); i++ {
 		if i < b.k.physIn {
-			_strip[i] = newPhysicalStrip(i)
+			_strip[i] = newPhysicalStrip(i, b.k)
 		} else {
-			_strip[i] = newVirtualStrip(i)
+			_strip[i] = newVirtualStrip(i, b.k)
 		}
 	}
 	b.r.Strip = _strip
@@ -127,9 +127,9 @@ func (b *genericBuilder) makeBus() remoteBuilder {
 	_bus := make([]t_bus, b.k.numBus())
 	for i := 0; i < b.k.numBus(); i++ {
 		if i < b.k.physOut {
-			_bus[i] = newPhysicalBus(i)
+			_bus[i] = newPhysicalBus(i, b.k)
 		} else {
-			_bus[i] = newVirtualBus(i)
+			_bus[i] = newVirtualBus(i, b.k)
 		}
 	}
 	b.r.Bus = _bus

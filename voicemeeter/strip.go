@@ -27,6 +27,7 @@ type t_strip interface {
 	GetAudibility() bool
 	SetAudibility(val bool)
 	GainLayer() []gainLayer
+	Levels() *levels
 	t_outputs
 }
 
@@ -35,6 +36,7 @@ type strip struct {
 	iRemote
 	outputs
 	gainLayer []gainLayer
+	levels
 }
 
 // GetMute returns the value of the Mute parameter
@@ -97,22 +99,28 @@ func (s *strip) SetGain(val float32) {
 	s.setter_float("Gain", val)
 }
 
-// Mode returns address of a busMode struct
+// GainLayer returns the gainlayer field
 func (s *strip) GainLayer() []gainLayer {
 	return s.gainLayer
+}
+
+// Levels returns the gainlayer field
+func (s *strip) Levels() *levels {
+	return &s.levels
 }
 
 type physicalStrip struct {
 	strip
 }
 
-func newPhysicalStrip(i int) t_strip {
+func newPhysicalStrip(i int, k *kind) t_strip {
 	o := newOutputs("strip", i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)
 	}
-	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl}}
+	l := newStripLevels(i, k)
+	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl, l}}
 	return t_strip(&ps)
 }
 
@@ -165,13 +173,14 @@ type virtualStrip struct {
 	strip
 }
 
-func newVirtualStrip(i int) t_strip {
+func newVirtualStrip(i int, k *kind) t_strip {
 	o := newOutputs("strip", i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)
 	}
-	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl}}
+	l := newStripLevels(i, k)
+	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl, l}}
 	return t_strip(&vs)
 }
 
@@ -235,4 +244,41 @@ func (gl *gainLayer) Get() float64 {
 
 func (gl *gainLayer) Set(val float32) {
 	gl.setter_float(fmt.Sprintf("gainlayer[%d]", gl.index), val)
+}
+
+func newStripLevels(i int, k *kind) levels {
+	var init int
+	var os int
+	if i < k.physIn {
+		init = i * 2
+		os = 2
+	} else {
+		init = (k.physIn * 2) + ((i - k.physIn) * 8)
+		os = 8
+	}
+	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os}
+}
+
+func (l *levels) PreFader() []float32 {
+	var levels []float32
+	for i := l.init; i < l.init+l.offset; i++ {
+		levels = append(levels, l.convertLevel(getLevel(0, i)))
+	}
+	return levels
+}
+
+func (l *levels) PostFader() []float32 {
+	var levels []float32
+	for i := l.init; i < l.init+l.offset; i++ {
+		levels = append(levels, l.convertLevel(getLevel(1, i)))
+	}
+	return levels
+}
+
+func (l *levels) PostMute() []float32 {
+	var levels []float32
+	for i := l.init; i < l.init+l.offset; i++ {
+		levels = append(levels, l.convertLevel(getLevel(2, i)))
+	}
+	return levels
 }

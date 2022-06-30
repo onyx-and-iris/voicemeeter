@@ -23,7 +23,7 @@ var (
 	vmGetParamFloat  = mod.NewProc("VBVMR_GetParameterFloat")
 	vmGetParamString = mod.NewProc("VBVMR_GetParameterStringA")
 
-	//vmGetLevelFloat = mod.NewProc("VBVMR_GetLevel")
+	vmGetLevelFloat = mod.NewProc("VBVMR_GetLevel")
 
 	vmSetParamFloat  = mod.NewProc("VBVMR_SetParameterFloat")
 	vmSetParameters  = mod.NewProc("VBVMR_SetParameters")
@@ -290,11 +290,10 @@ func get_device_description(i int, dir string) (string, uint64, string) {
 	return string(name), t_, string(hwid)
 }
 
-/*
 // getLevel returns a single level value of type type_ for channel[i]
 func getLevel(type_, i int) float32 {
 	var val float32
-	res, _, _ := getLevelFloat.Call(
+	res, _, _ := vmGetLevelFloat.Call(
 		uintptr(type_),
 		uintptr(i),
 		uintptr(unsafe.Pointer(&val)),
@@ -306,4 +305,3 @@ func getLevel(type_, i int) float32 {
 	}
 	return val
 }
-*/

@@ -8,7 +8,7 @@ import (
 
 func TestGetPhysBus(t *testing.T) {
 	//t.Skip("skipping test")
-	__bus := newPhysicalBus(0)
+	__bus := newPhysicalBus(0, newPotatoKind())
 	t.Run("Should return a physical bus type", func(t *testing.T) {
 		assert.NotNil(t, __bus)
 	})
@@ -19,7 +19,7 @@ func TestGetPhysBus(t *testing.T) {
 
 func TestGetVirtBus(t *testing.T) {
 	//t.Skip("skipping test")
-	__bus := newVirtualBus(4)
+	__bus := newVirtualBus(4, newPotatoKind())
 	t.Run("Should return a basic kind", func(t *testing.T) {
 		assert.NotNil(t, __bus)
 	})

@@ -2,6 +2,7 @@ package voicemeeter
 
 import (
 	"fmt"
+	"math"
 )
 
 // iRemote provides a set of common forwarding methods
@@ -66,4 +67,19 @@ func (ir *iRemote) getter_string(p string) string {
 func (ir *iRemote) setter_string(p, v string) {
 	param := fmt.Sprintf("%s.%s", ir.identifier(), p)
 	setParameterString(param, v)
+}
+
+type levels struct {
+	iRemote
+	k      *kind
+	init   int
+	offset int
+}
+
+func (l *levels) convertLevel(i float32) float32 {
+	if i > 0 {
+		val := 20 * math.Log10(float64(i))
+		return float32(val)
+	}
+	return -200.0
 }

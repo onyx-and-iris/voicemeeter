@@ -8,7 +8,7 @@ import (
 
 func TestGetPhysStrip(t *testing.T) {
 	//t.Skip("skipping test")
-	__strip := newPhysicalStrip(0)
+	__strip := newPhysicalStrip(0, newPotatoKind())
 	t.Run("Should return a physical strip type", func(t *testing.T) {
 		assert.NotNil(t, __strip)
 	})
@@ -19,7 +19,7 @@ func TestGetPhysStrip(t *testing.T) {
 
 func TestGetVirtStrip(t *testing.T) {
 	//t.Skip("skipping test")
-	__strip := newVirtualStrip(4)
+	__strip := newVirtualStrip(4, newPotatoKind())
 	t.Run("Should return a basic kind", func(t *testing.T) {
 		assert.NotNil(t, __strip)
 	})
