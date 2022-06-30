@@ -1,5 +1,9 @@
 package voicemeeter
 
+import (
+	"time"
+)
+
 // observer defines the interface any registered observers must satisfy
 type observer interface {
 	OnUpdate(subject string)
@@ -59,5 +63,6 @@ func (p *pooler) runner() {
 		if mdirty() {
 			p.notify("mdirty")
 		}
+		time.Sleep(33 * time.Millisecond)
 	}
 }
