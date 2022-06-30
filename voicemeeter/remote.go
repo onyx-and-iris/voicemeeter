@@ -47,6 +47,16 @@ func (r *remote) Version() string {
 	return getVersion()
 }
 
+// Pdirty returns true iff a parameter value has changed
+func (r *remote) Pdirty() bool {
+	return pdirty()
+}
+
+// Mdirty returns true iff a macrobutton value has changed
+func (r *remote) Mdirty() bool {
+	return mdirty()
+}
+
 func (r *remote) SendText(script string) {
 	setParametersMulti(script)
 }

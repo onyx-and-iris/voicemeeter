@@ -5,7 +5,7 @@ type observer interface {
 	OnUpdate(subject string)
 }
 
-// Publisher defines methods that support observers
+// publisher defines methods that support observers
 type publisher struct {
 	observerList []observer
 }
@@ -36,7 +36,7 @@ func (p *publisher) notify(subject string) {
 	}
 }
 
-// Pooler continuously polls the dirty paramters
+// pooler continuously polls the dirty paramters
 // it is expected to be run in a goroutine
 type pooler struct {
 	run bool

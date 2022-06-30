@@ -52,7 +52,8 @@ func login(kindId string) {
 		os.Exit(1)
 	}
 	fmt.Println("Logged into API")
-	sync()
+	for pdirty() || mdirty() {
+	}
 }
 
 // logout logs out of the API,
@@ -111,12 +112,6 @@ func mdirty() bool {
 	return int(res) == 1
 }
 
-func sync() {
-	time.Sleep(30 * time.Millisecond)
-	for pdirty() || mdirty() {
-	}
-}
-
 // getVMType returns the type of Voicemeeter, as a string
 func getVMType() string {
 	var type_ uint64
@@ -165,7 +160,6 @@ func setParameterFloat(name string, value float32) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	sync()
 }
 
 // getParameterString gets the value of a string parameter
@@ -198,7 +192,6 @@ func setParameterString(name, value string) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	sync()
 }
 
 // setParametersMulti sets multiple parameters with a script
@@ -242,8 +235,6 @@ func setMacroStatus(id, state, mode int) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	time.Sleep(30 * time.Millisecond)
-	sync()
 }
 
 func get_num_devices(dir string) uint64 {
