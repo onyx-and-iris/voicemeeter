@@ -157,6 +157,37 @@ fmt.Println(vmRem.Strip[0].GetLabel())
 vmRem.Strip[4].SetA1(true)
 ```
 
+##### Gainlayers
+
+-   `vmRem.Strip[i].GainLayer()[j]`
+
+The following functions are available
+
+-   `Get() float64`
+-   `Set(val float32)`
+
+example:
+
+```go
+vmRem.Strip[6].GainLayer()[3].Set(-13.6)
+```
+
+##### Levels
+
+-   `vmRem.Strip[i].Levels()`
+
+The following functions are available
+
+-   `PreFader() []float32`
+-   `PostFader() []float32`
+-   `PostMute() []float32`
+
+example:
+
+```go
+fmt.Println(vmRem.Strip[5].Levels().PreFader())
+```
+
 ### Bus
 
 The following functions are available
@@ -184,22 +215,50 @@ fmt.Println(vmRem.Bus[0].GetLabel())
 
 The following functions are available
 
--   `normal`: boolean
--   `amix`: boolean
--   `bmix`: boolean
--   `composite`: boolean
--   `tvmix`: boolean
--   `upmix21`: boolean
--   `upmix41`: boolean
--   `upmix61`: boolean
--   `centeronly`: boolean
--   `lfeonly`: boolean
--   `rearonly`: boolean
+-   `SetNormal(val bool)`
+-   `GetNormal() bool`
+-   `SetAmix(val bool)`
+-   `GetAmix() bool`
+-   `SetBmix(val bool)`
+-   `GetBmix() bool`
+-   `SetRepeat(val bool)`
+-   `GetRepeat() bool`
+-   `SetComposite(val bool)`
+-   `GetComposite() bool`
+-   `SetTvMix(val bool)`
+-   `GetTvMix() bool`
+-   `SetUpMix21(val bool)`
+-   `GetUpMix21() bool`
+-   `SetUpMix41(val bool)`
+-   `GetUpMix41() bool`
+-   `SetUpMix61(val bool)`
+-   `GetUpMix61() bool`
+-   `SetCenterOnly(val bool)`
+-   `GetCenterOnly() bool`
+-   `SetLfeOnly(val bool)`
+-   `GetLfeOnly() bool`
+-   `SetRearOnly(val bool)`
+-   `GetRearOnly() bool`
 
 example:
 
 ```go
 vmRem.Bus[3].Mode().SetAmix(true)
+vmRem.Bus[4].Mode().SetCenterOnly(true)
+```
+
+##### Levels
+
+-   `vmRem.Bus[i].Levels()`
+
+The following functions are available
+
+-   `All() []float32`
+
+example:
+
+```go
+fmt.Println(vmRem.Bus[1].Levels().All())
 ```
 
 ### Button
@@ -326,7 +385,7 @@ vmRem.Recorder.SetB2(false)
 To run all tests:
 
 ```
-go run test ./...
+go test ./...
 ```
 
 ### Official Documentation
