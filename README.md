@@ -21,7 +21,7 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 Add to your `go.mod` file:
 
-`require github.com/onyx-and-iris/voicemeeter-api-go v1.0.0`
+`require github.com/onyx-and-iris/voicemeeter-api-go v1.0.2`
 
 Install voicemeeter-api-go package from your console
 
@@ -54,7 +54,6 @@ func main() {
 }
 ```
 
-
 ## `kindId`
 
 Pass the kind of Voicemeeter as an argument. kindId may be:
@@ -64,34 +63,61 @@ Pass the kind of Voicemeeter as an argument. kindId may be:
 -   `potato`
 
 ## `Remote Type`
+
 #### `vmRem.Strip`
+
 []t_strip slice containing both physicalStrip and virtualStrip types
+
 #### `vmRem.Bus`
+
 []t_bus slice containing both physicalBus and virtualBus types
+
 #### `vmRem.Button`
+
 []button slice containing button types, one for each macrobutton
+
 #### `vmRem.Command`
+
 pointer to command type, represents action type functions
+
 #### `vmRem.Vban`
+
 pointer to vban type, containing both vbanInStream and vbanOutStream slices
+
 #### `vmRem.Device`
+
 pointer to device type, represents physical input/output hardware devices
+
 #### `vmRem.Recorder`
+
 pointer to recorder type, represents the recorder
 
 #### `vmRem.Type()`
+
 returns the type of Voicemeeter as a string
+
 #### `vmRem.Version()`
+
 returns the version of Voicemeeter as a string
+
 #### `vmRem.SendText(<script>)`
+
 sets many parameters in script format eg. ("Strip[0].Mute=1;Bus[3].Gain=3.6")
+
 #### `vmRem.Register(o observer)`
+
 register an object as an observer
+
 #### `vmRem.Deregister(o observer)`
+
 deregister an object as an observer
+
 #### `vmRem.Pdirty()`
+
 returns True iff a GUI parameter has changed
+
 #### `vmRem.Mdirty()`
+
 returns True iff a macrobutton paramter has changed
 
 ## `Available commands`
@@ -100,26 +126,26 @@ returns True iff a macrobutton paramter has changed
 
 The following functions are available
 
--	`GetMute() bool`
--	`SetMute(val bool)`
--	`GetMono() bool`
--	`SetMono(val bool)`
--	`GetSolo() bool`
--	`SetSolo(val bool)`
--	`GetLimit() int`
--	`SetLimit(val int)` from -40 to 12
--	`GetLabel() string`
--	`SetLabel(val string)`
--	`GetGain() float64`
--	`SetGain(val float32)` from -60.0 to 12.0
--	`GetMc() bool`
--	`SetMc(val bool)`
--	`GetComp() float64`
--	`SetComp(val float32)` from 0.0 to 10.0
--	`GetGate() float64`
--	`SetGate(val float32)` from 0.0 to 10.0
--	`GetAudibility() float64`
--	`SetAudibility(val float32)` from 0.0 to 10.0
+-   `GetMute() bool`
+-   `SetMute(val bool)`
+-   `GetMono() bool`
+-   `SetMono(val bool)`
+-   `GetSolo() bool`
+-   `SetSolo(val bool)`
+-   `GetLimit() int`
+-   `SetLimit(val int)` from -40 to 12
+-   `GetLabel() string`
+-   `SetLabel(val string)`
+-   `GetGain() float64`
+-   `SetGain(val float32)` from -60.0 to 12.0
+-   `GetMc() bool`
+-   `SetMc(val bool)`
+-   `GetComp() float64`
+-   `SetComp(val float32)` from 0.0 to 10.0
+-   `GetGate() float64`
+-   `SetGate(val float32)` from 0.0 to 10.0
+-   `GetAudibility() float64`
+-   `SetAudibility(val float32)` from 0.0 to 10.0
 -   `GetA1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
 
@@ -135,17 +161,17 @@ vmRem.Strip[4].SetA1(true)
 
 The following functions are available
 
--	`String() string`
--	`GetMute() bool`
--	`SetMute(val bool)`
--	`GetEq() bool`
--	`SetEq(val bool)`
--	`GetMono() bool`
--	`SetMono(val bool)`
--	`GetLabel() string`
--	`SetLabel(val string)`
--	`GetGain() float64`
--	`SetGain(val float32)` from -60.0 to 12.0
+-   `String() string`
+-   `GetMute() bool`
+-   `SetMute(val bool)`
+-   `GetEq() bool`
+-   `SetEq(val bool)`
+-   `GetMono() bool`
+-   `SetMono(val bool)`
+-   `GetLabel() string`
+-   `SetLabel(val string)`
+-   `GetGain() float64`
+-   `SetGain(val float32)` from -60.0 to 12.0
 
 ```go
 vmRem.Bus[3].SetEq(true)
@@ -154,7 +180,7 @@ fmt.Println(vmRem.Bus[0].GetLabel())
 
 ##### Modes
 
--	`vmRem.Bus[i].Mode()`
+-   `vmRem.Bus[i].Mode()`
 
 The following functions are available
 
@@ -180,12 +206,12 @@ vmRem.Bus[3].Mode().SetAmix(true)
 
 The following functions are available
 
--	`GetState() bool`
--	`SetState(val bool)`
--	`GetStateOnly() bool`
--	`SetStateOnly(val bool)`
--	`GetTrigger() bool`
--	`SetTrigger(val bool)`
+-   `GetState() bool`
+-   `SetState(val bool)`
+-   `GetStateOnly() bool`
+-   `SetStateOnly(val bool)`
+-   `GetTrigger() bool`
+-   `SetTrigger(val bool)`
 
 example:
 
@@ -198,11 +224,11 @@ fmt.Println(vmRem.Button[64].GetStateOnly())
 
 The following functions are available
 
--	`Show()`  Show Voicemeeter GUI if it's hidden
--	`Hide()` Hide Voicemeeter GUI if it's shown
--	`Shutdown()` Shuts down the GUI
--	`Restart()` Restart the audio engine
--	`Lock(val bool)` Lock the Voicemeeter GUI
+-   `Show()` Show Voicemeeter GUI if it's hidden
+-   `Hide()` Hide Voicemeeter GUI if it's shown
+-   `Shutdown()` Shuts down the GUI
+-   `Restart()` Restart the audio engine
+-   `Lock(val bool)` Lock the Voicemeeter GUI
 
 example:
 
@@ -221,24 +247,24 @@ vmRem.Command.Show()
 
 The following functions are available
 
--	`GetOn() bool`
--	`SetOn(val bool)`
--	`GetName() string`
--	`SetName(val string)`
--	`GetIp() string`
--	`SetIp(val string)`
--	`GetPort() int`
--	`SetPort(val int)` from 1024 to 65535
--	`GetSr() int`
--	`SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
--	`GetChannel() int`
--	`SetChannel(val int)` from 1 to 8
--	`GetBit() int`
--	`SetBit(val int)` 16 or 24
--	`GetQuality() int`
--	`SetQuality(val int)` from 0 to 4
--	`GetRoute() int`
--	`SetRoute(val int)` from 0 to 8
+-   `GetOn() bool`
+-   `SetOn(val bool)`
+-   `GetName() string`
+-   `SetName(val string)`
+-   `GetIp() string`
+-   `SetIp(val string)`
+-   `GetPort() int`
+-   `SetPort(val int)` from 1024 to 65535
+-   `GetSr() int`
+-   `SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
+-   `GetChannel() int`
+-   `SetChannel(val int)` from 1 to 8
+-   `GetBit() int`
+-   `SetBit(val int)` 16 or 24
+-   `GetQuality() int`
+-   `SetQuality(val int)` from 0 to 4
+-   `GetRoute() int`
+-   `SetRoute(val int)` from 0 to 8
 
 example:
 
@@ -257,10 +283,10 @@ vmRem.Vban.OutStream[3].SetBit(24)
 
 The following functions are available
 
--	`Ins`
--	`Outs`
--	`Input(val int)`
--	`Output(val int)`
+-   `Ins`
+-   `Outs`
+-   `Input(val int)`
+-   `Output(val int)`
 
 example:
 
@@ -274,13 +300,13 @@ for i := 0; i < int(vmRem.Device.Ins()); i++ {
 
 The following functions are available
 
--	`Play()`
--	`Stop()`
--	`Pause()`
--	`Replay()`
--	`Record()`
--	`Ff()`
--	`Rew()`
+-   `Play()`
+-   `Stop()`
+-   `Pause()`
+-   `Replay()`
+-   `Record()`
+-   `Ff()`
+-   `Rew()`
 
 example:
 
