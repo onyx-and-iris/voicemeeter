@@ -114,7 +114,7 @@ type physicalStrip struct {
 }
 
 func newPhysicalStrip(i int, k *kind) t_strip {
-	o := newOutputs(i)
+	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)
@@ -174,7 +174,7 @@ type virtualStrip struct {
 }
 
 func newVirtualStrip(i int, k *kind) t_strip {
-	o := newOutputs(i)
+	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)

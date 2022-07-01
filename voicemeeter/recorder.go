@@ -2,10 +2,12 @@ package voicemeeter
 
 type recorder struct {
 	iRemote
+	outputs
 }
 
 func newRecorder() *recorder {
-	return &recorder{iRemote{"recorder", 0}}
+	o := newOutputs("recorder", 0)
+	return &recorder{iRemote{"recorder", 0}, o}
 }
 
 // Play plays the file currently loaded into the recorder
@@ -41,4 +43,9 @@ func (r *recorder) Ff() {
 // Rew rewinds the recorder
 func (r *recorder) Rew() {
 	r.setter_float("Rew", 1)
+}
+
+// Loop enables loop play mode
+func (r *recorder) Loop(val bool) {
+	r.setter_bool("Mode.Loop", val)
 }
