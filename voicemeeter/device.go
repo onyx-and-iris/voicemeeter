@@ -12,13 +12,13 @@ func newDevice() *device {
 }
 
 // Ins returns the total number of physical input devices
-func (d *device) Ins() uint64 {
-	return get_num_devices("in")
+func (d *device) Ins() int {
+	return int(get_num_devices("in"))
 }
 
 // Ins returns the total number of physical input devices
-func (d *device) Outs() uint64 {
-	return get_num_devices("out")
+func (d *device) Outs() int {
+	return int(get_num_devices("out"))
 }
 
 func (d *device) Input(i int) devDesc {
