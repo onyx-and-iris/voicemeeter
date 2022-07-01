@@ -128,6 +128,7 @@ example:
 ```go
 vmRem.Strip[3].SetGain(3.7)
 fmt.Println(vmRem.Strip[0].GetLabel())
+vmRem.Strip[4].SetA1(true)
 ```
 
 ### Bus
@@ -146,6 +147,35 @@ The following functions are available
 -	`GetGain() float64`
 -	`SetGain(val float32)` from -60.0 to 12.0
 
+```go
+vmRem.Bus[3].SetEq(true)
+fmt.Println(vmRem.Bus[0].GetLabel())
+```
+
+##### Modes
+
+-	`vmRem.Bus[i].Mode()`
+
+The following functions are available
+
+-   `normal`: boolean
+-   `amix`: boolean
+-   `bmix`: boolean
+-   `composite`: boolean
+-   `tvmix`: boolean
+-   `upmix21`: boolean
+-   `upmix41`: boolean
+-   `upmix61`: boolean
+-   `centeronly`: boolean
+-   `lfeonly`: boolean
+-   `rearonly`: boolean
+
+example:
+
+```go
+vmRem.Bus[3].Mode().SetAmix(true)
+```
+
 ### Button
 
 The following functions are available
@@ -157,15 +187,29 @@ The following functions are available
 -	`GetTrigger() bool`
 -	`SetTrigger(val bool)`
 
+example:
+
+```go
+vmRem.Button[37].SetState(true)
+fmt.Println(vmRem.Button[64].GetStateOnly())
+```
+
 ### Command
 
 The following functions are available
 
--	`Show()`
--	`Hide()`
--	`Shutdown()`
--	`Restart()`
--	`Lock(val bool)`
+-	`Show()`  Show Voicemeeter GUI if it's hidden
+-	`Hide()` Hide Voicemeeter GUI if it's shown
+-	`Shutdown()` Shuts down the GUI
+-	`Restart()` Restart the audio engine
+-	`Lock(val bool)` Lock the Voicemeeter GUI
+
+example:
+
+```go
+vmRem.Command.Restart()
+vmRem.Command.Show()
+```
 
 ### VBAN
 
@@ -196,6 +240,19 @@ The following functions are available
 -	`GetRoute() int`
 -	`SetRoute(val int)` from 0 to 8
 
+example:
+
+```go
+# turn VBAN on
+vmRem.Vban.Enable()
+
+// turn on vban instream 0
+vmRem.Vban.InStream[0].SetOn(true)
+
+// set bit property for outstream 3 to 24
+vmRem.Vban.OutStream[3].SetBit(24)
+```
+
 ### Device
 
 The following functions are available
@@ -204,6 +261,14 @@ The following functions are available
 -	`Outs`
 -	`Input(val int)`
 -	`Output(val int)`
+
+example:
+
+```go
+for i := 0; i < int(vmRem.Device.Ins()); i++ {
+	fmt.Println(vmRem.Device.Input(i))
+}
+```
 
 ### Recorder
 
@@ -216,6 +281,19 @@ The following functions are available
 -	`Record()`
 -	`Ff()`
 -	`Rew()`
+
+example:
+
+```go
+vmRem.Recorder.Play()
+vmRem.Recorder.Stop()
+
+# Enable loop play
+vmRem.Recorder.Loop(true)
+
+# Disable recorder out channel B2
+vmRem.Recorder.SetB2(false)
+```
 
 ### Run tests
 
