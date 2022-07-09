@@ -23,7 +23,7 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 Add to your `go.mod` file:
 
-`require github.com/onyx-and-iris/voicemeeter-api-go v1.0.2`
+`require github.com/onyx-and-iris/voicemeeter-api-go v2.0.0`
 
 #### GO GET
 
