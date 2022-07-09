@@ -43,15 +43,18 @@ func (p *publisher) notify(subject string) {
 // pooler continuously polls the dirty paramters
 // it is expected to be run in a goroutine
 type pooler struct {
+	k   *kind
 	run bool
 	publisher
 }
 
-func newPooler() *pooler {
+func newPooler(k *kind) *pooler {
 	p := &pooler{
+		k:   k,
 		run: true,
 	}
 	go p.runner()
+	go p.levels()
 	return p
 }
 
@@ -62,6 +65,19 @@ func (p *pooler) runner() {
 		}
 		if mdirty() {
 			p.notify("mdirty")
+		}
+		time.Sleep(33 * time.Millisecond)
+	}
+}
+
+func (p *pooler) levels() {
+	_levelCache = newLevelCache(p.k)
+
+	for p.run {
+		if ldirty(p.k) {
+			update(_levelCache.stripLevels, _levelCache.stripLevelsBuff, (2*p.k.physIn)+(8*p.k.virtIn))
+			update(_levelCache.busLevels, _levelCache.busLevelsBuff, 8*p.k.numBus())
+			p.notify("ldirty")
 		}
 		time.Sleep(33 * time.Millisecond)
 	}

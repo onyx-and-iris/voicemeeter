@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter-api-go"
 )
 
 var (

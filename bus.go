@@ -253,13 +253,13 @@ func (bm *busMode) GetRearOnly() bool {
 
 func newBusLevels(i int, k *kind) levels {
 	init := i * 8
-	return levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8}
+	return levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8, "bus"}
 }
 
 func (l *levels) All() []float32 {
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(getLevel(3, i)))
+		levels = append(levels, l.convertLevel(_levelCache.busLevels[i]))
 	}
 	return levels
 }

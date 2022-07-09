@@ -256,29 +256,42 @@ func newStripLevels(i int, k *kind) levels {
 		init = (k.physIn * 2) + ((i - k.physIn) * 8)
 		os = 8
 	}
-	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os}
+	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os, "strip"}
 }
 
 func (l *levels) PreFader() []float32 {
+	_levelCache.stripMode = 0
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(getLevel(0, i)))
+		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
 }
 
 func (l *levels) PostFader() []float32 {
+	_levelCache.stripMode = 1
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(getLevel(1, i)))
+		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
 }
 
 func (l *levels) PostMute() []float32 {
+	_levelCache.stripMode = 2
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(getLevel(2, i)))
+		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
+}
+
+func (l *levels) IsDirty() bool {
+	var vals []bool
+	if l.id == "strip" {
+		vals = _levelCache.stripComp[l.init : l.init+l.offset]
+	} else if l.id == "bus" {
+		vals = _levelCache.busComp[l.init : l.init+l.offset]
+	}
+	return !allTrue(vals, l.offset)
 }

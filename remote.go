@@ -5,9 +5,8 @@ import (
 	"os"
 )
 
-// A remote type represents the API for a kind,
-// comprised of slices representing each member
-type remote struct {
+// A Remote type represents the API for a kind
+type Remote struct {
 	kind     *kind
 	Strip    []t_strip
 	Bus      []t_bus
@@ -21,53 +20,53 @@ type remote struct {
 }
 
 // String implements the fmt.stringer interface
-func (r *remote) String() string {
+func (r *Remote) String() string {
 	return fmt.Sprintf("Voicemeeter %s", r.kind)
 }
 
 // Login logs into the API
 // then it intializes the pooler
-func (r *remote) Login() {
-	r.pooler = newPooler()
+func (r *Remote) Login() {
 	login(r.kind.name)
+	r.pooler = newPooler(r.kind)
 }
 
 // Logout logs out of the API
 // it also terminates the pooler
-func (r *remote) Logout() {
+func (r *Remote) Logout() {
 	r.pooler.run = false
 	logout()
 }
 
-func (r *remote) Type() string {
+func (r *Remote) Type() string {
 	return getVMType()
 }
 
-func (r *remote) Version() string {
+func (r *Remote) Version() string {
 	return getVersion()
 }
 
 // Pdirty returns true iff a parameter value has changed
-func (r *remote) Pdirty() bool {
+func (r *Remote) Pdirty() bool {
 	return pdirty()
 }
 
 // Mdirty returns true iff a macrobutton value has changed
-func (r *remote) Mdirty() bool {
+func (r *Remote) Mdirty() bool {
 	return mdirty()
 }
 
-func (r *remote) SendText(script string) {
+func (r *Remote) SendText(script string) {
 	setParametersMulti(script)
 }
 
 // Register forwards the register method to Pooler
-func (r *remote) Register(o observer) {
+func (r *Remote) Register(o observer) {
 	r.pooler.Register(o)
 }
 
 // Register forwards the deregister method to Pooler
-func (r *remote) Deregister(o observer) {
+func (r *Remote) Deregister(o observer) {
 	r.pooler.Deregister(o)
 }
 
@@ -81,7 +80,7 @@ type remoteBuilder interface {
 	makeDevice() remoteBuilder
 	makeRecorder() remoteBuilder
 	Build() remoteBuilder
-	Get() *remote
+	Get() *Remote
 }
 
 // directory is responsible for directing the genericBuilder
@@ -100,13 +99,13 @@ func (d *director) Construct() {
 }
 
 // Get forwards the Get method to the builder
-func (d *director) Get() *remote {
+func (d *director) Get() *Remote {
 	return d.builder.Get()
 }
 
 type genericBuilder struct {
 	k *kind
-	r remote
+	r Remote
 }
 
 func (b *genericBuilder) setKind() remoteBuilder {
@@ -157,28 +156,28 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 	return b
 }
 
-// makeCommand makes a Command type and assigns it to remote.Command
+// makeCommand makes a command type and assigns it to remote.Command
 func (b *genericBuilder) makeCommand() remoteBuilder {
 	fmt.Println("building command")
 	b.r.Command = newCommand()
 	return b
 }
 
-// makeVban makes a Vban type and assigns it to remote.Vban
+// makeVban makes a vban type and assigns it to remote.Vban
 func (b *genericBuilder) makeVban() remoteBuilder {
 	fmt.Println("building vban")
 	b.r.Vban = newVban(b.k)
 	return b
 }
 
-// makeVban makes a Vban type and assigns it to remote.Vban
+// makeDevice makes a device type and assigns it to remote.Device
 func (b *genericBuilder) makeDevice() remoteBuilder {
 	fmt.Println("building device")
 	b.r.Device = newDevice()
 	return b
 }
 
-// makeRecorder makes a recorder type and assigns it to remote.Vban
+// makeRecorder makes a recorder type and assigns it to remote.Recorder
 func (b *genericBuilder) makeRecorder() remoteBuilder {
 	fmt.Println("building recorder")
 	b.r.Recorder = newRecorder()
@@ -186,7 +185,7 @@ func (b *genericBuilder) makeRecorder() remoteBuilder {
 }
 
 // Get returns a fully constructed remote type for a kind
-func (b *genericBuilder) Get() *remote {
+func (b *genericBuilder) Get() *Remote {
 	return &b.r
 }
 
@@ -217,9 +216,9 @@ func (potb *potatoBuilder) Build() remoteBuilder {
 	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
 }
 
-// GetRemote returns a remote type for a kind
+// GetRemote returns a Remote type for a kind
 // this is the interface entry point
-func GetRemote(kindId string) *remote {
+func GetRemote(kindId string) *Remote {
 	_kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
@@ -230,11 +229,11 @@ func GetRemote(kindId string) *remote {
 	director := director{}
 	switch _kind.name {
 	case "basic":
-		director.SetBuilder(&basicBuilder{genericBuilder{_kind, remote{}}})
+		director.SetBuilder(&basicBuilder{genericBuilder{_kind, Remote{}}})
 	case "banana":
-		director.SetBuilder(&bananaBuilder{genericBuilder{_kind, remote{}}})
+		director.SetBuilder(&bananaBuilder{genericBuilder{_kind, Remote{}}})
 	case "potato":
-		director.SetBuilder(&potatoBuilder{genericBuilder{_kind, remote{}}})
+		director.SetBuilder(&potatoBuilder{genericBuilder{_kind, Remote{}}})
 	}
 	director.Construct()
 	return director.Get()

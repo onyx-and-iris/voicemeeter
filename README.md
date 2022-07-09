@@ -41,7 +41,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter-api-go"
 )
 
 func main() {

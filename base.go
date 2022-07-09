@@ -112,6 +112,21 @@ func mdirty() bool {
 	return int(res) == 1
 }
 
+func ldirty(k *kind) bool {
+	_levelCache.stripLevelsBuff = make([]float32, (2*k.physIn)+(8*k.virtIn))
+	_levelCache.busLevelsBuff = make([]float32, 8*k.numBus())
+
+	for i := 0; i < (2*k.physIn)+(8*k.virtIn); i++ {
+		_levelCache.stripLevelsBuff[i] = float32(getLevel(_levelCache.stripMode, i))
+		_levelCache.stripComp[i] = _levelCache.stripLevelsBuff[i] == _levelCache.stripLevels[i]
+	}
+	for i := 0; i < 8*k.numBus(); i++ {
+		_levelCache.busLevelsBuff[i] = float32(getLevel(3, i))
+		_levelCache.busComp[i] = _levelCache.busLevelsBuff[i] == _levelCache.busLevels[i]
+	}
+	return !(allTrue(_levelCache.stripComp, (2*k.physIn)+(8*k.virtIn)) && allTrue(_levelCache.busComp, 8*k.numBus()))
+}
+
 // getVMType returns the type of Voicemeeter, as a string
 func getVMType() string {
 	var type_ uint64
