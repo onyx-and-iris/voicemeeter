@@ -23,11 +23,13 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 Add to your `go.mod` file:
 
-`require github.com/onyx-and-iris/voicemeeter-api-go v2.0.0`
+`require github.com/onyx-and-iris/voicemeeter-api-go vX.X.X`
+
+replace `vX.X.X` with the version you need
 
 #### GO GET
 
-Install voicemeeter-api-go package from your console
+Install voicemeeter-api-go package from your console to download the latest version.
 
 `go get github.com/onyx-and-iris/voicemeeter-api-go`
 
