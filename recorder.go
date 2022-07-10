@@ -1,10 +1,12 @@
 package voicemeeter
 
+// recorder represents the recorder
 type recorder struct {
 	iRemote
 	outputs
 }
 
+// newRecorder returns an address to a recorder struct
 func newRecorder() *recorder {
 	o := newOutputs("recorder", 0)
 	return &recorder{iRemote{"recorder", 0}, o}

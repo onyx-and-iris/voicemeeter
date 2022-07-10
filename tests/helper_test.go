@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	vmRem = voicemeeter.GetRemote("potato")
+	vmRem = voicemeeter.NewRemote("potato")
 )
 
 func TestMain(m *testing.M) {

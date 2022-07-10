@@ -13,16 +13,16 @@ func newDevice() *device {
 
 // Ins returns the total number of physical input devices
 func (d *device) Ins() int {
-	return int(get_num_devices("in"))
+	return int(getNumDevices("in"))
 }
 
 // Ins returns the total number of physical input devices
 func (d *device) Outs() int {
-	return int(get_num_devices("out"))
+	return int(getNumDevices("out"))
 }
 
 func (d *device) Input(i int) devDesc {
-	n, t_, id := get_device_description(i, "in")
+	n, t_, id := getDeviceDescription(i, "in")
 	vals := map[uint64]string{
 		1: "mme",
 		3: "wdm",
@@ -33,7 +33,7 @@ func (d *device) Input(i int) devDesc {
 }
 
 func (d *device) Output(i int) devDesc {
-	n, t_, id := get_device_description(i, "out")
+	n, t_, id := getDeviceDescription(i, "out")
 	vals := map[uint64]string{
 		1: "mme",
 		3: "wdm",

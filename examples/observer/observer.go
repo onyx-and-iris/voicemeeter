@@ -34,7 +34,7 @@ func (o observer) OnUpdate(subject string) {
 }
 
 func main() {
-	vmRem := voicemeeter.GetRemote("potato")
+	vmRem := voicemeeter.NewRemote("potato")
 	vmRem.Login()
 
 	o := observer{vmRem}

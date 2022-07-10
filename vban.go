@@ -2,7 +2,8 @@ package voicemeeter
 
 import "fmt"
 
-type t_vban interface {
+// iVban defines the interface vban types must satisfy
+type iVban interface {
 	GetOn() bool
 	SetOn(val bool)
 	GetName() string
@@ -133,9 +134,9 @@ type vbanInStream struct {
 	vbanStream
 }
 
-func newVbanInStream(i int) t_vban {
+func newVbanInStream(i int) iVban {
 	vbi := vbanInStream{vbanStream{iRemote{fmt.Sprintf("vban.instream[%d]", i), i}}}
-	return t_vban(&vbi)
+	return iVban(&vbi)
 }
 
 // SetSr panics reason read only
@@ -157,22 +158,22 @@ type vbanOutStream struct {
 	vbanStream
 }
 
-func newVbanOutStream(i int) t_vban {
+func newVbanOutStream(i int) iVban {
 	vbo := vbanOutStream{vbanStream{iRemote{fmt.Sprintf("vban.outstream[%d]", i), i}}}
-	return t_vban(&vbo)
+	return iVban(&vbo)
 }
 
 type vban struct {
-	InStream  []t_vban
-	OutStream []t_vban
+	InStream  []iVban
+	OutStream []iVban
 }
 
 func newVban(k *kind) *vban {
-	_vbanIn := make([]t_vban, k.vbanIn)
+	_vbanIn := make([]iVban, k.vbanIn)
 	for i := 0; i < k.vbanIn; i++ {
 		_vbanIn[i] = newVbanInStream(i)
 	}
-	_vbanOut := make([]t_vban, k.vbanOut)
+	_vbanOut := make([]iVban, k.vbanOut)
 	for i := 0; i < k.vbanOut; i++ {
 		_vbanOut[i] = newVbanOutStream(i)
 	}

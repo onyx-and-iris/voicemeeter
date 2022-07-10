@@ -1,8 +1,6 @@
 package voicemeeter
 
-import "math"
-
-// levels
+// levels represents the levels field for a channel
 type levels struct {
 	iRemote
 	k      *kind
@@ -11,12 +9,15 @@ type levels struct {
 	id     string
 }
 
-func (l *levels) convertLevel(i float32) float32 {
-	if i > 0 {
-		val := 20 * math.Log10(float64(i))
-		return float32(roundFloat(float64(val), 1))
+// returns true if any levels value for a strip/bus have been updated
+func (l *levels) IsDirty() bool {
+	var vals []bool
+	if l.id == "strip" {
+		vals = _levelCache.stripComp[l.init : l.init+l.offset]
+	} else if l.id == "bus" {
+		vals = _levelCache.busComp[l.init : l.init+l.offset]
 	}
-	return -200.0
+	return !allTrue(vals, l.offset)
 }
 
 var _levelCache *levelCache

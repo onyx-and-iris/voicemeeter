@@ -8,8 +8,8 @@ import (
 // A Remote type represents the API for a kind
 type Remote struct {
 	kind     *kind
-	Strip    []t_strip
-	Bus      []t_bus
+	Strip    []iStrip
+	Bus      []iBus
 	Button   []button
 	Command  *command
 	Vban     *vban
@@ -114,10 +114,10 @@ func (b *genericBuilder) setKind() remoteBuilder {
 }
 
 // makeStrip makes a strip slice and assigns it to remote.Strip
-// []t_strip comprises of both physical and virtual strip types
+// []iStrip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
 	fmt.Println("building strip")
-	_strip := make([]t_strip, b.k.numStrip())
+	_strip := make([]iStrip, b.k.numStrip())
 	for i := 0; i < b.k.numStrip(); i++ {
 		if i < b.k.physIn {
 			_strip[i] = newPhysicalStrip(i, b.k)
@@ -133,7 +133,7 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 // []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
 	fmt.Println("building bus")
-	_bus := make([]t_bus, b.k.numBus())
+	_bus := make([]iBus, b.k.numBus())
 	for i := 0; i < b.k.numBus(); i++ {
 		if i < b.k.physOut {
 			_bus[i] = newPhysicalBus(i, b.k)
@@ -216,9 +216,9 @@ func (potb *potatoBuilder) Build() remoteBuilder {
 	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
 }
 
-// GetRemote returns a Remote type for a kind
+// NewRemote returns a Remote type for a kind
 // this is the interface entry point
-func GetRemote(kindId string) *Remote {
+func NewRemote(kindId string) *Remote {
 	_kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)

@@ -2,7 +2,7 @@ package voicemeeter
 
 import "fmt"
 
-// custom strip type, struct forwarding channel
+// button represents a single macrobuttton
 type button struct {
 	index int
 }

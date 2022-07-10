@@ -1,9 +1,11 @@
 package voicemeeter
 
+//command represents command (action) type parameters
 type command struct {
 	iRemote
 }
 
+// newCommand returns a pointer to a command type
 func newCommand() *command {
 	return &command{iRemote{"command", 0}}
 }
@@ -29,7 +31,6 @@ func (c *command) Restart() {
 }
 
 // Lock locks or unlocks the Voiceemeter GUI
-// it accepts a boolean value
 func (c *command) Lock(val bool) {
 	var value float32
 	if val {

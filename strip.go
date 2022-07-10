@@ -2,9 +2,11 @@ package voicemeeter
 
 import (
 	"fmt"
+	"time"
 )
 
-type t_strip interface {
+// iStrip defines the interface bus types must satisfy
+type iStrip interface {
 	String() string
 	GetMute() bool
 	SetMute(val bool)
@@ -28,7 +30,11 @@ type t_strip interface {
 	SetAudibility(val float32)
 	GainLayer() []gainLayer
 	Levels() *levels
-	t_outputs
+	FadeTo(target float32, time_ int)
+	FadeBy(change float32, time_ int)
+	AppGain(name string, gain float32)
+	AppMute(name string, val bool)
+	iOutputs
 }
 
 // strip represents a strip channel
@@ -104,16 +110,30 @@ func (s *strip) GainLayer() []gainLayer {
 	return s.gainLayer
 }
 
-// Levels returns the gainlayer field
+// Levels returns the levels field
 func (s *strip) Levels() *levels {
 	return &s.levels
 }
 
+// FadeTo sets the value of gain to target over at time interval of time_
+func (s *strip) FadeTo(target float32, time_ int) {
+	s.setter_string("FadeTo", fmt.Sprintf("(\"%f\", %d)", target, time_))
+	time.Sleep(time.Millisecond)
+}
+
+// FadeBy adjusts the value of gain by change over a time interval of time_
+func (s *strip) FadeBy(change float32, time_ int) {
+	s.setter_string("FadeBy", fmt.Sprintf("(\"%f\", %d)", change, time_))
+	time.Sleep(time.Millisecond)
+}
+
+//physicalStrip represents a single physical strip
 type physicalStrip struct {
 	strip
 }
 
-func newPhysicalStrip(i int, k *kind) t_strip {
+// newPhysicalStrip returns a physicalStrip type cast to an iStrip
+func newPhysicalStrip(i int, k *kind) iStrip {
 	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
@@ -121,10 +141,10 @@ func newPhysicalStrip(i int, k *kind) t_strip {
 	}
 	l := newStripLevels(i, k)
 	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl, l}}
-	return t_strip(&ps)
+	return iStrip(&ps)
 }
 
-// implement fmt.stringer interface in fmt
+// String implements fmt.stringer interface
 func (p *physicalStrip) String() string {
 	return fmt.Sprintf("PhysicalStrip%d", p.index)
 }
@@ -169,11 +189,13 @@ func (p *physicalStrip) SetMc(val bool) {
 	panic("invalid parameter MC for physicalStrip")
 }
 
+//virtualStrip represents a single virtual strip
 type virtualStrip struct {
 	strip
 }
 
-func newVirtualStrip(i int, k *kind) t_strip {
+// newVirtualStrip returns a virtualStrip type cast to an iStrip
+func newVirtualStrip(i int, k *kind) iStrip {
 	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
@@ -181,10 +203,10 @@ func newVirtualStrip(i int, k *kind) t_strip {
 	}
 	l := newStripLevels(i, k)
 	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, gl, l}}
-	return t_strip(&vs)
+	return iStrip(&vs)
 }
 
-// implement fmt.stringer interface in fmt
+// String implements fmt.stringer interface
 func (v *virtualStrip) String() string {
 	return fmt.Sprintf("VirtualStrip%d", v.index)
 }
@@ -229,23 +251,44 @@ func (v *virtualStrip) SetAudibility(val float32) {
 	panic("invalid parameter Audibility for virtualStrip")
 }
 
+// AppGain sets the gain in db by val for the app matching name.
+func (v *strip) AppGain(name string, val float32) {
+	v.setter_string("AppGain", fmt.Sprintf("(\"%s\", %f)", name, val))
+}
+
+// AppMute sets mute state as val for the app matching name.
+func (v *strip) AppMute(name string, val bool) {
+	var value int
+	if val {
+		value = 1
+	} else {
+		value = 0
+	}
+	v.setter_string("AppMute", fmt.Sprintf("(\"%s\", %f)", name, float32(value)))
+}
+
+// gainLayer represents the 8 gainlayers for a single strip
 type gainLayer struct {
 	iRemote
 	index int
 }
 
+// newGainLayer returns a gainlayer struct
 func newGainLayer(i, j int) gainLayer {
 	return gainLayer{iRemote{fmt.Sprintf("strip[%d]", i), i}, j}
 }
 
+// Get gets the gain value for a single gainlayer
 func (gl *gainLayer) Get() float64 {
 	return gl.getter_float(fmt.Sprintf("gainlayer[%d]", gl.index))
 }
 
+// Set sets the gain value for a single gainlayer
 func (gl *gainLayer) Set(val float32) {
 	gl.setter_float(fmt.Sprintf("gainlayer[%d]", gl.index), val)
 }
 
+// newStripLevels returns a levels struct
 func newStripLevels(i int, k *kind) levels {
 	var init int
 	var os int
@@ -259,39 +302,32 @@ func newStripLevels(i int, k *kind) levels {
 	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os, "strip"}
 }
 
+// PreFader returns the level valuess for this strip, PREFADER mode
 func (l *levels) PreFader() []float32 {
 	_levelCache.stripMode = 0
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
+		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
 }
 
+// PreFader returns the level valuess for this strip, POSTFADER mode
 func (l *levels) PostFader() []float32 {
 	_levelCache.stripMode = 1
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
+		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
 }
 
+// PreFader returns the level valuess for this strip, POSTMUTE mode
 func (l *levels) PostMute() []float32 {
 	_levelCache.stripMode = 2
 	var levels []float32
 	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, l.convertLevel(_levelCache.stripLevels[i]))
+		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}
 	return levels
-}
-
-func (l *levels) IsDirty() bool {
-	var vals []bool
-	if l.id == "strip" {
-		vals = _levelCache.stripComp[l.init : l.init+l.offset]
-	} else if l.id == "bus" {
-		vals = _levelCache.busComp[l.init : l.init+l.offset]
-	}
-	return !allTrue(vals, l.offset)
 }

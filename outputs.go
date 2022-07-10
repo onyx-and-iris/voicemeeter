@@ -1,6 +1,7 @@
 package voicemeeter
 
-type t_outputs interface {
+// iOutputs defines the interface outputs type must satisfy
+type iOutputs interface {
 	GetA1() bool
 	SetA1(val bool)
 	GetA2() bool
@@ -19,10 +20,13 @@ type t_outputs interface {
 	SetB3(val bool)
 }
 
+// outputs represents the outputs field (A1 - A5, B1 - B3)
+// expected to be embedded
 type outputs struct {
 	iRemote
 }
 
+// newOutputs returns an outputs type
 func newOutputs(id string, i int) outputs {
 	o := outputs{iRemote{id, i}}
 	return o

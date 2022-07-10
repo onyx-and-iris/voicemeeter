@@ -40,7 +40,8 @@ var (
 )
 
 // login logs into the API,
-// then attempts to launch Voicemeeter if it's not running.
+// attempts to launch Voicemeeter if it's not running,
+// initializes dirty parameters.
 func login(kindId string) {
 	res, _, _ := vmLogin.Call()
 	if res == 1 {
@@ -112,6 +113,7 @@ func mdirty() bool {
 	return int(res) == 1
 }
 
+// ldirty returns true iff a level value has changed
 func ldirty(k *kind) bool {
 	_levelCache.stripLevelsBuff = make([]float32, (2*k.physIn)+(8*k.virtIn))
 	_levelCache.busLevelsBuff = make([]float32, 8*k.numBus())
@@ -252,7 +254,8 @@ func setMacroStatus(id, state, mode int) {
 	}
 }
 
-func get_num_devices(dir string) uint64 {
+// getNumDevices returns the number of hardware input/output devices
+func getNumDevices(dir string) uint64 {
 	if strings.Compare(dir, "in") == 0 {
 		res, _, _ := vmGetDevNumIn.Call()
 		return uint64(res)
@@ -262,7 +265,8 @@ func get_num_devices(dir string) uint64 {
 	}
 }
 
-func get_device_description(i int, dir string) (string, uint64, string) {
+// getDeviceDescription returns name, driver type and hwid for a given device
+func getDeviceDescription(i int, dir string) (string, uint64, string) {
 	var t_ uint64
 	var b1 [512]byte
 	var b2 [512]byte

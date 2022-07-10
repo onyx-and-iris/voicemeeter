@@ -4,12 +4,14 @@ import (
 	"fmt"
 )
 
-// iRemote provides a set of common forwarding methods
+// iRemote provides an interface between higher methods and lower functions
+// expected to be embedded
 type iRemote struct {
 	_identifier string
 	index       int
 }
 
+// identifier returns a string identifier
 func (ir *iRemote) identifier() string {
 	return ir._identifier
 }

@@ -25,7 +25,7 @@ Add to your `go.mod` file:
 
 `require github.com/onyx-and-iris/voicemeeter-api-go vX.X.X`
 
-replace `vX.X.X` with the version you need
+where `vX.X.X` is the version you require.
 
 #### GO GET
 
@@ -48,7 +48,7 @@ import (
 
 func main() {
 	kindId := "banana"
-	vmRem := voicemeeter.GetRemote(kindId)
+	vmRem := voicemeeter.NewRemote(kindId)
 
 	vmRem.Login()
 
@@ -130,7 +130,7 @@ returns True iff a macrobutton paramter has changed
 
 ### Strip
 
-The following functions are available
+The following methods are available
 
 -   `GetMute() bool`
 -   `SetMute(val bool)`
@@ -167,7 +167,7 @@ vmRem.Strip[4].SetA1(true)
 
 -   `vmRem.Strip[i].GainLayer()[j]`
 
-The following functions are available
+The following methods are available
 
 -   `Get() float64`
 -   `Set(val float32)`
@@ -182,7 +182,7 @@ vmRem.Strip[6].GainLayer()[3].Set(-13.6)
 
 -   `vmRem.Strip[i].Levels()`
 
-The following functions are available
+The following methods are available
 
 -   `PreFader() []float32`
 -   `PostFader() []float32`
@@ -196,7 +196,7 @@ fmt.Println(vmRem.Strip[5].Levels().PreFader())
 
 ### Bus
 
-The following functions are available
+The following methods are available
 
 -   `String() string`
 -   `GetMute() bool`
@@ -219,7 +219,7 @@ fmt.Println(vmRem.Bus[0].GetLabel())
 
 -   `vmRem.Bus[i].Mode()`
 
-The following functions are available
+The following methods are available
 
 -   `SetNormal(val bool)`
 -   `GetNormal() bool`
@@ -257,7 +257,7 @@ vmRem.Bus[4].Mode().SetCenterOnly(true)
 
 -   `vmRem.Bus[i].Levels()`
 
-The following functions are available
+The following methods are available
 
 -   `All() []float32`
 
@@ -269,7 +269,7 @@ fmt.Println(vmRem.Bus[1].Levels().All())
 
 ### Button
 
-The following functions are available
+The following methods are available
 
 -   `GetState() bool`
 -   `SetState(val bool)`
@@ -287,7 +287,7 @@ fmt.Println(vmRem.Button[64].GetStateOnly())
 
 ### Command
 
-The following functions are available
+The following methods are available
 
 -   `Show()` Show Voicemeeter GUI if it's hidden
 -   `Hide()` Hide Voicemeeter GUI if it's shown
@@ -310,7 +310,7 @@ vmRem.Command.Show()
 
 -   `vmRem.Vban.InStream` `vmRem.Vban.OutStream`
 
-The following functions are available
+The following methods are available
 
 -   `GetOn() bool`
 -   `SetOn(val bool)`
@@ -346,7 +346,7 @@ vmRem.Vban.OutStream[3].SetBit(24)
 
 ### Device
 
-The following functions are available
+The following methods are available
 
 -   `Ins`
 -   `Outs`
@@ -363,7 +363,7 @@ for i := 0; i < int(vmRem.Device.Ins()); i++ {
 
 ### Recorder
 
-The following functions are available
+The following methods are available
 
 -   `Play()`
 -   `Stop()`
