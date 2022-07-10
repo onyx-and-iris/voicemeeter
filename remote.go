@@ -38,10 +38,12 @@ func (r *Remote) Logout() {
 	logout()
 }
 
+// Type returns the type of Voicemeeter (basic, banana, potato)
 func (r *Remote) Type() string {
 	return getVMType()
 }
 
+// Version returns the version of Voicemeeter as a string
 func (r *Remote) Version() string {
 	return getVersion()
 }
@@ -56,6 +58,7 @@ func (r *Remote) Mdirty() bool {
 	return mdirty()
 }
 
+// SendText sets multiple parameters by script
 func (r *Remote) SendText(script string) {
 	setParametersMulti(script)
 }
@@ -65,11 +68,12 @@ func (r *Remote) Register(o observer) {
 	r.pooler.Register(o)
 }
 
-// Register forwards the deregister method to Pooler
+// Deregister forwards the deregister method to Pooler
 func (r *Remote) Deregister(o observer) {
 	r.pooler.Deregister(o)
 }
 
+// remoteBuilder defines the interface builder types must satisfy
 type remoteBuilder interface {
 	setKind() remoteBuilder
 	makeStrip() remoteBuilder
@@ -103,11 +107,13 @@ func (d *director) Get() *Remote {
 	return d.builder.Get()
 }
 
+// genericBuilder represents a generic builder type
 type genericBuilder struct {
 	k *kind
 	r Remote
 }
 
+// setKind sets the kind for a builder of a kind
 func (b *genericBuilder) setKind() remoteBuilder {
 	b.r.kind = b.k
 	return b
@@ -189,6 +195,7 @@ func (b *genericBuilder) Get() *Remote {
 	return &b.r
 }
 
+// basicBuilder represents a builder specific to basic type
 type basicBuilder struct {
 	genericBuilder
 }
@@ -198,6 +205,7 @@ func (basb *genericBuilder) Build() remoteBuilder {
 	return basb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice()
 }
 
+// bananaBuilder represents a builder specific to banana type
 type bananaBuilder struct {
 	genericBuilder
 }
@@ -207,6 +215,7 @@ func (banb *bananaBuilder) Build() remoteBuilder {
 	return banb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
 }
 
+// potatoBuilder represents a builder specific to potato type
 type potatoBuilder struct {
 	genericBuilder
 }
