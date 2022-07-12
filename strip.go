@@ -302,7 +302,7 @@ func newStripLevels(i int, k *kind) levels {
 	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os, "strip"}
 }
 
-// PreFader returns the level valuess for this strip, PREFADER mode
+// PreFader returns the level values for this strip, PREFADER mode
 func (l *levels) PreFader() []float32 {
 	_levelCache.stripMode = 0
 	var levels []float32
@@ -312,7 +312,7 @@ func (l *levels) PreFader() []float32 {
 	return levels
 }
 
-// PreFader returns the level valuess for this strip, POSTFADER mode
+// PostFader returns the level values for this strip, POSTFADER mode
 func (l *levels) PostFader() []float32 {
 	_levelCache.stripMode = 1
 	var levels []float32
@@ -322,7 +322,7 @@ func (l *levels) PostFader() []float32 {
 	return levels
 }
 
-// PreFader returns the level valuess for this strip, POSTMUTE mode
+// PostMute returns the level values for this strip, POSTMUTE mode
 func (l *levels) PostMute() []float32 {
 	_levelCache.stripMode = 2
 	var levels []float32
