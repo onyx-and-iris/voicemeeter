@@ -9,25 +9,25 @@ var basic, banana, potato *kind
 
 // A kind represents a Voicemeeter kinds layout
 type kind struct {
-	name                                              string
-	physIn, virtIn, physOut, virtOut, vbanIn, vbanOut int
+	Name                                              string
+	PhysIn, VirtIn, PhysOut, VirtOut, VbanIn, VbanOut int
 }
 
 // numStrip returns the total number of strips for a kind
-func (k *kind) numStrip() int {
-	n := k.physIn + k.virtIn
+func (k *kind) NumStrip() int {
+	n := k.PhysIn + k.VirtIn
 	return n
 }
 
 // numBus returns the total number of buses for a kind
-func (k *kind) numBus() int {
-	n := k.physOut + k.virtOut
+func (k *kind) NumBus() int {
+	n := k.PhysOut + k.VirtOut
 	return n
 }
 
 // String implements the fmt.stringer interface
 func (k *kind) String() string {
-	return fmt.Sprintf("%s%s", strings.ToUpper(k.name[:1]), k.name[1:])
+	return fmt.Sprintf("%s%s", strings.ToUpper(k.Name[:1]), k.Name[1:])
 }
 
 // newBasicKind returns a basic kind struct address

@@ -35,10 +35,10 @@ type levelCache struct {
 
 // newLevelCache returns a levelCache struct address
 func newLevelCache(k *kind) *levelCache {
-	stripLevels := make([]float32, (2*k.physIn)+(8*k.virtIn))
-	busLevels := make([]float32, 8*k.numBus())
-	stripComp := make([]bool, (2*k.physIn)+(8*k.virtIn))
-	busComp := make([]bool, 8*k.numBus())
+	stripLevels := make([]float32, (2*k.PhysIn)+(8*k.VirtIn))
+	busLevels := make([]float32, 8*k.NumBus())
+	stripComp := make([]bool, (2*k.PhysIn)+(8*k.VirtIn))
+	busComp := make([]bool, 8*k.NumBus())
 	if _levelCache == nil {
 		_levelCache = &levelCache{stripMode: 0, stripLevels: stripLevels, busLevels: busLevels, stripComp: stripComp, busComp: busComp}
 	}

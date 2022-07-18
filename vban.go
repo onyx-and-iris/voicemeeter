@@ -169,12 +169,12 @@ type vban struct {
 }
 
 func newVban(k *kind) *vban {
-	_vbanIn := make([]iVban, k.vbanIn)
-	for i := 0; i < k.vbanIn; i++ {
+	_vbanIn := make([]iVban, k.VbanIn)
+	for i := 0; i < k.VbanIn; i++ {
 		_vbanIn[i] = newVbanInStream(i)
 	}
-	_vbanOut := make([]iVban, k.vbanOut)
-	for i := 0; i < k.vbanOut; i++ {
+	_vbanOut := make([]iVban, k.VbanOut)
+	for i := 0; i < k.VbanOut; i++ {
 		_vbanOut[i] = newVbanOutStream(i)
 	}
 	return &vban{

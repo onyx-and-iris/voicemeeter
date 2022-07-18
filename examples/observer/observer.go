@@ -34,13 +34,13 @@ func (o observer) OnUpdate(subject string) {
 }
 
 func main() {
-	vmRem := voicemeeter.NewRemote("potato")
-	vmRem.Login()
+	vm := voicemeeter.NewRemote("potato")
+	vm.Login()
 
-	o := observer{vmRem}
-	vmRem.Register(o)
+	o := observer{vm}
+	vm.Register(o)
 	time.Sleep(30 * time.Second)
-	vmRem.Deregister(o)
+	vm.Deregister(o)
 
-	vmRem.Logout()
+	vm.Logout()
 }

@@ -115,18 +115,18 @@ func mdirty() bool {
 
 // ldirty returns true iff a level value has changed
 func ldirty(k *kind) bool {
-	_levelCache.stripLevelsBuff = make([]float32, (2*k.physIn)+(8*k.virtIn))
-	_levelCache.busLevelsBuff = make([]float32, 8*k.numBus())
+	_levelCache.stripLevelsBuff = make([]float32, (2*k.PhysIn)+(8*k.VirtIn))
+	_levelCache.busLevelsBuff = make([]float32, 8*k.NumBus())
 
-	for i := 0; i < (2*k.physIn)+(8*k.virtIn); i++ {
+	for i := 0; i < (2*k.PhysIn)+(8*k.VirtIn); i++ {
 		_levelCache.stripLevelsBuff[i] = float32(getLevel(_levelCache.stripMode, i))
 		_levelCache.stripComp[i] = _levelCache.stripLevelsBuff[i] == _levelCache.stripLevels[i]
 	}
-	for i := 0; i < 8*k.numBus(); i++ {
+	for i := 0; i < 8*k.NumBus(); i++ {
 		_levelCache.busLevelsBuff[i] = float32(getLevel(3, i))
 		_levelCache.busComp[i] = _levelCache.busLevelsBuff[i] == _levelCache.busLevels[i]
 	}
-	return !(allTrue(_levelCache.stripComp, (2*k.physIn)+(8*k.virtIn)) && allTrue(_levelCache.busComp, 8*k.numBus()))
+	return !(allTrue(_levelCache.stripComp, (2*k.PhysIn)+(8*k.VirtIn)) && allTrue(_levelCache.busComp, 8*k.NumBus()))
 }
 
 // getVMType returns the type of Voicemeeter, as a string

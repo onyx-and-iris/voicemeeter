@@ -292,11 +292,11 @@ func (gl *gainLayer) Set(val float32) {
 func newStripLevels(i int, k *kind) levels {
 	var init int
 	var os int
-	if i < k.physIn {
+	if i < k.PhysIn {
 		init = i * 2
 		os = 2
 	} else {
-		init = (k.physIn * 2) + ((i - k.physIn) * 8)
+		init = (k.PhysIn * 2) + ((i - k.PhysIn) * 8)
 		os = 8
 	}
 	return levels{iRemote{fmt.Sprintf("strip[%d]", i), i}, k, init, os, "strip"}

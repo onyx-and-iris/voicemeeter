@@ -9,18 +9,18 @@ import (
 )
 
 var (
-	vmRem = voicemeeter.NewRemote("potato")
+	vm = voicemeeter.NewRemote("potato")
 )
 
 func TestMain(m *testing.M) {
-	vmRem.Login()
+	vm.Login()
 	code := m.Run()
-	vmRem.Logout()
+	vm.Logout()
 	os.Exit(code)
 }
 
 func sync() {
 	time.Sleep(30 * time.Millisecond)
-	for vmRem.Pdirty() || vmRem.Mdirty() {
+	for vm.Pdirty() || vm.Mdirty() {
 	}
 }

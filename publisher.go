@@ -75,8 +75,8 @@ func (p *pooler) levels() {
 
 	for p.run {
 		if ldirty(p.k) {
-			update(_levelCache.stripLevels, _levelCache.stripLevelsBuff, (2*p.k.physIn)+(8*p.k.virtIn))
-			update(_levelCache.busLevels, _levelCache.busLevelsBuff, 8*p.k.numBus())
+			update(_levelCache.stripLevels, _levelCache.stripLevelsBuff, (2*p.k.PhysIn)+(8*p.k.VirtIn))
+			update(_levelCache.busLevels, _levelCache.busLevelsBuff, 8*p.k.NumBus())
 			p.notify("ldirty")
 		}
 		time.Sleep(33 * time.Millisecond)

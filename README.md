@@ -48,15 +48,15 @@ import (
 
 func main() {
 	kindId := "banana"
-	vmRem := voicemeeter.NewRemote(kindId)
+	vm := voicemeeter.NewRemote(kindId)
 
-	vmRem.Login()
+	vm.Login()
 
-	vmRem.Strip[0].SetLabel("rode podmic")
-	vmRem.Strip[0].SetMute(true)
-	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vmRem.Strip[0].GetLabel(), vmRem.Strip[0].GetMute())
+	vm.Strip[0].SetLabel("rode podmic")
+	vm.Strip[0].SetMute(true)
+	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
 
-	vmRem.Logout()
+	vm.Logout()
 }
 ```
 
@@ -70,59 +70,59 @@ Pass the kind of Voicemeeter as an argument. kindId may be:
 
 ## `Remote Type`
 
-#### `vmRem.Strip`
+#### `vm.Strip`
 
 []t_strip slice containing both physicalStrip and virtualStrip types
 
-#### `vmRem.Bus`
+#### `vm.Bus`
 
 []t_bus slice containing both physicalBus and virtualBus types
 
-#### `vmRem.Button`
+#### `vm.Button`
 
 []button slice containing button types, one for each macrobutton
 
-#### `vmRem.Command`
+#### `vm.Command`
 
 pointer to command type, represents action type functions
 
-#### `vmRem.Vban`
+#### `vm.Vban`
 
 pointer to vban type, containing both vbanInStream and vbanOutStream slices
 
-#### `vmRem.Device`
+#### `vm.Device`
 
 pointer to device type, represents physical input/output hardware devices
 
-#### `vmRem.Recorder`
+#### `vm.Recorder`
 
 pointer to recorder type, represents the recorder
 
-#### `vmRem.Type()`
+#### `vm.Type()`
 
 returns the type of Voicemeeter as a string
 
-#### `vmRem.Version()`
+#### `vm.Version()`
 
 returns the version of Voicemeeter as a string
 
-#### `vmRem.SendText(<script>)`
+#### `vm.SendText(<script>)`
 
 sets many parameters in script format eg. ("Strip[0].Mute=1;Bus[3].Gain=3.6")
 
-#### `vmRem.Register(o observer)`
+#### `vm.Register(o observer)`
 
 register an object as an observer
 
-#### `vmRem.Deregister(o observer)`
+#### `vm.Deregister(o observer)`
 
 deregister an object as an observer
 
-#### `vmRem.Pdirty()`
+#### `vm.Pdirty()`
 
 returns True iff a GUI parameter has changed
 
-#### `vmRem.Mdirty()`
+#### `vm.Mdirty()`
 
 returns True iff a macrobutton paramter has changed
 
@@ -158,14 +158,14 @@ The following methods are available
 example:
 
 ```go
-vmRem.Strip[3].SetGain(3.7)
-fmt.Println(vmRem.Strip[0].GetLabel())
-vmRem.Strip[4].SetA1(true)
+vm.Strip[3].SetGain(3.7)
+fmt.Println(vm.Strip[0].GetLabel())
+vm.Strip[4].SetA1(true)
 ```
 
 ##### Gainlayers
 
--   `vmRem.Strip[i].GainLayer()[j]`
+-   `vm.Strip[i].GainLayer()[j]`
 
 The following methods are available
 
@@ -175,12 +175,12 @@ The following methods are available
 example:
 
 ```go
-vmRem.Strip[6].GainLayer()[3].Set(-13.6)
+vm.Strip[6].GainLayer()[3].Set(-13.6)
 ```
 
 ##### Levels
 
--   `vmRem.Strip[i].Levels()`
+-   `vm.Strip[i].Levels()`
 
 The following methods are available
 
@@ -191,7 +191,7 @@ The following methods are available
 example:
 
 ```go
-fmt.Println(vmRem.Strip[5].Levels().PreFader())
+fmt.Println(vm.Strip[5].Levels().PreFader())
 ```
 
 ### Bus
@@ -211,13 +211,13 @@ The following methods are available
 -   `SetGain(val float32)` from -60.0 to 12.0
 
 ```go
-vmRem.Bus[3].SetEq(true)
-fmt.Println(vmRem.Bus[0].GetLabel())
+vm.Bus[3].SetEq(true)
+fmt.Println(vm.Bus[0].GetLabel())
 ```
 
 ##### Modes
 
--   `vmRem.Bus[i].Mode()`
+-   `vm.Bus[i].Mode()`
 
 The following methods are available
 
@@ -249,13 +249,13 @@ The following methods are available
 example:
 
 ```go
-vmRem.Bus[3].Mode().SetAmix(true)
-vmRem.Bus[4].Mode().SetCenterOnly(true)
+vm.Bus[3].Mode().SetAmix(true)
+vm.Bus[4].Mode().SetCenterOnly(true)
 ```
 
 ##### Levels
 
--   `vmRem.Bus[i].Levels()`
+-   `vm.Bus[i].Levels()`
 
 The following methods are available
 
@@ -264,7 +264,7 @@ The following methods are available
 example:
 
 ```go
-fmt.Println(vmRem.Bus[1].Levels().All())
+fmt.Println(vm.Bus[1].Levels().All())
 ```
 
 ### Button
@@ -281,8 +281,8 @@ The following methods are available
 example:
 
 ```go
-vmRem.Button[37].SetState(true)
-fmt.Println(vmRem.Button[64].GetStateOnly())
+vm.Button[37].SetState(true)
+fmt.Println(vm.Button[64].GetStateOnly())
 ```
 
 ### Command
@@ -298,17 +298,17 @@ The following methods are available
 example:
 
 ```go
-vmRem.Command.Restart()
-vmRem.Command.Show()
+vm.Command.Restart()
+vm.Command.Show()
 ```
 
 ### VBAN
 
--   `vmRem.Vban.Enable()` `vmRem.Vban.Disable()` Turn VBAN on or off
+-   `vm.Vban.Enable()` `vm.Vban.Disable()` Turn VBAN on or off
 
 ##### Instream | Outstream
 
--   `vmRem.Vban.InStream` `vmRem.Vban.OutStream`
+-   `vm.Vban.InStream` `vm.Vban.OutStream`
 
 The following methods are available
 
@@ -335,13 +335,13 @@ example:
 
 ```go
 # turn VBAN on
-vmRem.Vban.Enable()
+vm.Vban.Enable()
 
 // turn on vban instream 0
-vmRem.Vban.InStream[0].SetOn(true)
+vm.Vban.InStream[0].SetOn(true)
 
 // set bit property for outstream 3 to 24
-vmRem.Vban.OutStream[3].SetBit(24)
+vm.Vban.OutStream[3].SetBit(24)
 ```
 
 ### Device
@@ -356,8 +356,8 @@ The following methods are available
 example:
 
 ```go
-for i := 0; i < int(vmRem.Device.Ins()); i++ {
-	fmt.Println(vmRem.Device.Input(i))
+for i := 0; i < int(vm.Device.Ins()); i++ {
+	fmt.Println(vm.Device.Input(i))
 }
 ```
 
@@ -376,14 +376,14 @@ The following methods are available
 example:
 
 ```go
-vmRem.Recorder.Play()
-vmRem.Recorder.Stop()
+vm.Recorder.Play()
+vm.Recorder.Stop()
 
 # Enable loop play
-vmRem.Recorder.Loop(true)
+vm.Recorder.Loop(true)
 
 # Disable recorder out channel B2
-vmRem.Recorder.SetB2(false)
+vm.Recorder.SetB2(false)
 ```
 
 ### Run tests

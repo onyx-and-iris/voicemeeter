@@ -7,7 +7,7 @@ import (
 
 // A Remote type represents the API for a kind
 type Remote struct {
-	kind     *kind
+	Kind     *kind
 	Strip    []iStrip
 	Bus      []iBus
 	Button   []button
@@ -21,14 +21,14 @@ type Remote struct {
 
 // String implements the fmt.stringer interface
 func (r *Remote) String() string {
-	return fmt.Sprintf("Voicemeeter %s", r.kind)
+	return fmt.Sprintf("Voicemeeter %s", r.Kind)
 }
 
 // Login logs into the API
 // then it intializes the pooler
 func (r *Remote) Login() {
-	login(r.kind.name)
-	r.pooler = newPooler(r.kind)
+	login(r.Kind.Name)
+	r.pooler = newPooler(r.Kind)
 }
 
 // Logout logs out of the API
@@ -115,7 +115,7 @@ type genericBuilder struct {
 
 // setKind sets the kind for a builder of a kind
 func (b *genericBuilder) setKind() remoteBuilder {
-	b.r.kind = b.k
+	b.r.Kind = b.k
 	return b
 }
 
@@ -123,9 +123,9 @@ func (b *genericBuilder) setKind() remoteBuilder {
 // []iStrip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
 	fmt.Println("building strip")
-	_strip := make([]iStrip, b.k.numStrip())
-	for i := 0; i < b.k.numStrip(); i++ {
-		if i < b.k.physIn {
+	_strip := make([]iStrip, b.k.NumStrip())
+	for i := 0; i < b.k.NumStrip(); i++ {
+		if i < b.k.PhysIn {
 			_strip[i] = newPhysicalStrip(i, b.k)
 		} else {
 			_strip[i] = newVirtualStrip(i, b.k)
@@ -139,9 +139,9 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 // []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
 	fmt.Println("building bus")
-	_bus := make([]iBus, b.k.numBus())
-	for i := 0; i < b.k.numBus(); i++ {
-		if i < b.k.physOut {
+	_bus := make([]iBus, b.k.NumBus())
+	for i := 0; i < b.k.NumBus(); i++ {
+		if i < b.k.PhysOut {
 			_bus[i] = newPhysicalBus(i, b.k)
 		} else {
 			_bus[i] = newVirtualBus(i, b.k)
@@ -236,7 +236,7 @@ func NewRemote(kindId string) *Remote {
 	}
 
 	director := director{}
-	switch _kind.name {
+	switch _kind.Name {
 	case "basic":
 		director.SetBuilder(&basicBuilder{genericBuilder{_kind, Remote{}}})
 	case "banana":
