@@ -16,7 +16,7 @@ func (o observer) Register() {
 }
 
 func (o observer) Deregister() {
-	o.vm.Register(o)
+	o.vm.Deregister(o)
 }
 
 func (o observer) OnUpdate(subject string) {
