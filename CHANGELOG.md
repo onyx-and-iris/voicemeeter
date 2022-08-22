@@ -11,6 +11,22 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 -   [x]
 
+## [1.3.0] - 2022-08-22
+
+### Added
+
+-   midi type, supports midi devices
+-   midi updates added to the pooler
+-   event type, supports toggling event updates through EventAdd() and EventRemove() methods.
+-   Forwarder methods for get/set float/string parameters added to Remote type
+-   Midi, Events sections added to README.
+
+### Changed
+
+-   macrobutton updates moved into its own goroutine
+-   observer example updated to include midi updates
+-   level updates are now disabled by default, should be enabled explicitly
+
 ## [1.2.0] - 2022-07-10
 
 ### Added
