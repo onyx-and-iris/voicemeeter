@@ -15,6 +15,7 @@ type Remote struct {
 	Vban     *vban
 	Device   *device
 	Recorder *recorder
+	Midi     *midi_t
 
 	pooler *pooler
 }
@@ -58,6 +59,26 @@ func (r *Remote) Mdirty() bool {
 	return mdirty()
 }
 
+// Gets a float parameter value
+func (r *Remote) GetFloat(name string) float64 {
+	return getParameterFloat(name)
+}
+
+// Sets a float paramter value
+func (r *Remote) SetFloat(name string, value float32) {
+	setParameterFloat(name, value)
+}
+
+// Gets a string parameter value
+func (r *Remote) GetString(name string) string {
+	return getParameterString(name)
+}
+
+// Sets a string paramter value
+func (r *Remote) SetString(name, value string) {
+	setParameterString(name, value)
+}
+
 // SendText sets multiple parameters by script
 func (r *Remote) SendText(script string) {
 	setParametersMulti(script)
@@ -73,6 +94,16 @@ func (r *Remote) Deregister(o observer) {
 	r.pooler.Deregister(o)
 }
 
+// EventAdd adds an event to the Pooler
+func (r *Remote) EventAdd(event string) {
+	r.pooler.event.Add(event)
+}
+
+// EventRemove removes an event from the Pooler
+func (r *Remote) EventRemove(event string) {
+	r.pooler.event.Remove(event)
+}
+
 // remoteBuilder defines the interface builder types must satisfy
 type remoteBuilder interface {
 	setKind() remoteBuilder
@@ -83,6 +114,7 @@ type remoteBuilder interface {
 	makeVban() remoteBuilder
 	makeDevice() remoteBuilder
 	makeRecorder() remoteBuilder
+	makeMidi() remoteBuilder
 	Build() remoteBuilder
 	Get() *Remote
 }
@@ -190,6 +222,13 @@ func (b *genericBuilder) makeRecorder() remoteBuilder {
 	return b
 }
 
+// makeMidi makes a midi type and assigns it to remote.Midi
+func (b *genericBuilder) makeMidi() remoteBuilder {
+	fmt.Println("building midi")
+	b.r.Midi = newMidi()
+	return b
+}
+
 // Get returns a fully constructed remote type for a kind
 func (b *genericBuilder) Get() *Remote {
 	return &b.r
@@ -202,7 +241,14 @@ type basicBuilder struct {
 
 // Build defines the steps required to build a basic type
 func (basb *genericBuilder) Build() remoteBuilder {
-	return basb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice()
+	return basb.setKind().
+		makeStrip().
+		makeBus().
+		makeButton().
+		makeCommand().
+		makeVban().
+		makeDevice().
+		makeMidi()
 }
 
 // bananaBuilder represents a builder specific to banana type
@@ -212,7 +258,15 @@ type bananaBuilder struct {
 
 // Build defines the steps required to build a banana type
 func (banb *bananaBuilder) Build() remoteBuilder {
-	return banb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
+	return banb.setKind().
+		makeStrip().
+		makeBus().
+		makeButton().
+		makeCommand().
+		makeVban().
+		makeDevice().
+		makeRecorder().
+		makeMidi()
 }
 
 // potatoBuilder represents a builder specific to potato type
@@ -222,7 +276,15 @@ type potatoBuilder struct {
 
 // Build defines the steps required to build a potato type
 func (potb *potatoBuilder) Build() remoteBuilder {
-	return potb.setKind().makeStrip().makeBus().makeButton().makeCommand().makeVban().makeDevice().makeRecorder()
+	return potb.setKind().
+		makeStrip().
+		makeBus().
+		makeButton().
+		makeCommand().
+		makeVban().
+		makeDevice().
+		makeRecorder().
+		makeMidi()
 }
 
 // NewRemote returns a Remote type for a kind
