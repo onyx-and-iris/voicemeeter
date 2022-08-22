@@ -8,9 +8,9 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Tested against
 
--   Basic 1.0.8.2
--   Banana 2.0.6.2
--   Potato 3.0.2.2
+-   Basic 1.0.8.4
+-   Banana 2.0.6.4
+-   Potato 3.0.2.4
 
 ## Requirements
 
@@ -98,6 +98,10 @@ pointer to device type, represents physical input/output hardware devices
 
 pointer to recorder type, represents the recorder
 
+#### `vm.Midi`
+
+pointer to midi type, represents a connected midi device
+
 #### `vm.Type()`
 
 returns the type of Voicemeeter as a string
@@ -105,6 +109,22 @@ returns the type of Voicemeeter as a string
 #### `vm.Version()`
 
 returns the version of Voicemeeter as a string
+
+#### `vm.GetFloat(<param>)`
+
+gets a float parameter value
+
+#### `vm.SetFloat(<param>, <value>)`
+
+sets a float parameter value eg. vm.SetFloat("strip[0].mute", 1)
+
+#### `vm.GetString(<param>)`
+
+gets a string parameter value
+
+#### `vm.SetString(<param>, <value>)`
+
+sets a string parameter value eg. vm.SetString("strip[0].label", "podmic")
 
 #### `vm.SendText(<script>)`
 
@@ -118,13 +138,21 @@ register an object as an observer
 
 deregister an object as an observer
 
+#### `vm.EventAdd(<event>)`
+
+adds an event to the pooler eg. vm.EventAdd("ldirty")
+
+#### `vm.EventRemove(<event>)`
+
+removes an event to the pooler eg. vm.EventRemove("pdirty")
+
 #### `vm.Pdirty()`
 
 returns True iff a GUI parameter has changed
 
 #### `vm.Mdirty()`
 
-returns True iff a macrobutton paramter has changed
+returns True iff a macrobutton parameter has changed
 
 ## `Available commands`
 
@@ -348,8 +376,8 @@ vm.Vban.OutStream[3].SetBit(24)
 
 The following methods are available
 
--   `Ins`
--   `Outs`
+-   `Ins()`
+-   `Outs()`
 -   `Input(val int)`
 -   `Output(val int)`
 
@@ -384,6 +412,38 @@ vm.Recorder.Loop(true)
 
 # Disable recorder out channel B2
 vm.Recorder.SetB2(false)
+```
+
+### Midi
+
+The following methods are available
+
+-   `Channel()` returns the current midi channel
+-   `Current()` returns the most recently pressed midi button
+-   `Get(<button>)` returns the value in cache for the midi button
+
+example:
+
+```go
+var current = vm.Midi.Current()
+var val = vm.Midi.Get(current)
+```
+
+### Events
+
+By default level updates are disabled. Any event may be enabled or disabled. The following events exist:
+
+-   `pdirty` parameter updates
+-   `mdirty` macrobutton updates
+-   `midi` midi updates
+-   `ldirty` level updates
+
+example:
+
+```go
+vm.EventAdd("ldirty")
+
+vm.EventRemove("pdirty")
 ```
 
 ### Run tests
