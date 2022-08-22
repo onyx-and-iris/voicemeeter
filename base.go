@@ -37,6 +37,8 @@ var (
 	vmMdirty         = mod.NewProc("VBVMR_MacroButton_IsDirty")
 	vmGetMacroStatus = mod.NewProc("VBVMR_MacroButton_GetStatus")
 	vmSetMacroStatus = mod.NewProc("VBVMR_MacroButton_SetStatus")
+
+	vmGetMidiMessage = mod.NewProc("VBVMR_GetMidiMessage")
 )
 
 // login logs into the API,
@@ -314,4 +316,35 @@ func getLevel(type_, i int) float32 {
 		os.Exit(1)
 	}
 	return val
+}
+
+// getMidiMessage gets midi channel, pitch and velocity for a single midi input
+func getMidiMessage() bool {
+	var midi = newMidi()
+	var b1 [1024]byte
+	res, _, _ := vmGetMidiMessage.Call(
+		uintptr(unsafe.Pointer(&b1[0])),
+		uintptr(1024),
+	)
+	if int(res) < 0 {
+		err := fmt.Errorf("VBVMR_GetMidiMessage returned %d", res)
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	msg := bytes.Trim(b1[:], "\x00")
+	if len(msg) > 0 {
+		for i := 0; i < len(msg)%3; i++ {
+			msg = append(msg, 0)
+		}
+
+		for i := 0; i < len(msg); i += 3 {
+			var ch = int(msg[i])
+			var pitch = int(msg[i+1])
+			var vel = int(msg[i+2])
+			midi.channel = ch
+			midi.current = pitch
+			midi.cache[pitch] = vel
+		}
+	}
+	return len(msg) > 0
 }
