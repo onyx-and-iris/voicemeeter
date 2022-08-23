@@ -54,14 +54,14 @@ func login(kindId string) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("Logged into API")
+	fmt.Printf("Logged into Voicemeeter %s\n", kindId)
 	for pdirty() || mdirty() {
 	}
 }
 
 // logout logs out of the API,
 // delayed for 100ms to allow final operation to complete.
-func logout() {
+func logout(kindId string) {
 	time.Sleep(100 * time.Millisecond)
 	res, _, _ := vmLogout.Call()
 	if res != 0 {
@@ -69,7 +69,7 @@ func logout() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("Logged out of API")
+	fmt.Printf("Logged out of Voicemeeter %s\n", kindId)
 }
 
 // runVoicemeeter attempts to launch a Voicemeeter GUI of a kind.

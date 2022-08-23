@@ -2,7 +2,6 @@ package voicemeeter
 
 import (
 	"fmt"
-	"os"
 )
 
 // A Remote type represents the API for a kind
@@ -36,7 +35,7 @@ func (r *Remote) Login() {
 // it also terminates the pooler
 func (r *Remote) Logout() {
 	r.pooler.run = false
-	logout()
+	logout(r.Kind.Name)
 }
 
 // Type returns the type of Voicemeeter (basic, banana, potato)
@@ -289,12 +288,11 @@ func (potb *potatoBuilder) Build() remoteBuilder {
 
 // NewRemote returns a Remote type for a kind
 // this is the interface entry point
-func NewRemote(kindId string) *Remote {
+func NewRemote(kindId string) (*Remote, error) {
 	_kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
-		fmt.Println(err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	director := director{}
@@ -307,5 +305,5 @@ func NewRemote(kindId string) *Remote {
 		director.SetBuilder(&potatoBuilder{genericBuilder{_kind, Remote{}}})
 	}
 	director.Construct()
-	return director.Get()
+	return director.Get(), nil
 }

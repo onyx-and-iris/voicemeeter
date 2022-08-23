@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/onyx-and-iris/voicemeeter-api-go"
@@ -46,7 +47,13 @@ func (o observer) OnUpdate(subject string) {
 }
 
 func main() {
-	vm := voicemeeter.NewRemote("potato")
+	vm, err := voicemeeter.NewRemote("potato")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer vm.Logout()
+
 	vm.Login()
 	// enable level updates (disabled by default)
 	vm.EventAdd("ldirty")
@@ -55,6 +62,4 @@ func main() {
 	o.Register()
 	time.Sleep(30 * time.Second)
 	o.Deregister()
-
-	vm.Logout()
 }

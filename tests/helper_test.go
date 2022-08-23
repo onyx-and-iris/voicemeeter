@@ -1,6 +1,7 @@
 package voicemeeter_test
 
 import (
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -9,10 +10,16 @@ import (
 )
 
 var (
-	vm = voicemeeter.NewRemote("potato")
+	vm, err = voicemeeter.NewRemote("potato")
 )
 
 func TestMain(m *testing.M) {
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer vm.Logout()
+
 	vm.Login()
 	code := m.Run()
 	vm.Logout()
