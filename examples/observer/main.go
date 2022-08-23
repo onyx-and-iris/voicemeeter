@@ -23,16 +23,13 @@ func (o observer) Deregister() {
 func (o observer) OnUpdate(subject string) {
 	if subject == "pdirty" {
 		fmt.Println("pdirty!")
-	}
-	if subject == "mdirty" {
+	} else if subject == "mdirty" {
 		fmt.Println("mdirty!")
-	}
-	if subject == "midi" {
+	} else if subject == "midi" {
 		var current = o.vm.Midi.Current()
 		var val = o.vm.Midi.Get(current)
 		fmt.Printf("Value of midi button %d: %d\n", current, val)
-	}
-	if subject == "ldirty" {
+	} else if subject == "ldirty" {
 		fmt.Printf("%v %v %v %v %v %v %v %v\n",
 			o.vm.Bus[0].Levels().IsDirty(),
 			o.vm.Bus[1].Levels().IsDirty(),
