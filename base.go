@@ -326,7 +326,8 @@ func getMidiMessage() bool {
 		uintptr(unsafe.Pointer(&b1[0])),
 		uintptr(1024),
 	)
-	if int(res) < 0 {
+	x := int(res)
+	if x < 0 {
 		err := fmt.Errorf("VBVMR_GetMidiMessage returned %d", res)
 		fmt.Println(err)
 		os.Exit(1)

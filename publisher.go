@@ -119,7 +119,7 @@ func (p *pooler) macrobuttons() {
 
 func (p *pooler) midi() {
 	for p.run {
-		if getMidiMessage() {
+		if p.event.midi && getMidiMessage() {
 			p.notify("midi")
 		}
 		time.Sleep(33 * time.Millisecond)
