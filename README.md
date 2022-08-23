@@ -42,21 +42,24 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/onyx-and-iris/voicemeeter-api-go"
 )
 
 func main() {
 	kindId := "banana"
-	vm := voicemeeter.NewRemote(kindId)
+	vm, err := voicemeeter.NewRemote(kindId)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer vm.Logout()
 
 	vm.Login()
 
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)
 	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
-
-	vm.Logout()
 }
 ```
 

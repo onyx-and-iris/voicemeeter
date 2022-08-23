@@ -3,7 +3,7 @@ package voicemeeter
 import (
 	"errors"
 	"fmt"
-	"os"
+	"log"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -49,8 +49,7 @@ func dllPath() (string, error) {
 func getDllPath() string {
 	path, err := dllPath()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 	return path
 }

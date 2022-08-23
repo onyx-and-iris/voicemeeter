@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"log"
 	"time"
 
 	"github.com/onyx-and-iris/voicemeeter-api-go"
@@ -49,8 +49,7 @@ func (o observer) OnUpdate(subject string) {
 func main() {
 	vm, err := voicemeeter.NewRemote("potato")
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 	defer vm.Logout()
 
