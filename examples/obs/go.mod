@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/andreykaipov/goobs v0.10.0
-	github.com/onyx-and-iris/voicemeeter-api-go v1.4.1
+	github.com/onyx-and-iris/voicemeeter-api-go v1.5.0
 )
 
 require (
