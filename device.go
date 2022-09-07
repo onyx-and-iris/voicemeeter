@@ -1,5 +1,7 @@
 package voicemeeter
 
+import "fmt"
+
 type devDesc struct {
 	Name, Type, Hwid string
 }
@@ -22,7 +24,10 @@ func (d *device) Outs() int {
 }
 
 func (d *device) Input(i int) devDesc {
-	n, t_, id := getDeviceDescription(i, "in")
+	n, t_, id, err := getDeviceDescription(i, "in")
+	if err != nil {
+		fmt.Println(err)
+	}
 	vals := map[uint64]string{
 		1: "mme",
 		3: "wdm",
@@ -33,7 +38,10 @@ func (d *device) Input(i int) devDesc {
 }
 
 func (d *device) Output(i int) devDesc {
-	n, t_, id := getDeviceDescription(i, "out")
+	n, t_, id, err := getDeviceDescription(i, "out")
+	if err != nil {
+		fmt.Println(err)
+	}
 	vals := map[uint64]string{
 		1: "mme",
 		3: "wdm",

@@ -48,9 +48,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer vm.Logout()
 
-	vm.Login()
+	err = vm.Login()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer vm.Logout()
 	// enable level updates (disabled by default)
 	vm.EventAdd("ldirty")
 

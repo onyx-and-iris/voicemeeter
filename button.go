@@ -14,7 +14,11 @@ func newButton(i int) button {
 
 // getter returns the value of a macrobutton parameter
 func (m *button) getter(mode int) bool {
-	return getMacroStatus(m.index, mode) == 1
+	val, err := getMacroStatus(m.index, mode)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return val == 1
 }
 
 // setter sets the value of a macrobutton parameter

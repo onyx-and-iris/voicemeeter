@@ -26,26 +26,42 @@ func (r *Remote) String() string {
 
 // Login logs into the API
 // then it intializes the pooler
-func (r *Remote) Login() {
-	login(r.Kind.Name)
+func (r *Remote) Login() error {
+	err := login(r.Kind.Name)
+	if err != nil {
+		return err
+	}
 	r.pooler = newPooler(r.Kind)
+	return nil
 }
 
 // Logout logs out of the API
 // it also terminates the pooler
-func (r *Remote) Logout() {
+func (r *Remote) Logout() error {
 	r.pooler.run = false
-	logout(r.Kind.Name)
+	err := logout(r.Kind.Name)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Type returns the type of Voicemeeter (basic, banana, potato)
 func (r *Remote) Type() string {
-	return getVMType()
+	val, err := getVMType()
+	if err != nil {
+		fmt.Println(err)
+	}
+	return val
 }
 
 // Version returns the version of Voicemeeter as a string
 func (r *Remote) Version() string {
-	return getVersion()
+	val, err := getVersion()
+	if err != nil {
+		fmt.Println(err)
+	}
+	return val
 }
 
 // Pdirty returns true iff a parameter value has changed
@@ -60,7 +76,11 @@ func (r *Remote) Mdirty() bool {
 
 // Gets a float parameter value
 func (r *Remote) GetFloat(name string) float64 {
-	return getParameterFloat(name)
+	val, err := getParameterFloat(name)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return val
 }
 
 // Sets a float paramter value
@@ -70,7 +90,11 @@ func (r *Remote) SetFloat(name string, value float32) {
 
 // Gets a string parameter value
 func (r *Remote) GetString(name string) string {
-	return getParameterString(name)
+	val, err := getParameterString(name)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return val
 }
 
 // Sets a string paramter value

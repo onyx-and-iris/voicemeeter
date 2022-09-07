@@ -53,9 +53,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer vm.Logout()
 
-	vm.Login()
+	err = vm.Login()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer vm.Logout()
 
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)

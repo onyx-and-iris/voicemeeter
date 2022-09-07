@@ -43,9 +43,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer vm.Logout()
 
-	vm.Login()
+	err = vm.Login()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer vm.Logout()
 
 	obs, err := goobs.New("localhost:4455", goobs.WithPassword("mystrongpass"))
 	if err != nil {
