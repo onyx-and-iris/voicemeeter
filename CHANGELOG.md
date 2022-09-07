@@ -11,7 +11,7 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 -   [x]
 
-## [1.4.0] - 2022-09-07
+## [1.5.0] - 2022-09-07
 
 ### Changed
 
@@ -19,7 +19,7 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
     -   functions that wrap capi calls now return error types.
     -   higher level functions print error messages
 
-## [1.3.0] - 2022-08-22
+## [1.4.0] - 2022-08-22
 
 ### Added
 
