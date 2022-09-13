@@ -115,8 +115,8 @@ func mdirty() bool {
 
 // ldirty returns true iff a level value has changed
 func ldirty(k *kind) bool {
-	_levelCache.stripLevelsBuff = make([]float32, (2*k.PhysIn)+(8*k.VirtIn))
-	_levelCache.busLevelsBuff = make([]float32, 8*k.NumBus())
+	_levelCache.stripLevelsBuff = make([]float64, (2*k.PhysIn)+(8*k.VirtIn))
+	_levelCache.busLevelsBuff = make([]float64, 8*k.NumBus())
 
 	for i := 0; i < (2*k.PhysIn)+(8*k.VirtIn); i++ {
 		val, _ := getLevel(_levelCache.stripMode, i)
@@ -165,9 +165,9 @@ func getParameterFloat(name string) (float64, error) {
 }
 
 // setParameterFloat sets the value of a float parameter
-func setParameterFloat(name string, value float32) error {
+func setParameterFloat(name string, value float64) error {
 	b1 := append([]byte(name), 0)
-	b2 := math.Float32bits(value)
+	b2 := math.Float32bits(float32(value))
 	res, _, _ := vmSetParamFloat.Call(
 		uintptr(unsafe.Pointer(&b1[0])),
 		uintptr(b2),
@@ -224,7 +224,7 @@ func setParametersMulti(script string) error {
 }
 
 // getMacroStatus gets a macrobutton value
-func getMacroStatus(id, mode int) (float32, error) {
+func getMacroStatus(id, mode int) (float64, error) {
 	var state float32
 	res, _, _ := vmGetMacroStatus.Call(
 		uintptr(id),
@@ -235,7 +235,7 @@ func getMacroStatus(id, mode int) (float32, error) {
 		err := fmt.Errorf("VBVMR_MacroButton_GetStatus returned %d", res)
 		return 0, err
 	}
-	return state, nil
+	return float64(state), nil
 }
 
 // setMacroStatus sets a macrobutton value
@@ -297,8 +297,8 @@ func getDeviceDescription(i int, dir string) (string, uint64, string, error) {
 }
 
 // getLevel returns a single level value of type type_ for channel[i]
-func getLevel(type_, i int) (float32, error) {
-	var val float32
+func getLevel(type_, i int) (float64, error) {
+	var val float64
 	res, _, _ := vmGetLevelFloat.Call(
 		uintptr(type_),
 		uintptr(i),

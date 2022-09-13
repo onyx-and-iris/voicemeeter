@@ -1,6 +1,6 @@
 package voicemeeter
 
-//command represents command (action) type parameters
+// command represents command (action) type parameters
 type command struct {
 	iRemote
 }
@@ -32,7 +32,7 @@ func (c *command) Restart() {
 
 // Lock locks or unlocks the Voiceemeter GUI
 func (c *command) Lock(val bool) {
-	var value float32
+	var value float64
 	if val {
 		value = 1
 	} else {

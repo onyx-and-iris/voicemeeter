@@ -17,7 +17,7 @@ type iBus interface {
 	GetLabel() string
 	SetLabel(val string)
 	GetGain() float64
-	SetGain(val float32)
+	SetGain(val float64)
 	Mode() iBusMode
 	Levels() *levels
 	FadeTo(target float32, time_ int)
@@ -77,7 +77,7 @@ func (b *bus) GetGain() float64 {
 }
 
 // SetGain sets the value of the Gain parameter
-func (b *bus) SetGain(val float32) {
+func (b *bus) SetGain(val float64) {
 	b.setter_float("Gain", val)
 }
 
@@ -103,7 +103,7 @@ func (b *bus) FadeBy(change float32, time_ int) {
 	time.Sleep(time.Millisecond)
 }
 
-//physicalBus represents a single physical bus
+// physicalBus represents a single physical bus
 type physicalBus struct {
 	bus
 }
@@ -122,7 +122,7 @@ func (p *physicalBus) String() string {
 	return fmt.Sprintf("PhysicalBus%d", p.index)
 }
 
-//virtualBus represents a single virtual bus
+// virtualBus represents a single virtual bus
 type virtualBus struct {
 	bus
 }
@@ -305,8 +305,8 @@ func newBusLevels(i int, k *kind) levels {
 }
 
 // All returns the level values for a bus
-func (l *levels) All() []float32 {
-	var levels []float32
+func (l *levels) All() []float64 {
+	var levels []float64
 	for i := l.init; i < l.init+l.offset; i++ {
 		levels = append(levels, convertLevel(_levelCache.busLevels[i]))
 	}

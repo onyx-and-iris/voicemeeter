@@ -25,18 +25,18 @@ var _levelCache *levelCache
 // levelCache defines level slices used by the pooler to track updates
 type levelCache struct {
 	stripMode       int
-	stripLevels     []float32
-	busLevels       []float32
-	stripLevelsBuff []float32
-	busLevelsBuff   []float32
+	stripLevels     []float64
+	busLevels       []float64
+	stripLevelsBuff []float64
+	busLevelsBuff   []float64
 	stripComp       []bool
 	busComp         []bool
 }
 
 // newLevelCache returns a levelCache struct address
 func newLevelCache(k *kind) *levelCache {
-	stripLevels := make([]float32, (2*k.PhysIn)+(8*k.VirtIn))
-	busLevels := make([]float32, 8*k.NumBus())
+	stripLevels := make([]float64, (2*k.PhysIn)+(8*k.VirtIn))
+	busLevels := make([]float64, 8*k.NumBus())
 	stripComp := make([]bool, (2*k.PhysIn)+(8*k.VirtIn))
 	busComp := make([]bool, 8*k.NumBus())
 	if _levelCache == nil {

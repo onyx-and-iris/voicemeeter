@@ -13,7 +13,7 @@ func allTrue(s []bool, sz int) bool {
 }
 
 // update copies the contents of one float slice into another
-func update(s1 []float32, s2 []float32, sz int) {
+func update(s1 []float64, s2 []float64, sz int) {
 	for i := 0; i < sz; i++ {
 		s1[i] = s2[i]
 	}
@@ -26,10 +26,10 @@ func roundFloat(val float64, precision uint) float64 {
 }
 
 // convertLevel performs the necessary math for a channel level
-func convertLevel(i float32) float32 {
+func convertLevel(i float64) float64 {
 	if i > 0 {
 		val := 20 * math.Log10(float64(i))
-		return float32(roundFloat(float64(val), 1))
+		return float64(roundFloat(float64(val), 1))
 	}
 	return -200.0
 }

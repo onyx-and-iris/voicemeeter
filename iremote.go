@@ -35,7 +35,7 @@ func (ir *iRemote) setter_bool(p string, v bool) {
 	} else {
 		value = 0
 	}
-	err := setParameterFloat(param, float32(value))
+	err := setParameterFloat(param, float64(value))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -54,7 +54,7 @@ func (ir *iRemote) getter_int(p string) int {
 // setter_int sets the value v of an int parameter p
 func (ir *iRemote) setter_int(p string, v int) {
 	param := fmt.Sprintf("%s.%s", ir.identifier(), p)
-	err := setParameterFloat(param, float32(v))
+	err := setParameterFloat(param, float64(v))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -71,9 +71,9 @@ func (ir *iRemote) getter_float(p string) float64 {
 }
 
 // setter_float sets the value v of an int parameter p
-func (ir *iRemote) setter_float(p string, v float32) {
+func (ir *iRemote) setter_float(p string, v float64) {
 	param := fmt.Sprintf("%s.%s", ir.identifier(), p)
-	err := setParameterFloat(param, float32(v))
+	err := setParameterFloat(param, float64(v))
 	if err != nil {
 		fmt.Println(err)
 	}

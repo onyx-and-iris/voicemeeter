@@ -20,8 +20,8 @@ func TestAllTrue(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	//t.Skip("skipping test")
-	s1 := []float32{3.6, 8.7, 1.8, 18.2}
-	s2 := make([]float32, len(s1))
+	s1 := []float64{3.6, 8.7, 1.8, 18.2}
+	s2 := make([]float64, len(s1))
 	update(s2, s1, len(s1))
 	t.Run("Should return true", func(t *testing.T) {
 		assert.Equal(t, s1, s2)
@@ -32,10 +32,10 @@ func TestConvertLevel(t *testing.T) {
 	//t.Skip("skipping test")
 	res := convertLevel(0.02)
 	t.Run("Should be equal", func(t *testing.T) {
-		assert.Equal(t, float32(-34), res)
+		assert.Equal(t, float64(-34), res)
 	})
 	res = convertLevel(-0.02)
 	t.Run("Should be equal", func(t *testing.T) {
-		assert.Equal(t, float32(-200), res)
+		assert.Equal(t, float64(-200), res)
 	})
 }

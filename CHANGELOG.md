@@ -11,6 +11,16 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 -   [x]
 
+## [1.6.0] - 2022-09-14
+
+### Added
+
+-   vm.Sync() can now be used to force the dirty parameters to clear.
+
+### Changed
+
+-   higher level methods/functions now accept/return float64
+
 ## [1.5.0] - 2022-09-07
 
 ### Changed

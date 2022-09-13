@@ -19,20 +19,20 @@ type iStrip interface {
 	GetLabel() string
 	SetLabel(val string)
 	GetGain() float64
-	SetGain(val float32)
+	SetGain(val float64)
 	GetMc() bool
 	SetMc(val bool)
 	GetComp() float64
-	SetComp(val float32)
+	SetComp(val float64)
 	GetGate() float64
-	SetGate(val float32)
+	SetGate(val float64)
 	GetAudibility() float64
-	SetAudibility(val float32)
+	SetAudibility(val float64)
 	GainLayer() []gainLayer
 	Levels() *levels
-	FadeTo(target float32, time_ int)
-	FadeBy(change float32, time_ int)
-	AppGain(name string, gain float32)
+	FadeTo(target float64, time_ int)
+	FadeBy(change float64, time_ int)
+	AppGain(name string, gain float64)
 	AppMute(name string, val bool)
 	iOutputs
 }
@@ -101,7 +101,7 @@ func (s *strip) GetGain() float64 {
 }
 
 // SetGain sets the value of the Gain parameter
-func (s *strip) SetGain(val float32) {
+func (s *strip) SetGain(val float64) {
 	s.setter_float("Gain", val)
 }
 
@@ -116,18 +116,18 @@ func (s *strip) Levels() *levels {
 }
 
 // FadeTo sets the value of gain to target over at time interval of time_
-func (s *strip) FadeTo(target float32, time_ int) {
+func (s *strip) FadeTo(target float64, time_ int) {
 	s.setter_string("FadeTo", fmt.Sprintf("(\"%f\", %d)", target, time_))
 	time.Sleep(time.Millisecond)
 }
 
 // FadeBy adjusts the value of gain by change over a time interval of time_
-func (s *strip) FadeBy(change float32, time_ int) {
+func (s *strip) FadeBy(change float64, time_ int) {
 	s.setter_string("FadeBy", fmt.Sprintf("(\"%f\", %d)", change, time_))
 	time.Sleep(time.Millisecond)
 }
 
-//physicalStrip represents a single physical strip
+// physicalStrip represents a single physical strip
 type physicalStrip struct {
 	strip
 }
@@ -155,7 +155,7 @@ func (p *physicalStrip) GetComp() float64 {
 }
 
 // SetComp sets the value of the Comp parameter
-func (p *physicalStrip) SetComp(val float32) {
+func (p *physicalStrip) SetComp(val float64) {
 	p.setter_float("Comp", val)
 }
 
@@ -165,7 +165,7 @@ func (p *physicalStrip) GetGate() float64 {
 }
 
 // SetGate sets the value of the Gate parameter
-func (p *physicalStrip) SetGate(val float32) {
+func (p *physicalStrip) SetGate(val float64) {
 	p.setter_float("Gate", val)
 }
 
@@ -175,7 +175,7 @@ func (p *physicalStrip) GetAudibility() float64 {
 }
 
 // SetAudibility sets the value of the Audibility parameter
-func (p *physicalStrip) SetAudibility(val float32) {
+func (p *physicalStrip) SetAudibility(val float64) {
 	p.setter_float("Audibility", val)
 }
 
@@ -189,7 +189,7 @@ func (p *physicalStrip) SetMc(val bool) {
 	panic("invalid parameter MC for physicalStrip")
 }
 
-//virtualStrip represents a single virtual strip
+// virtualStrip represents a single virtual strip
 type virtualStrip struct {
 	strip
 }
@@ -227,7 +227,7 @@ func (v *virtualStrip) GetComp() float64 {
 }
 
 // SetComp panics reason invalid parameter
-func (v *virtualStrip) SetComp(val float32) {
+func (v *virtualStrip) SetComp(val float64) {
 	panic("invalid parameter Comp for virtualStrip")
 }
 
@@ -237,7 +237,7 @@ func (v *virtualStrip) GetGate() float64 {
 }
 
 // SetGate panics reason invalid parameter
-func (v *virtualStrip) SetGate(val float32) {
+func (v *virtualStrip) SetGate(val float64) {
 	panic("invalid parameter Gate for virtualStrip")
 }
 
@@ -247,12 +247,12 @@ func (v *virtualStrip) GetAudibility() float64 {
 }
 
 // SetAudibility panics reason invalid parameter
-func (v *virtualStrip) SetAudibility(val float32) {
+func (v *virtualStrip) SetAudibility(val float64) {
 	panic("invalid parameter Audibility for virtualStrip")
 }
 
 // AppGain sets the gain in db by val for the app matching name.
-func (v *strip) AppGain(name string, val float32) {
+func (v *strip) AppGain(name string, val float64) {
 	v.setter_string("AppGain", fmt.Sprintf("(\"%s\", %f)", name, val))
 }
 
@@ -264,7 +264,7 @@ func (v *strip) AppMute(name string, val bool) {
 	} else {
 		value = 0
 	}
-	v.setter_string("AppMute", fmt.Sprintf("(\"%s\", %f)", name, float32(value)))
+	v.setter_string("AppMute", fmt.Sprintf("(\"%s\", %f)", name, float64(value)))
 }
 
 // gainLayer represents the 8 gainlayers for a single strip
@@ -284,7 +284,7 @@ func (gl *gainLayer) Get() float64 {
 }
 
 // Set sets the gain value for a single gainlayer
-func (gl *gainLayer) Set(val float32) {
+func (gl *gainLayer) Set(val float64) {
 	gl.setter_float(fmt.Sprintf("gainlayer[%d]", gl.index), val)
 }
 
@@ -303,9 +303,9 @@ func newStripLevels(i int, k *kind) levels {
 }
 
 // PreFader returns the level values for this strip, PREFADER mode
-func (l *levels) PreFader() []float32 {
+func (l *levels) PreFader() []float64 {
 	_levelCache.stripMode = 0
-	var levels []float32
+	var levels []float64
 	for i := l.init; i < l.init+l.offset; i++ {
 		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}
@@ -313,9 +313,9 @@ func (l *levels) PreFader() []float32 {
 }
 
 // PostFader returns the level values for this strip, POSTFADER mode
-func (l *levels) PostFader() []float32 {
+func (l *levels) PostFader() []float64 {
 	_levelCache.stripMode = 1
-	var levels []float32
+	var levels []float64
 	for i := l.init; i < l.init+l.offset; i++ {
 		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}
@@ -323,9 +323,9 @@ func (l *levels) PostFader() []float32 {
 }
 
 // PostMute returns the level values for this strip, POSTMUTE mode
-func (l *levels) PostMute() []float32 {
+func (l *levels) PostMute() []float64 {
 	_levelCache.stripMode = 2
-	var levels []float32
+	var levels []float64
 	for i := l.init; i < l.init+l.offset; i++ {
 		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
 	}

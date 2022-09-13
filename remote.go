@@ -74,6 +74,12 @@ func (r *Remote) Mdirty() bool {
 	return mdirty()
 }
 
+// Sync is a helper method that waits for dirty parameters to clear
+func (r *Remote) Sync() {
+	for r.Pdirty() || r.Mdirty() {
+	}
+}
+
 // Gets a float parameter value
 func (r *Remote) GetFloat(name string) float64 {
 	val, err := getParameterFloat(name)
@@ -84,7 +90,7 @@ func (r *Remote) GetFloat(name string) float64 {
 }
 
 // Sets a float paramter value
-func (r *Remote) SetFloat(name string, value float32) {
+func (r *Remote) SetFloat(name string, value float64) {
 	setParameterFloat(name, value)
 }
 

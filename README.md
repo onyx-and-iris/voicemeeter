@@ -56,6 +56,7 @@ func main() {
 
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)
+	vm.Sync()
 	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
 }
 ```
@@ -154,6 +155,10 @@ returns True iff a GUI parameter has changed
 
 returns True iff a macrobutton parameter has changed
 
+#### `vm.Sync()`
+
+Use this to force dirty parameters to clear before continuing. Useful for slowing down getters.
+
 ## `Available commands`
 
 ### Strip
@@ -171,15 +176,15 @@ The following methods are available
 -   `GetLabel() string`
 -   `SetLabel(val string)`
 -   `GetGain() float64`
--   `SetGain(val float32)` from -60.0 to 12.0
+-   `SetGain(val float64)` from -60.0 to 12.0
 -   `GetMc() bool`
 -   `SetMc(val bool)`
 -   `GetComp() float64`
--   `SetComp(val float32)` from 0.0 to 10.0
+-   `SetComp(val float64)` from 0.0 to 10.0
 -   `GetGate() float64`
--   `SetGate(val float32)` from 0.0 to 10.0
+-   `SetGate(val float64)` from 0.0 to 10.0
 -   `GetAudibility() float64`
--   `SetAudibility(val float32)` from 0.0 to 10.0
+-   `SetAudibility(val float64)` from 0.0 to 10.0
 -   `GetA1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
 
@@ -198,7 +203,7 @@ vm.Strip[4].SetA1(true)
 The following methods are available
 
 -   `Get() float64`
--   `Set(val float32)`
+-   `Set(val float64)`
 
 example:
 
@@ -212,9 +217,9 @@ vm.Strip[6].GainLayer()[3].Set(-13.6)
 
 The following methods are available
 
--   `PreFader() []float32`
--   `PostFader() []float32`
--   `PostMute() []float32`
+-   `PreFader() []float64`
+-   `PostFader() []float64`
+-   `PostMute() []float64`
 
 example:
 
@@ -236,7 +241,7 @@ The following methods are available
 -   `GetLabel() string`
 -   `SetLabel(val string)`
 -   `GetGain() float64`
--   `SetGain(val float32)` from -60.0 to 12.0
+-   `SetGain(val float64)` from -60.0 to 12.0
 
 ```go
 vm.Bus[3].SetEq(true)
@@ -287,7 +292,7 @@ vm.Bus[4].Mode().SetCenterOnly(true)
 
 The following methods are available
 
--   `All() []float32`
+-   `All() []float64`
 
 example:
 
