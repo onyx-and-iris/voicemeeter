@@ -42,8 +42,7 @@ import (
 )
 
 func main() {
-	kindId := "banana"
-	vm, err := voicemeeter.NewRemote(kindId)
+	vm, err := voicemeeter.NewRemote("banana", 15)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,18 +55,25 @@ func main() {
 
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)
-	vm.Sync()
 	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
 }
 ```
 
-## `kindId`
+## `voicemeeter.NewRemote(<KindId>, <delay>)`
+
+### `kindId`
 
 Pass the kind of Voicemeeter as an argument. kindId may be:
 
 -   `basic`
 -   `banana`
 -   `potato`
+
+### `delay`
+
+Pass a delay in milliseconds to force the getters to wait for dirty parameters to clear.
+
+Useful if not running callbacks.
 
 ## `Remote Type`
 
@@ -157,7 +163,7 @@ returns True iff a macrobutton parameter has changed
 
 #### `vm.Sync()`
 
-Use this to force dirty parameters to clear before continuing. Useful for slowing down getters.
+Use this to force dirty parameters to clear after a delay in milliseconds. Useful for slowing down getters.
 
 ## `Available commands`
 
