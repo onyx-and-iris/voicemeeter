@@ -2,6 +2,7 @@ package voicemeeter
 
 import (
 	"fmt"
+	"time"
 )
 
 // A Remote type represents the API for a kind
@@ -76,6 +77,7 @@ func (r *Remote) Mdirty() bool {
 
 // Sync is a helper method that waits for dirty parameters to clear
 func (r *Remote) Sync() {
+	time.Sleep(time.Duration(vmdelay) * time.Millisecond)
 	for r.Pdirty() || r.Mdirty() {
 	}
 }
@@ -316,14 +318,25 @@ func (potb *potatoBuilder) Build() remoteBuilder {
 		makeMidi()
 }
 
+var (
+	vmsync  bool
+	vmdelay int
+)
+
 // NewRemote returns a Remote type for a kind
 // this is the interface entry point
-func NewRemote(kindId string) (*Remote, error) {
+func NewRemote(kindId string, delay int) (*Remote, error) {
 	_kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
 		return nil, err
 	}
+	if delay < 0 {
+		err := fmt.Errorf("invalid delay value. should be >= 0")
+		return nil, err
+	}
+	vmsync = delay > 0
+	vmdelay = delay
 
 	director := director{}
 	switch _kind.Name {

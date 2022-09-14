@@ -44,7 +44,7 @@ func (o observer) OnUpdate(subject string) {
 }
 
 func main() {
-	vm, err := voicemeeter.NewRemote("potato")
+	vm, err := voicemeeter.NewRemote("potato", 0)
 	if err != nil {
 		log.Fatal(err)
 	}

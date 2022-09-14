@@ -4,11 +4,10 @@ import (
 	"log"
 	"os"
 	"testing"
-	"time"
 )
 
 var (
-	vm, err = NewRemote("potato")
+	vm, err = NewRemote("potato", 30)
 )
 
 func TestMain(m *testing.M) {
@@ -20,10 +19,4 @@ func TestMain(m *testing.M) {
 	code := m.Run()
 	vm.Logout()
 	os.Exit(code)
-}
-
-func sync() {
-	time.Sleep(30 * time.Millisecond)
-	for vm.Pdirty() || vm.Mdirty() {
-	}
 }

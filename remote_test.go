@@ -8,7 +8,7 @@ import (
 
 func TestGetBasicRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem, _ := NewRemote("basic")
+	__rem, _ := NewRemote("basic", 0)
 	t.Run("Should return a remote basic type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
@@ -34,7 +34,7 @@ func TestGetBasicRemote(t *testing.T) {
 
 func TestGetBananaRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem, _ := NewRemote("banana")
+	__rem, _ := NewRemote("banana", 0)
 	t.Run("Should return a remote banana type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
@@ -60,7 +60,7 @@ func TestGetBananaRemote(t *testing.T) {
 
 func TestGetPotatoRemote(t *testing.T) {
 	//t.Skip("skipping test")
-	__rem, _ := NewRemote("potato")
+	__rem, _ := NewRemote("potato", 0)
 	t.Run("Should return a remote basic type", func(t *testing.T) {
 		assert.NotNil(t, __rem)
 	})
@@ -88,7 +88,6 @@ func TestSetAndGetFloatParameter(t *testing.T) {
 	//t.Skip("skipping test")
 	var param = "strip[0].mute"
 	vm.SetFloat(param, 1)
-	sync()
 	t.Run("Should get a float parameter", func(t *testing.T) {
 		assert.Equal(t, float64(1), vm.GetFloat(param))
 	})
@@ -99,7 +98,6 @@ func TestSetAndGetStringParameter(t *testing.T) {
 	var param = "strip[0].label"
 	var val = "test0"
 	vm.SetString(param, val)
-	sync()
 	t.Run("Should get a string parameter", func(t *testing.T) {
 		assert.Equal(t, val, vm.GetString(param))
 	})

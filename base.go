@@ -151,6 +151,11 @@ func getVMType() (string, error) {
 
 // getParameterFloat gets the value of a float parameter
 func getParameterFloat(name string) (float64, error) {
+	if vmsync {
+		time.Sleep(time.Duration(vmdelay) * time.Millisecond)
+		for pdirty() || mdirty() {
+		}
+	}
 	var value float32
 	b := append([]byte(name), 0)
 	res, _, _ := vmGetParamFloat.Call(
@@ -181,6 +186,11 @@ func setParameterFloat(name string, value float64) error {
 
 // getParameterString gets the value of a string parameter
 func getParameterString(name string) (string, error) {
+	if vmsync {
+		time.Sleep(time.Duration(vmdelay) * time.Millisecond)
+		for pdirty() || mdirty() {
+		}
+	}
 	b1 := append([]byte(name), 0)
 	var b2 [512]byte
 	res, _, _ := vmGetParamString.Call(
@@ -225,6 +235,11 @@ func setParametersMulti(script string) error {
 
 // getMacroStatus gets a macrobutton value
 func getMacroStatus(id, mode int) (float64, error) {
+	if vmsync {
+		time.Sleep(time.Duration(vmdelay) * time.Millisecond)
+		for pdirty() || mdirty() {
+		}
+	}
 	var state float32
 	res, _, _ := vmGetMacroStatus.Call(
 		uintptr(id),
