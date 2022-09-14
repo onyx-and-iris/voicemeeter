@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-    "log"
+	"log"
 
 	"github.com/eiannone/keyboard"
-    "github.com/onyx-and-iris/voicemeeter-api-go"
+	"github.com/onyx-and-iris/voicemeeter-api-go"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		_ = keyboard.Close()
 	}()
 
-    vm, err := voicemeeter.NewRemote("potato", 0)
+	vm, err := voicemeeter.NewRemote("potato", 0)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,30 +28,30 @@ func main() {
 	defer vm.Logout()
 
 	fmt.Println("Press ESC to quit")
-	Loop:
-		for {
-			char, key, err := keyboard.GetKey()
-			if err != nil {
-				panic(err)
-			}
-
-	        switch char {
-	        case '0':
-	            fmt.Printf("Logged into Voicemeeter %s, version %s\n", vm.Type(), vm.Version())
-	        case '1':
-	            vm.Strip[0].SetMute(!vm.Strip[0].GetMute())
-	        case '2':
-	            if vm.Strip[3].GetGain() == -12.8 {
-	                vm.Strip[3].FadeBy(-8.3, 500)
-	            } else {
-	                vm.Strip[3].FadeTo(-12.8, 500)
-	            }
-	        case '3':
-	            vm.Strip[5].AppMute("Spotify", true)
-			default:
-				if key == keyboard.KeyEsc {
-							break Loop
-				}
-	        }
+Loop:
+	for {
+		char, key, err := keyboard.GetKey()
+		if err != nil {
+			panic(err)
 		}
+
+		switch char {
+		case '0':
+			fmt.Printf("Logged into Voicemeeter %s, version %s\n", vm.Type(), vm.Version())
+		case '1':
+			vm.Strip[0].SetMute(!vm.Strip[0].GetMute())
+		case '2':
+			if vm.Strip[3].GetGain() == -12.8 {
+				vm.Strip[3].FadeBy(-8.3, 500)
+			} else {
+				vm.Strip[3].FadeTo(-12.8, 500)
+			}
+		case '3':
+			vm.Strip[5].AppMute("Spotify", true)
+		default:
+			if key == keyboard.KeyEsc {
+				break Loop
+			}
+		}
+	}
 }
