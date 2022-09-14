@@ -59,7 +59,7 @@ func main() {
 }
 ```
 
-## `voicemeeter.NewRemote(<KindId>, <delay>)`
+## `voicemeeter.NewRemote(<kindId>, <delay>)`
 
 ### `kindId`
 
@@ -163,7 +163,7 @@ returns True iff a macrobutton parameter has changed
 
 #### `vm.Sync()`
 
-Use this to force dirty parameters to clear after a delay in milliseconds. Useful for slowing down getters.
+Use this to force dirty parameters to clear after a delay in milliseconds.
 
 ## `Available commands`
 
