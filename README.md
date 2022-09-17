@@ -193,6 +193,8 @@ The following methods are available
 -   `SetAudibility(val float64)` from 0.0 to 10.0
 -   `GetA1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
+-   `AppGain(name string, gain float64)`
+-   `AppMute(name string, val bool)`
 
 example:
 
@@ -200,6 +202,9 @@ example:
 vm.Strip[3].SetGain(3.7)
 fmt.Println(vm.Strip[0].GetLabel())
 vm.Strip[4].SetA1(true)
+
+vm.Strip[5].AppGain("Spotify", 0.5)
+vm.Strip[5].AppMute("Spotify", true)
 ```
 
 ##### Gainlayers
@@ -304,6 +309,22 @@ example:
 
 ```go
 fmt.Println(vm.Bus[1].Levels().All())
+```
+
+### Strip | Bus
+
+The following methods are available.
+
+-   `FadeTo(target float64, time_ int)`: float, int
+-   `FadeBy(change float64, time_ int)`: float, int
+
+Modify gain to or by the selected amount in db over a time interval in ms.
+
+example:
+
+```go
+vm.Strip[3].FadeBy(-8.3, 500)
+vm.Bus[3].FadeTo(-12.8, 500)
 ```
 
 ### Button
