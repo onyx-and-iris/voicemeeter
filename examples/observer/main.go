@@ -8,18 +8,29 @@ import (
 	"github.com/onyx-and-iris/voicemeeter-api-go"
 )
 
+// observer represents a single receiver of updates
 type observer struct {
 	vm *voicemeeter.Remote
 }
 
-func (o observer) Register() {
+// newObserver add ldirty events to the eventlist and returns an observer type
+func newObserver(vm *voicemeeter.Remote) *observer {
+	vm.EventAdd("ldirty")
+	return &observer{vm}
+}
+
+// register registers this observer to receive updates
+func (o observer) register() {
 	o.vm.Register(o)
 }
 
-func (o observer) Deregister() {
+// deregister deregisters this observer to receive updates
+func (o observer) deregister() {
 	o.vm.Deregister(o)
 }
 
+// OnUpdate satisfies the observer interface defined in publisher.go
+// for each event type an action is triggered when the event occurs.
 func (o observer) OnUpdate(subject string) {
 	if subject == "pdirty" {
 		fmt.Println("pdirty!")
@@ -43,22 +54,32 @@ func (o observer) OnUpdate(subject string) {
 	}
 }
 
+// main connects to Voiceemeter, registers observer for updates
+// runs updates for 30 seconds and then deregisters observer.
 func main() {
-	vm, err := voicemeeter.NewRemote("potato", 0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = vm.Login()
+	vm, err := vmConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer vm.Logout()
-	// enable level updates (disabled by default)
-	vm.EventAdd("ldirty")
 
-	o := observer{vm}
-	o.Register()
+	o := newObserver(vm)
+	o.register()
 	time.Sleep(30 * time.Second)
-	o.Deregister()
+	o.deregister()
+}
+
+// vmConnect connects to Voicemeeter potato and logs into the API
+func vmConnect() (*voicemeeter.Remote, error) {
+	vm, err := voicemeeter.NewRemote("potato", 0)
+	if err != nil {
+		return nil, err
+	}
+
+	err = vm.Login()
+	if err != nil {
+		return nil, err
+	}
+
+	return vm, nil
 }
