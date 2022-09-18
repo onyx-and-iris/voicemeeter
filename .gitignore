@@ -1,6 +1,9 @@
 # quick tests
 quick
 
+#config
+config.toml
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
