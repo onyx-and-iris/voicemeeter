@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"os"
 
 	"github.com/onyx-and-iris/voicemeeter-api-go"
 
 	"github.com/andreykaipov/goobs"
 	"github.com/andreykaipov/goobs/api/events"
+
+	"github.com/BurntSushi/toml"
 )
 
 func onStart(vm *voicemeeter.Remote) {
@@ -39,18 +42,13 @@ func onEnd(vm *voicemeeter.Remote) {
 }
 
 func main() {
-	vm, err := voicemeeter.NewRemote("potato", 0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = vm.Login()
+	vm, err := vmConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer vm.Logout()
 
-	obs, err := goobs.New("localhost:4455", goobs.WithPassword("mystrongpass"))
+	obs, err := obsConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,4 +76,50 @@ func main() {
 	})
 
 	time.Sleep(30 * time.Second)
+}
+
+func vmConnect() (*voicemeeter.Remote, error) {
+	vm, err := voicemeeter.NewRemote("potato", 0)
+	if err != nil {
+		return nil, err
+	}
+
+	err = vm.Login()
+	if err != nil {
+		return nil, err
+	}
+
+	return vm, nil
+}
+
+func obsConnect() (*goobs.Client, error)  {
+	type (
+		connection struct {
+			Host      	string
+			Port       	int
+			Password 	string
+		}
+
+		config struct {
+			Connection map[string]connection
+		}
+	)
+
+	f := "config.toml"
+	if _, err := os.Stat(f); err != nil {
+		f = "./config.toml"
+	}
+
+	var c config
+	_, err := toml.DecodeFile(f, &c.Connection)
+	if err != nil {
+		return nil, err
+	}
+	conn := c.Connection["connection"]
+
+	obs, err := goobs.New(fmt.Sprintf("%s:%d", conn.Host, conn.Port), goobs.WithPassword(conn.Password))
+	if err != nil {
+		return nil, err
+	}
+	return obs, nil
 }

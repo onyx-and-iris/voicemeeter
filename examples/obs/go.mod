@@ -3,6 +3,7 @@ module main
 go 1.18
 
 require (
+	github.com/BurntSushi/toml v1.2.0
 	github.com/andreykaipov/goobs v0.10.0
 	github.com/onyx-and-iris/voicemeeter-api-go v1.7.0
 )

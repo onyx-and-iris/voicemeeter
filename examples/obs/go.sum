@@ -1,3 +1,5 @@
+github.com/BurntSushi/toml v1.2.0 h1:Rt8g24XnyGTyglgET/PRUNlrUeu9F5L+7FilkXfZgs0=
+github.com/BurntSushi/toml v1.2.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/andreykaipov/goobs v0.10.0 h1:wa4CxbYu/NqwUmx5E4/baDqYRYEmfHwg2T23RAg3jlU=
 github.com/andreykaipov/goobs v0.10.0/go.mod h1:EqG73Uu/4npyhXIWWszgRelNkEeIz+d0slUT6NKWYs4=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
