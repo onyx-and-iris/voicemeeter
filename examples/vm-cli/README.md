@@ -5,7 +5,9 @@ A simple voicemeeter-cli program. Offers ability to toggle, get and set paramete
 ## Use
 
 Toggle with `!` prefix, get by excluding `=` and set by including `=`. Mix and match arguments.
+
 You may pass an optional flag -kind to set the kind of Voicemeeter. Defaults to banana.
+
 You may pass an optional flag -delay to set a delay on the getters. Defaults to 15ms.
 
 for example:
