@@ -42,12 +42,7 @@ import (
 )
 
 func main() {
-	vm, err := voicemeeter.NewRemote("banana", 15)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = vm.Login()
+	vm, err := vmConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,6 +51,20 @@ func main() {
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)
 	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
+}
+
+func vmConnect() (*voicemeeter.Remote, error) {
+	vm, err := voicemeeter.NewRemote("banana", 15)
+	if err != nil {
+		return nil, err
+	}
+
+	err = vm.Login()
+	if err != nil {
+		return nil, err
+	}
+
+	return vm, nil
 }
 ```
 
