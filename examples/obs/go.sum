@@ -11,8 +11,8 @@ github.com/hashicorp/logutils v1.0.0 h1:dLEQVugN8vlakKOUE3ihGLTZJRB4j+M2cdTm/ORI
 github.com/hashicorp/logutils v1.0.0/go.mod h1:QIAnNjmIWmVIIkWDTG1z5v++HQmx9WQRO+LraFDTW64=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d/go.mod h1:YUTz3bUH2ZwIWBy3CJBeOBEugqcmXREj14T+iG/4k4U=
-github.com/onyx-and-iris/voicemeeter-api-go v1.7.0 h1:WA1RGrfaWBOavgY2uoJltzy/rAgvs62PM3qzR+5/jt8=
-github.com/onyx-and-iris/voicemeeter-api-go v1.7.0/go.mod h1:zAdBhHXQ9n37CUbLizbOPmAutyZI8Ncqeu5e9u1Fy14=
+github.com/onyx-and-iris/voicemeeter-api-go v1.8.0 h1:uVeKXG3+dnZUakJNZ0RjYFgVhFCzGPoiNnU32LqGR4Y=
+github.com/onyx-and-iris/voicemeeter-api-go v1.8.0/go.mod h1:zAdBhHXQ9n37CUbLizbOPmAutyZI8Ncqeu5e9u1Fy14=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PKk=
 golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d h1:/m5NbqQelATgoSPVC2Z23sR4kVNokFwDDyWh/3rGY+I=
