@@ -10,18 +10,13 @@ import (
 
 func main() {
 	if err := keyboard.Open(); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer func() {
 		_ = keyboard.Close()
 	}()
 
-	vm, err := voicemeeter.NewRemote("potato", 0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = vm.Login()
+	vm, err := vmConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -54,4 +49,18 @@ Loop:
 			}
 		}
 	}
+}
+
+func vmConnect() (*voicemeeter.Remote, error) {
+	vm, err := voicemeeter.NewRemote("potato", 0)
+	if err != nil {
+		return nil, err
+	}
+
+	err = vm.Login()
+	if err != nil {
+		return nil, err
+	}
+
+	return vm, nil
 }
