@@ -83,36 +83,48 @@ func (r *Remote) Sync() {
 }
 
 // Gets a float parameter value
-func (r *Remote) GetFloat(name string) float64 {
+func (r *Remote) GetFloat(name string) (float64, error) {
 	val, err := getParameterFloat(name)
 	if err != nil {
-		fmt.Println(err)
+		return 0, err
 	}
-	return val
+	return val, nil
 }
 
 // Sets a float paramter value
-func (r *Remote) SetFloat(name string, value float64) {
-	setParameterFloat(name, value)
+func (r *Remote) SetFloat(name string, value float64) error {
+	err := setParameterFloat(name, value)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Gets a string parameter value
-func (r *Remote) GetString(name string) string {
+func (r *Remote) GetString(name string) (string, error) {
 	val, err := getParameterString(name)
 	if err != nil {
-		fmt.Println(err)
+		return "", err
 	}
-	return val
+	return val, nil
 }
 
 // Sets a string paramter value
-func (r *Remote) SetString(name, value string) {
-	setParameterString(name, value)
+func (r *Remote) SetString(name, value string) error {
+	err := setParameterString(name, value)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // SendText sets multiple parameters by script
-func (r *Remote) SendText(script string) {
-	setParametersMulti(script)
+func (r *Remote) SendText(script string) error {
+	err := setParametersMulti(script)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Register forwards the register method to Pooler

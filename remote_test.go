@@ -87,18 +87,21 @@ func TestGetPotatoRemote(t *testing.T) {
 func TestSetAndGetFloatParameter(t *testing.T) {
 	//t.Skip("skipping test")
 	var param = "strip[0].mute"
+	var exp = float64(1)
 	vm.SetFloat(param, 1)
 	t.Run("Should get a float parameter", func(t *testing.T) {
-		assert.Equal(t, float64(1), vm.GetFloat(param))
+		val, _ := vm.GetFloat(param)
+		assert.Equal(t, exp, val)
 	})
 }
 
 func TestSetAndGetStringParameter(t *testing.T) {
 	//t.Skip("skipping test")
 	var param = "strip[0].label"
-	var val = "test0"
-	vm.SetString(param, val)
+	var exp = "test0"
+	vm.SetString(param, exp)
 	t.Run("Should get a string parameter", func(t *testing.T) {
-		assert.Equal(t, val, vm.GetString(param))
+		val, _ := vm.GetString(param)
+		assert.Equal(t, exp, val)
 	})
 }
