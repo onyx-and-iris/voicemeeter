@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"time"
 	"os"
+	"time"
 
 	"github.com/onyx-and-iris/voicemeeter-api-go"
 
@@ -92,12 +92,12 @@ func vmConnect() (*voicemeeter.Remote, error) {
 	return vm, nil
 }
 
-func obsConnect() (*goobs.Client, error)  {
+func obsConnect() (*goobs.Client, error) {
 	type (
 		connection struct {
-			Host      	string
-			Port       	int
-			Password 	string
+			Host     string
+			Port     int
+			Password string
 		}
 
 		config struct {
@@ -107,7 +107,8 @@ func obsConnect() (*goobs.Client, error)  {
 
 	f := "config.toml"
 	if _, err := os.Stat(f); err != nil {
-		f = "./config.toml"
+		err := fmt.Errorf("unable to locate %s", f)
+		return nil, err
 	}
 
 	var c config
