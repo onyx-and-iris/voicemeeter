@@ -11,7 +11,7 @@ import (
 
 func main() {
 	kindId := flag.String("kind", "banana", "kind of voicemeeter")
-	delay := flag.Int("delay", 15, "delay between commands")
+	delay := flag.Int("delay", 20, "delay between commands")
 	flag.Parse()
 
 	vm, err := vmConnect(kindId, delay)
