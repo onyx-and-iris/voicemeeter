@@ -11,7 +11,7 @@ import (
 
 func main() {
 	kindId := flag.String("kind", "banana", "kind of voicemeeter")
-	delay := flag.Int("delay", 15, "delay between commands")
+	delay := flag.Int("delay", 20, "delay between commands")
 	flag.Parse()
 
 	vm, err := vmConnect(kindId, delay)
@@ -20,7 +20,7 @@ func main() {
 	}
 	defer vm.Logout()
 
-	err = run_commands(vm)
+	err = runCommands(vm)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -40,7 +40,7 @@ func vmConnect(kindId *string, delay *int) (*voicemeeter.Remote, error) {
 	return vm, nil
 }
 
-func run_commands(vm *voicemeeter.Remote) error {
+func runCommands(vm *voicemeeter.Remote) error {
 	for _, arg := range flag.Args() {
 		if arg[0] == '!' {
 			val, err := vm.GetFloat(arg[1:])
@@ -59,16 +59,16 @@ func run_commands(vm *voicemeeter.Remote) error {
 					return err
 				}
 			} else {
-				val_f, err := vm.GetFloat(arg)
+				valF, err := vm.GetFloat(arg)
 				if err != nil {
-					val_s, err := vm.GetString(arg)
+					valS, err := vm.GetString(arg)
 					if err != nil {
 						err = fmt.Errorf("unable to get %s", arg)
 						return err
 					}
-					fmt.Println("Value of", arg, "is:", val_s)
+					fmt.Println("Value of", arg, "is:", valS)
 				} else {
-					fmt.Println("Value of", arg, "is:", val_f)
+					fmt.Println("Value of", arg, "is:", valF)
 				}
 			}
 		}
