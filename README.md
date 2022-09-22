@@ -1,4 +1,4 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/onyx-and-iris/voicemeeter-api-go.svg)](https://pkg.go.dev/github.com/onyx-and-iris/voicemeeter-api-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/onyx-and-iris/voicemeeter.svg)](https://pkg.go.dev/github.com/onyx-and-iris/voicemeeter)
 
 # A Go Wrapper for Voicemeeter API
 
@@ -23,7 +23,7 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 Install voicemeeter-api-go package from your console to download the latest version.
 
-`go get github.com/onyx-and-iris/voicemeeter-api-go`
+`go get github.com/onyx-and-iris/voicemeeter`
 
 or add it to your `go.mod` file.
 
@@ -38,7 +38,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go"
+	"github.com/onyx-and-iris/voicemeeter"
 )
 
 func main() {

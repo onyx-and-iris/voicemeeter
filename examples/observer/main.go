@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go"
+	"github.com/onyx-and-iris/voicemeeter"
 )
 
 // observer represents a single receiver of updates

@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go"
+	"github.com/onyx-and-iris/voicemeeter"
 
 	"github.com/andreykaipov/goobs"
 	"github.com/andreykaipov/goobs/api/events"

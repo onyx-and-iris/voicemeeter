@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/onyx-and-iris/voicemeeter-api-go"
+	"github.com/onyx-and-iris/voicemeeter"
 )
 
 func main() {

@@ -1,11 +1,9 @@
-module github.com/onyx-and-iris/voicemeeter-api-go
+module github.com/onyx-and-iris/voicemeeter
 
 go 1.18
 
-retract (
-	// package files moved into root of repository
-	[v1.0.0, v1.1.0]
-)
+// package files moved into root of repository
+retract [v1.0.0, v1.1.0]
 
 require (
 	github.com/stretchr/testify v1.8.0
