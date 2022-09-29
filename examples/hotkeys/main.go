@@ -2,11 +2,16 @@ package main
 
 import (
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/eiannone/keyboard"
 	"github.com/onyx-and-iris/voicemeeter"
 )
+
+func init() {
+	log.SetLevel(log.InfoLevel)
+}
 
 func main() {
 	if err := keyboard.Open(); err != nil {

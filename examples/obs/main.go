@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/onyx-and-iris/voicemeeter"
 
@@ -39,6 +40,10 @@ func onEnd(vm *voicemeeter.Remote) {
 	vm.Strip[2].SetMute(true)
 	vm.Strip[2].SetB1(false)
 	vm.Vban.InStream[0].SetOn(false)
+}
+
+func init() {
+	log.SetLevel(log.InfoLevel)
 }
 
 func main() {

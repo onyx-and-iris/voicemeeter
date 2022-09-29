@@ -3,31 +3,42 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/onyx-and-iris/voicemeeter"
 )
 
+var (
+	kind    string
+	delay   int
+	verbose bool
+)
+
 func main() {
-	kindId := flag.String("kind", "banana", "kind of voicemeeter")
-	delay := flag.Int("delay", 20, "delay between commands")
+	flag.StringVar(&kind, "kind", "banana", "kind of voicemeeter")
+	flag.StringVar(&kind, "k", "banana", "kind of voicemeeter (shorthand)")
+	flag.IntVar(&delay, "delay", 20, "delay between commands")
+	flag.IntVar(&delay, "d", 20, "delay between commands (shorthand)")
+	flag.BoolVar(&verbose, "verbose", false, "toggle console output")
+	flag.BoolVar(&verbose, "v", false, "toggle console output (shorthand)")
 	flag.Parse()
 
-	vm, err := vmConnect(kindId, delay)
+	vm, err := vmConnect(kind, delay)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer vm.Logout()
 
-	err = runCommands(vm)
+	err = runCommands(vm, verbose)
 	if err != nil {
 		fmt.Println(err)
 	}
 }
 
-func vmConnect(kindId *string, delay *int) (*voicemeeter.Remote, error) {
-	vm, err := voicemeeter.NewRemote(*kindId, *delay)
+func vmConnect(kind string, delay int) (*voicemeeter.Remote, error) {
+	vm, err := voicemeeter.NewRemote(kind, delay)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +51,7 @@ func vmConnect(kindId *string, delay *int) (*voicemeeter.Remote, error) {
 	return vm, nil
 }
 
-func runCommands(vm *voicemeeter.Remote) error {
+func runCommands(vm *voicemeeter.Remote, verbose bool) error {
 	for _, arg := range flag.Args() {
 		if arg[0] == '!' {
 			val, err := vm.GetFloat(arg[1:])
@@ -49,10 +60,14 @@ func runCommands(vm *voicemeeter.Remote) error {
 				return err
 			}
 			vm.SetFloat(arg[1:], 1-val)
-			fmt.Println("Toggling", arg[1:])
+			if verbose {
+				fmt.Println("Toggling", arg[1:])
+			}
 		} else {
 			if strings.Contains(arg, "=") {
-				fmt.Println("Running command", arg)
+				if verbose {
+					fmt.Println("Running command", arg)
+				}
 				err := vm.SendText(arg)
 				if err != nil {
 					err = fmt.Errorf("unable to set %s", arg)
@@ -66,9 +81,13 @@ func runCommands(vm *voicemeeter.Remote) error {
 						err = fmt.Errorf("unable to get %s", arg)
 						return err
 					}
-					fmt.Println("Value of", arg, "is:", valS)
+					if verbose {
+						fmt.Println("Value of", arg, "is:", valS)
+					}
 				} else {
-					fmt.Println("Value of", arg, "is:", valF)
+					if verbose {
+						fmt.Println("Value of", arg, "is:", valF)
+					}
 				}
 			}
 		}

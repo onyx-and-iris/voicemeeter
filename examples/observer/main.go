@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/onyx-and-iris/voicemeeter"
 )
@@ -52,6 +53,10 @@ func (o observer) OnUpdate(subject string) {
 			o.vm.Bus[7].Levels().IsDirty(),
 		)
 	}
+}
+
+func init() {
+	log.SetLevel(log.InfoLevel)
 }
 
 // main connects to Voiceemeter, registers observer for updates
