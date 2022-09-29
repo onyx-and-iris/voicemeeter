@@ -3,9 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"strings"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/onyx-and-iris/voicemeeter"
 )
