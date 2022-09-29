@@ -2,6 +2,10 @@
 
 A simple voicemeeter-cli program. Offers ability to toggle, get and set parameters.
 
+## Install
+
+First build and install it with `go install`
+
 ## Use
 
 Toggle with `!` prefix, get by excluding `=` and set by including `=`. Mix and match arguments.
@@ -14,7 +18,7 @@ You may pass the following optional flags:
 
 for example:
 
-`go run .\main.go -v -k=potato -d=25 strip[0].mute=0 strip[0].mute !strip[0].mute strip[0].mute bus[0].gain=-8.8 command.lock=1`
+`vm-cli.exe -v -k=potato -d=25 strip[0].mute=0 strip[0].mute !strip[0].mute strip[0].mute bus[0].gain=-8.8 command.lock=1`
 
 Expected output:
 
