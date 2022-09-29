@@ -8,6 +8,8 @@ import (
 	"syscall"
 	"time"
 	"unsafe"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -52,7 +54,7 @@ func login(kindId string) error {
 		err := fmt.Errorf("VBVMR_Login returned %d", res)
 		return err
 	}
-	fmt.Printf("Logged into Voicemeeter %s\n", kindId)
+	log.Info("Logged into Voicemeeter ", kindId)
 	for pdirty() || mdirty() {
 	}
 	return nil
@@ -67,7 +69,7 @@ func logout(kindId string) error {
 		err := fmt.Errorf("VBVMR_Logout returned %d", res)
 		return err
 	}
-	fmt.Printf("Logged out of Voicemeeter %s\n", kindId)
+	log.Info("Logged out of Voicemeeter ", kindId)
 	return nil
 }
 

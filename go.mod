@@ -6,8 +6,9 @@ go 1.18
 retract [v1.0.0, v1.1.0]
 
 require (
+	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.0
-	golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d
+	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
 )
 
 require (

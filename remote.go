@@ -2,7 +2,10 @@ package voicemeeter
 
 import (
 	"fmt"
+	"os"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // A Remote type represents the API for a kind
@@ -197,7 +200,7 @@ func (b *genericBuilder) setKind() remoteBuilder {
 // makeStrip makes a strip slice and assigns it to remote.Strip
 // []iStrip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
-	fmt.Println("building strip")
+	log.Info("building strip")
 	_strip := make([]iStrip, b.k.NumStrip())
 	for i := 0; i < b.k.NumStrip(); i++ {
 		if i < b.k.PhysIn {
@@ -213,7 +216,7 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 // makeBus makes a bus slice and assigns it to remote.Bus
 // []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
-	fmt.Println("building bus")
+	log.Info("building bus")
 	_bus := make([]iBus, b.k.NumBus())
 	for i := 0; i < b.k.NumBus(); i++ {
 		if i < b.k.PhysOut {
@@ -228,7 +231,7 @@ func (b *genericBuilder) makeBus() remoteBuilder {
 
 // makeButton makes a button slice and assigns it to remote.Button
 func (b *genericBuilder) makeButton() remoteBuilder {
-	fmt.Println("building button")
+	log.Info("building button")
 	_button := make([]button, 80)
 	for i := 0; i < 80; i++ {
 		_button[i] = newButton(i)
@@ -239,35 +242,35 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 
 // makeCommand makes a command type and assigns it to remote.Command
 func (b *genericBuilder) makeCommand() remoteBuilder {
-	fmt.Println("building command")
+	log.Info("building command")
 	b.r.Command = newCommand()
 	return b
 }
 
 // makeVban makes a vban type and assigns it to remote.Vban
 func (b *genericBuilder) makeVban() remoteBuilder {
-	fmt.Println("building vban")
+	log.Info("building vban")
 	b.r.Vban = newVban(b.k)
 	return b
 }
 
 // makeDevice makes a device type and assigns it to remote.Device
 func (b *genericBuilder) makeDevice() remoteBuilder {
-	fmt.Println("building device")
+	log.Info("building device")
 	b.r.Device = newDevice()
 	return b
 }
 
 // makeRecorder makes a recorder type and assigns it to remote.Recorder
 func (b *genericBuilder) makeRecorder() remoteBuilder {
-	fmt.Println("building recorder")
+	log.Info("building recorder")
 	b.r.Recorder = newRecorder()
 	return b
 }
 
 // makeMidi makes a midi type and assigns it to remote.Midi
 func (b *genericBuilder) makeMidi() remoteBuilder {
-	fmt.Println("building midi")
+	log.Info("building midi")
 	b.r.Midi = newMidi()
 	return b
 }
@@ -334,6 +337,11 @@ var (
 	vmsync  bool
 	vmdelay int
 )
+
+func init() {
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.WarnLevel)
+}
 
 // NewRemote returns a Remote type for a kind
 // this is the interface entry point
