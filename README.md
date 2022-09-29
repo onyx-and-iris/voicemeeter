@@ -19,7 +19,12 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Installation
 
-`go get github.com/onyx-and-iris/voicemeeter`
+Initialize your own module then `go get`
+
+```
+go mod init github.com/x/y
+go get github.com/onyx-and-iris/voicemeeter
+```
 
 ## `Use`
 
@@ -48,7 +53,7 @@ func main() {
 }
 
 func vmConnect() (*voicemeeter.Remote, error) {
-	vm, err := voicemeeter.NewRemote("banana", 15)
+	vm, err := voicemeeter.NewRemote("banana", 20)
 	if err != nil {
 		return nil, err
 	}
