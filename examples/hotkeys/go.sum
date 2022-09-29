@@ -5,6 +5,8 @@ github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203 h1:XBBHcIb256gUJ
 github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203/go.mod h1:E1jcSv8FaEny+OP/5k9UxZVw9YFWGj7eI4KR/iOBqCg=
 github.com/onyx-and-iris/voicemeeter v1.9.0 h1:4LbPP9iUj/P6FPymYqyh94ysfdvOunex+i2wUDSDn6s=
 github.com/onyx-and-iris/voicemeeter v1.9.0/go.mod h1:bBWCYzL//4QmH4VL3TNpNIj9W89Oa+E6J5hgyt27mKg=
+github.com/onyx-and-iris/voicemeeter v1.10.0 h1:FIavzL0p33c2fyzOCtuofFOCvIv+8DrL3jFMoTr5/io=
+github.com/onyx-and-iris/voicemeeter v1.10.0/go.mod h1:LayUoN/MWSqKXSOGQ7AcLvwoefsL+zQ9CjncLs3WqsU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sirupsen/logrus v1.9.0 h1:trlNQbNUG3OdDrDil03MCb1H2o9nJ1x4/5LYw7byDE0=
