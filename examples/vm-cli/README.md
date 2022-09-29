@@ -4,7 +4,7 @@ A simple voicemeeter-cli program. Offers ability to toggle, get and set paramete
 
 ## Install
 
-First build and install it with `go install`
+First build and install it with `go install` (skip this step if using binary from [Releases](https://github.com/onyx-and-iris/voicemeeter/releases))
 
 ## Use
 
