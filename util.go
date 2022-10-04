@@ -28,8 +28,8 @@ func roundFloat(val float64, precision uint) float64 {
 // convertLevel performs the necessary math for a channel level
 func convertLevel(i float64) float64 {
 	if i > 0 {
-		val := 20 * math.Log10(float64(i))
-		return float64(roundFloat(float64(val), 1))
+		val := 20 * math.Log10(i)
+		return roundFloat(val, 1)
 	}
 	return -200.0
 }

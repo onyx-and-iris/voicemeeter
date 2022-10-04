@@ -315,7 +315,7 @@ func getDeviceDescription(i int, dir string) (string, uint64, string, error) {
 
 // getLevel returns a single level value of type type_ for channel[i]
 func getLevel(type_, i int) (float64, error) {
-	var val float64
+	var val float32
 	res, _, _ := vmGetLevelFloat.Call(
 		uintptr(type_),
 		uintptr(i),
@@ -325,7 +325,7 @@ func getLevel(type_, i int) (float64, error) {
 		err := fmt.Errorf("VBVMR_GetLevel returned %d", res)
 		return 0, err
 	}
-	return val, nil
+	return float64(val), nil
 }
 
 // getMidiMessage gets midi channel, pitch and velocity for a single midi input
