@@ -13,6 +13,7 @@ Toggle with `!` prefix, get by excluding `=` and set by including `=`. Mix and m
 You may pass the following optional flags:
 
 -   -v: (-verbose) to toggle console output.
+-   -i: (-interactive) to toggle interactive mode.
 -   -k: (-kind) to set the kind of Voicemeeter. Defaults to banana.
 -   -d: (-delay) to set a delay on the getters. Defaults to 20ms.
 
