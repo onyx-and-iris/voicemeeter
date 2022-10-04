@@ -42,16 +42,11 @@ func (o observer) OnUpdate(subject string) {
 		var val = o.vm.Midi.Get(current)
 		fmt.Printf("Value of midi button %d: %d\n", current, val)
 	} else if subject == "ldirty" {
-		fmt.Printf("%v %v %v %v %v %v %v %v\n",
-			o.vm.Bus[0].Levels().IsDirty(),
-			o.vm.Bus[1].Levels().IsDirty(),
-			o.vm.Bus[2].Levels().IsDirty(),
-			o.vm.Bus[3].Levels().IsDirty(),
-			o.vm.Bus[4].Levels().IsDirty(),
-			o.vm.Bus[5].Levels().IsDirty(),
-			o.vm.Bus[6].Levels().IsDirty(),
-			o.vm.Bus[7].Levels().IsDirty(),
-		)
+		for _, bus := range o.vm.Bus {
+			if bus.Levels().IsDirty() {
+				fmt.Println(bus, bus.Levels().All())
+			}
+		}
 	}
 }
 
