@@ -113,7 +113,7 @@ func toggleCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
 		err = fmt.Errorf("unable to toggle %s", cmd)
 		return err
 	}
-	vm.SetFloat(cmd[1:], 1-val)
+	vm.SetFloat(cmd, 1-val)
 	if verbose {
 		fmt.Println("Toggling", cmd)
 	}
