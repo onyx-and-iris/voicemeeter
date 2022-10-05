@@ -31,3 +31,5 @@ Value of strip[0].mute is: 1
 Running command bus[0].gain=-8.8
 Running command command.lock=1
 ```
+
+If running in interactive mode enter `q`, `quit` or `<Enter>` to exit.

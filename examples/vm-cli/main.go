@@ -11,11 +11,34 @@ import (
 	"github.com/onyx-and-iris/voicemeeter"
 )
 
+type (
+	verbosePrinter struct {
+		verbose bool
+	}
+)
+
+func newVerbosePrinter() *verbosePrinter {
+	return &verbosePrinter{}
+}
+
+func (v *verbosePrinter) printf(format string, a ...interface{}) {
+	if v.verbose {
+		fmt.Printf(format, a...)
+	}
+}
+
+var (
+	vPrinter *verbosePrinter
+)
+
+func init() {
+	vPrinter = newVerbosePrinter()
+}
+
 func main() {
 	var (
 		kind        string
 		delay       int
-		verbose     bool
 		interactive bool
 	)
 
@@ -23,8 +46,8 @@ func main() {
 	flag.StringVar(&kind, "k", "banana", "kind of voicemeeter (shorthand)")
 	flag.IntVar(&delay, "delay", 20, "delay between commands")
 	flag.IntVar(&delay, "d", 20, "delay between commands (shorthand)")
-	flag.BoolVar(&verbose, "verbose", false, "toggle console output")
-	flag.BoolVar(&verbose, "v", false, "toggle console output (shorthand)")
+	flag.BoolVar(&vPrinter.verbose, "verbose", false, "toggle console output")
+	flag.BoolVar(&vPrinter.verbose, "v", false, "toggle console output (shorthand)")
 	flag.BoolVar(&interactive, "interactive", false, "toggle interactive mode")
 	flag.BoolVar(&interactive, "i", false, "toggle interactive mode (shorthand)")
 	flag.Parse()
@@ -35,7 +58,7 @@ func main() {
 	}
 	defer vm.Logout()
 
-	err = runCommands(vm, verbose, interactive)
+	err = runCommands(vm, interactive)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,12 +78,16 @@ func vmConnect(kind string, delay int) (*voicemeeter.Remote, error) {
 	return vm, nil
 }
 
-func runCommands(vm *voicemeeter.Remote, verbose, interactive bool) error {
+func runCommands(vm *voicemeeter.Remote, interactive bool) error {
 	if interactive {
-		return interactiveMode(vm, verbose)
+		return interactiveMode(vm)
+	}
+	if len(flag.Args()) == 0 {
+		err := fmt.Errorf("must provide some commands to run")
+		return err
 	}
 	for _, arg := range flag.Args() {
-		err := parse(vm, arg, verbose)
+		err := parse(vm, arg)
 		if err != nil {
 			return err
 		}
@@ -68,7 +95,8 @@ func runCommands(vm *voicemeeter.Remote, verbose, interactive bool) error {
 	return nil
 }
 
-func interactiveMode(vm *voicemeeter.Remote, verbose bool) error {
+func interactiveMode(vm *voicemeeter.Remote) error {
+	vPrinter.printf("running in interactive mode... waiting for input\n")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		input := scanner.Text()
@@ -76,7 +104,7 @@ func interactiveMode(vm *voicemeeter.Remote, verbose bool) error {
 			return nil
 		}
 		for _, cmd := range strings.Split(input, " ") {
-			err := parse(vm, cmd, verbose)
+			err := parse(vm, cmd)
 			if err != nil {
 				return err
 			}
@@ -85,20 +113,20 @@ func interactiveMode(vm *voicemeeter.Remote, verbose bool) error {
 	return nil
 }
 
-func parse(vm *voicemeeter.Remote, cmd string, verbose bool) error {
+func parse(vm *voicemeeter.Remote, cmd string) error {
 	if cmd[0] == '!' {
-		err := toggleCmd(vm, cmd[1:], verbose)
+		err := toggleCmd(vm, cmd[1:])
 		if err != nil {
 			return err
 		}
 	} else {
 		if strings.Contains(cmd, "=") {
-			err := setCmd(vm, cmd, verbose)
+			err := setCmd(vm, cmd)
 			if err != nil {
 				return err
 			}
 		} else {
-			err := getCmd(vm, cmd, verbose)
+			err := getCmd(vm, cmd)
 			if err != nil {
 				return err
 			}
@@ -107,23 +135,19 @@ func parse(vm *voicemeeter.Remote, cmd string, verbose bool) error {
 	return nil
 }
 
-func toggleCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
+func toggleCmd(vm *voicemeeter.Remote, cmd string) error {
 	val, err := vm.GetFloat(cmd)
 	if err != nil {
 		err = fmt.Errorf("unable to toggle %s", cmd)
 		return err
 	}
 	vm.SetFloat(cmd, 1-val)
-	if verbose {
-		fmt.Println("Toggling", cmd)
-	}
+	vPrinter.printf("Toggling %s\n", cmd)
 	return nil
 }
 
-func setCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
-	if verbose {
-		fmt.Println("Running command", cmd)
-	}
+func setCmd(vm *voicemeeter.Remote, cmd string) error {
+	vPrinter.printf("Running command %s\n", cmd)
 	err := vm.SendText(cmd)
 	if err != nil {
 		err = fmt.Errorf("unable to set %s", cmd)
@@ -132,7 +156,7 @@ func setCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
 	return nil
 }
 
-func getCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
+func getCmd(vm *voicemeeter.Remote, cmd string) error {
 	valF, err := vm.GetFloat(cmd)
 	if err != nil {
 		valS, err := vm.GetString(cmd)
@@ -140,13 +164,9 @@ func getCmd(vm *voicemeeter.Remote, cmd string, verbose bool) error {
 			err = fmt.Errorf("unable to get %s", cmd)
 			return err
 		}
-		if verbose {
-			fmt.Println("Value of", cmd, "is:", valS)
-		}
+		vPrinter.printf("Value of %s is: %s\n", cmd, valS)
 	} else {
-		if verbose {
-			fmt.Println("Value of", cmd, "is:", valF)
-		}
+		vPrinter.printf("Value of %s is: %v\n", cmd, valF)
 	}
 	return nil
 }
