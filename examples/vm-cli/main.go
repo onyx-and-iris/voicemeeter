@@ -23,7 +23,7 @@ func newVerbosePrinter() *verbosePrinter {
 
 func (v *verbosePrinter) printf(format string, a ...interface{}) {
 	if v.verbose {
-		fmt.Printf(format, a...)
+		fmt.Printf(format+"\n", a...)
 	}
 }
 
@@ -82,21 +82,22 @@ func runCommands(vm *voicemeeter.Remote, interactive bool) error {
 	if interactive {
 		return interactiveMode(vm)
 	}
-	if len(flag.Args()) == 0 {
+	args := flag.Args()
+	if len(args) == 0 {
 		err := fmt.Errorf("must provide some commands to run")
 		return err
 	}
-	for _, arg := range flag.Args() {
+	for _, arg := range args {
 		err := parse(vm, arg)
 		if err != nil {
-			return err
+			vPrinter.printf(err.Error())
 		}
 	}
 	return nil
 }
 
 func interactiveMode(vm *voicemeeter.Remote) error {
-	vPrinter.printf("running in interactive mode... waiting for input\n")
+	vPrinter.printf("running in interactive mode... waiting for input")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		input := scanner.Text()
@@ -106,9 +107,12 @@ func interactiveMode(vm *voicemeeter.Remote) error {
 		for _, cmd := range strings.Split(input, " ") {
 			err := parse(vm, cmd)
 			if err != nil {
-				return err
+				vPrinter.printf(err.Error())
 			}
 		}
+	}
+	if scanner.Err() != nil {
+		return scanner.Err()
 	}
 	return nil
 }
@@ -142,12 +146,12 @@ func toggleCmd(vm *voicemeeter.Remote, cmd string) error {
 		return err
 	}
 	vm.SetFloat(cmd, 1-val)
-	vPrinter.printf("Toggling %s\n", cmd)
+	vPrinter.printf("Toggling %s", cmd)
 	return nil
 }
 
 func setCmd(vm *voicemeeter.Remote, cmd string) error {
-	vPrinter.printf("Running command %s\n", cmd)
+	vPrinter.printf("Running command %s", cmd)
 	err := vm.SendText(cmd)
 	if err != nil {
 		err = fmt.Errorf("unable to set %s", cmd)
@@ -164,9 +168,9 @@ func getCmd(vm *voicemeeter.Remote, cmd string) error {
 			err = fmt.Errorf("unable to get %s", cmd)
 			return err
 		}
-		vPrinter.printf("Value of %s is: %s\n", cmd, valS)
+		vPrinter.printf("Value of %s is: %s", cmd, valS)
 	} else {
-		vPrinter.printf("Value of %s is: %v\n", cmd, valF)
+		vPrinter.printf("Value of %s is: %v", cmd, valF)
 	}
 	return nil
 }
