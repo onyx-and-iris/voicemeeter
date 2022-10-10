@@ -1,6 +1,10 @@
 package voicemeeter
 
-import "fmt"
+import (
+	"fmt"
+
+	log "github.com/sirupsen/logrus"
+)
 
 // iVban defines the interface vban types must satisfy
 type iVban interface {
@@ -105,7 +109,8 @@ func (v *vbanStream) SetBit(val int) {
 	case 24:
 		val = 2
 	default:
-		panic("expected value 16 or 24")
+		log.Warn("expected value 16 or 24")
+		return
 	}
 	v.setter_int("Bit", val)
 }
@@ -139,19 +144,19 @@ func newVbanInStream(i int) iVban {
 	return iVban(&vbi)
 }
 
-// SetSr panics reason read only
+// SetSr logs a warning reason read only
 func (vbi *vbanInStream) SetSr(val int) {
-	panic("SR is readonly for vban instreams")
+	log.Warn("SR is readonly for vban instreams")
 }
 
-// SetChannel panics reason read only
+// SetChannel logs a warning reason read only
 func (vbi *vbanInStream) SetChannel(val int) {
-	panic("channel is readonly for vban instreams")
+	log.Warn("channel is readonly for vban instreams")
 }
 
-// SetBit panics reason read only
+// SetBit logs a warning reason read only
 func (vbi *vbanInStream) SetBit(val int) {
-	panic("bit is readonly for vban instreams")
+	log.Warn("bit is readonly for vban instreams")
 }
 
 type vbanOutStream struct {

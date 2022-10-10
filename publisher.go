@@ -2,6 +2,8 @@ package voicemeeter
 
 import (
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // observer defines the interface any registered observers must satisfy
@@ -51,29 +53,35 @@ func newEvent() *event {
 	return &event{true, true, true, false}
 }
 
-func (e *event) Add(ev string) {
-	switch ev {
-	case "pdirty":
-		e.pdirty = true
-	case "mdirty":
-		e.mdirty = true
-	case "midi":
-		e.midi = true
-	case "ldirty":
-		e.ldirty = true
+func (e *event) Add(events ...string) {
+	for _, event := range events {
+		switch event {
+		case "pdirty":
+			e.pdirty = true
+		case "mdirty":
+			e.mdirty = true
+		case "midi":
+			e.midi = true
+		case "ldirty":
+			e.ldirty = true
+		}
+		log.Info(event, " added to the pooler")
 	}
 }
 
-func (e *event) Remove(ev string) {
-	switch ev {
-	case "pdirty":
-		e.pdirty = false
-	case "mdirty":
-		e.mdirty = false
-	case "midi":
-		e.midi = false
-	case "ldirty":
-		e.ldirty = false
+func (e *event) Remove(events ...string) {
+	for _, event := range events {
+		switch event {
+		case "pdirty":
+			e.pdirty = false
+		case "mdirty":
+			e.mdirty = false
+		case "midi":
+			e.midi = false
+		case "ldirty":
+			e.ldirty = false
+		}
+		log.Info(event, " removed from the pooler")
 	}
 }
 

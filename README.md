@@ -147,19 +147,19 @@ sets many parameters in script format eg. ("Strip[0].Mute=1;Bus[3].Gain=3.6")
 
 #### `vm.Register(o observer)`
 
-register an object as an observer
+register an observer type as an observer
 
 #### `vm.Deregister(o observer)`
 
-deregister an object as an observer
+deregister an observer type as an observer
 
-#### `vm.EventAdd(<event>)`
+#### `vm.EventAdd(<events>)`
 
-adds an event to the pooler eg. vm.EventAdd("ldirty")
+adds a single or multiple events to the pooler. Accepts a string or slice of strings.
 
-#### `vm.EventRemove(<event>)`
+#### `vm.EventRemove(<events>)`
 
-removes an event to the pooler eg. vm.EventRemove("pdirty")
+removes a single or multiple events from the pooler. Accepts a string or slice of strings.
 
 #### `vm.Pdirty()`
 

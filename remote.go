@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// A Remote type represents the API for a kind
+// Remote represents the API for a kind
 type Remote struct {
 	Kind     *kind
 	Strip    []iStrip
@@ -85,7 +85,7 @@ func (r *Remote) Sync() {
 	}
 }
 
-// Gets a float parameter value
+// GetFloat gets a float parameter value
 func (r *Remote) GetFloat(name string) (float64, error) {
 	val, err := getParameterFloat(name)
 	if err != nil {
@@ -94,7 +94,7 @@ func (r *Remote) GetFloat(name string) (float64, error) {
 	return val, nil
 }
 
-// Sets a float paramter value
+// SetFloat sets a float paramter value
 func (r *Remote) SetFloat(name string, value float64) error {
 	err := setParameterFloat(name, value)
 	if err != nil {
@@ -103,7 +103,7 @@ func (r *Remote) SetFloat(name string, value float64) error {
 	return nil
 }
 
-// Gets a string parameter value
+// GetString gets a string parameter value
 func (r *Remote) GetString(name string) (string, error) {
 	val, err := getParameterString(name)
 	if err != nil {
@@ -112,7 +112,7 @@ func (r *Remote) GetString(name string) (string, error) {
 	return val, nil
 }
 
-// Sets a string paramter value
+// SetString sets a string parameter value
 func (r *Remote) SetString(name, value string) error {
 	err := setParameterString(name, value)
 	if err != nil {
@@ -140,14 +140,14 @@ func (r *Remote) Deregister(o observer) {
 	r.pooler.Deregister(o)
 }
 
-// EventAdd adds an event to the Pooler
-func (r *Remote) EventAdd(event string) {
-	r.pooler.event.Add(event)
+// EventAdd adds events to the Pooler
+func (r *Remote) EventAdd(events ...string) {
+	r.pooler.event.Add(events...)
 }
 
-// EventRemove removes an event from the Pooler
-func (r *Remote) EventRemove(event string) {
-	r.pooler.event.Remove(event)
+// EventRemove removes events from the Pooler
+func (r *Remote) EventRemove(events ...string) {
+	r.pooler.event.Remove(events...)
 }
 
 // remoteBuilder defines the interface builder types must satisfy
@@ -165,7 +165,7 @@ type remoteBuilder interface {
 	Get() *Remote
 }
 
-// directory is responsible for directing the genericBuilder
+// director is responsible for directing the genericBuilder
 type director struct {
 	builder remoteBuilder
 }

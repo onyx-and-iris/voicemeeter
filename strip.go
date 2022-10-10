@@ -3,9 +3,11 @@ package voicemeeter
 import (
 	"fmt"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
-// iStrip defines the interface bus types must satisfy
+// iStrip defines the interface strip types must satisfy
 type iStrip interface {
 	String() string
 	GetMute() bool
@@ -179,14 +181,16 @@ func (p *physicalStrip) SetAudibility(val float64) {
 	p.setter_float("Audibility", val)
 }
 
-// GetMc panics reason invalid parameter
+// GetMc logs a warning reason invalid parameter
+// it always returns zero value
 func (p *physicalStrip) GetMc() bool {
-	panic("invalid parameter MC for physicalStrip")
+	log.Warn("invalid parameter MC for physicalStrip")
+	return false
 }
 
-// SetMc panics reason invalid parameter
+// SetMc logs a warning reason invalid parameter
 func (p *physicalStrip) SetMc(val bool) {
-	panic("invalid parameter MC for physicalStrip")
+	log.Warn("invalid parameter MC for physicalStrip")
 }
 
 // virtualStrip represents a single virtual strip
@@ -221,34 +225,40 @@ func (v *virtualStrip) SetMc(val bool) {
 	v.setter_bool("MC", val)
 }
 
-// GetComp panics reason invalid parameter
+// GetComp logs a warning reason invalid parameter
+// it always returns zero value
 func (v *virtualStrip) GetComp() float64 {
-	panic("invalid parameter Comp for virtualStrip")
+	log.Warn("invalid parameter Comp for virtualStrip")
+	return 0
 }
 
-// SetComp panics reason invalid parameter
+// SetComp logs a warning reason invalid parameter
 func (v *virtualStrip) SetComp(val float64) {
-	panic("invalid parameter Comp for virtualStrip")
+	log.Warn("invalid parameter Comp for virtualStrip")
 }
 
-// GetGate panics reason invalid parameter
+// GetGate logs a warning reason invalid parameter
+// it always returns zero value
 func (v *virtualStrip) GetGate() float64 {
-	panic("invalid parameter Gate for virtualStrip")
+	log.Warn("invalid parameter Gate for virtualStrip")
+	return 0
 }
 
-// SetGate panics reason invalid parameter
+// SetGate logs a warning reason invalid parameter
 func (v *virtualStrip) SetGate(val float64) {
-	panic("invalid parameter Gate for virtualStrip")
+	log.Warn("invalid parameter Gate for virtualStrip")
 }
 
-// GetAudibility panics reason invalid parameter
+// GetAudibility logs a warning reason invalid parameter
+// it always returns zero value
 func (v *virtualStrip) GetAudibility() float64 {
-	panic("invalid parameter Audibility for virtualStrip")
+	log.Warn("invalid parameter Audibility for virtualStrip")
+	return 0
 }
 
-// SetAudibility panics reason invalid parameter
+// SetAudibility logs a warning reason invalid parameter
 func (v *virtualStrip) SetAudibility(val float64) {
-	panic("invalid parameter Audibility for virtualStrip")
+	log.Warn("invalid parameter Audibility for virtualStrip")
 }
 
 // AppGain sets the gain in db by val for the app matching name.
