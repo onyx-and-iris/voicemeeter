@@ -481,9 +481,11 @@ By default level updates are disabled. Any event may be enabled or disabled. The
 example:
 
 ```go
-vm.EventAdd("ldirty")
+events := []string{"ldirty", "mdirty", "pdirty"}
 
-vm.EventRemove("pdirty")
+vm.EventAdd(events...)
+
+vm.EventRemove(events...)
 ```
 
 ### Run tests
