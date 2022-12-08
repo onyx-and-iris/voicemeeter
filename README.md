@@ -37,7 +37,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/onyx-and-iris/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter/v2"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 
 	vm.Strip[0].SetLabel("rode podmic")
 	vm.Strip[0].SetMute(true)
-	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].GetLabel(), vm.Strip[0].GetMute())
+	fmt.Printf("Strip 0 (%s) mute was set to %v\n", vm.Strip[0].Label(), vm.Strip[0].Mute())
 }
 
 func vmConnect() (*voicemeeter.Remote, error) {
@@ -81,7 +81,7 @@ Pass the kind of Voicemeeter as an argument. kindId may be:
 
 Pass a delay in milliseconds to force the getters to wait for dirty parameters to clear.
 
-Useful if not running callbacks.
+Useful if not listening for event updates.
 
 ## `Remote Type`
 
@@ -179,27 +179,27 @@ Use this to force dirty parameters to clear after a delay in milliseconds.
 
 The following methods are available
 
--   `GetMute() bool`
+-   `Mute() bool`
 -   `SetMute(val bool)`
--   `GetMono() bool`
+-   `Mono() bool`
 -   `SetMono(val bool)`
--   `GetSolo() bool`
+-   `Solo() bool`
 -   `SetSolo(val bool)`
--   `GetLimit() int`
+-   `Limit() int`
 -   `SetLimit(val int)` from -40 to 12
--   `GetLabel() string`
+-   `Label() string`
 -   `SetLabel(val string)`
--   `GetGain() float64`
+-   `Gain() float64`
 -   `SetGain(val float64)` from -60.0 to 12.0
--   `GetMc() bool`
+-   `Mc() bool`
 -   `SetMc(val bool)`
--   `GetComp() float64`
+-   `Comp() float64`
 -   `SetComp(val float64)` from 0.0 to 10.0
--   `GetGate() float64`
+-   `Gate() float64`
 -   `SetGate(val float64)` from 0.0 to 10.0
--   `GetAudibility() float64`
+-   `Audibility() float64`
 -   `SetAudibility(val float64)` from 0.0 to 10.0
--   `GetA1() bool - GetA5() bool`
+-   `A1() bool - GetA5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
 -   `AppGain(name string, gain float64)`
 -   `AppMute(name string, val bool)`
@@ -251,15 +251,15 @@ fmt.Println(vm.Strip[5].Levels().PreFader())
 The following methods are available
 
 -   `String() string`
--   `GetMute() bool`
+-   `Mute() bool`
 -   `SetMute(val bool)`
--   `GetEq() bool`
+-   `Eq() bool`
 -   `SetEq(val bool)`
--   `GetMono() bool`
+-   `Mono() bool`
 -   `SetMono(val bool)`
--   `GetLabel() string`
+-   `Label() string`
 -   `SetLabel(val string)`
--   `GetGain() float64`
+-   `Gain() float64`
 -   `SetGain(val float64)` from -60.0 to 12.0
 
 ```go
@@ -274,29 +274,29 @@ fmt.Println(vm.Bus[0].GetLabel())
 The following methods are available
 
 -   `SetNormal(val bool)`
--   `GetNormal() bool`
+-   `Normal() bool`
 -   `SetAmix(val bool)`
--   `GetAmix() bool`
+-   `Amix() bool`
 -   `SetBmix(val bool)`
--   `GetBmix() bool`
+-   `Bmix() bool`
 -   `SetRepeat(val bool)`
--   `GetRepeat() bool`
+-   `Repeat() bool`
 -   `SetComposite(val bool)`
--   `GetComposite() bool`
+-   `Composite() bool`
 -   `SetTvMix(val bool)`
--   `GetTvMix() bool`
+-   `TvMix() bool`
 -   `SetUpMix21(val bool)`
--   `GetUpMix21() bool`
+-   `UpMix21() bool`
 -   `SetUpMix41(val bool)`
--   `GetUpMix41() bool`
+-   `UpMix41() bool`
 -   `SetUpMix61(val bool)`
--   `GetUpMix61() bool`
+-   `UpMix61() bool`
 -   `SetCenterOnly(val bool)`
--   `GetCenterOnly() bool`
+-   `CenterOnly() bool`
 -   `SetLfeOnly(val bool)`
--   `GetLfeOnly() bool`
+-   `LfeOnly() bool`
 -   `SetRearOnly(val bool)`
--   `GetRearOnly() bool`
+-   `RearOnly() bool`
 
 example:
 
@@ -339,11 +339,11 @@ vm.Bus[3].FadeTo(-12.8, 500)
 
 The following methods are available
 
--   `GetState() bool`
+-   `State() bool`
 -   `SetState(val bool)`
--   `GetStateOnly() bool`
+-   `StateOnly() bool`
 -   `SetStateOnly(val bool)`
--   `GetTrigger() bool`
+-   `Trigger() bool`
 -   `SetTrigger(val bool)`
 
 example:
@@ -380,23 +380,23 @@ vm.Command.Show()
 
 The following methods are available
 
--   `GetOn() bool`
+-   `On() bool`
 -   `SetOn(val bool)`
--   `GetName() string`
+-   `Name() string`
 -   `SetName(val string)`
--   `GetIp() string`
+-   `Ip() string`
 -   `SetIp(val string)`
--   `GetPort() int`
+-   `Port() int`
 -   `SetPort(val int)` from 1024 to 65535
--   `GetSr() int`
+-   `Sr() int`
 -   `SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
--   `GetChannel() int`
+-   `Channel() int`
 -   `SetChannel(val int)` from 1 to 8
--   `GetBit() int`
+-   `Bit() int`
 -   `SetBit(val int)` 16 or 24
--   `GetQuality() int`
+-   `Quality() int`
 -   `SetQuality(val int)` from 0 to 4
--   `GetRoute() int`
+-   `Route() int`
 -   `SetRoute(val int)` from 0 to 8
 
 example:

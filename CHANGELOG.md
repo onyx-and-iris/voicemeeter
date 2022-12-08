@@ -11,6 +11,42 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 -   [x]
 
+## [2.0.0] - 2022-10-25
+
+V2 introduces some breaking changes.
+
+### Changed
+
+-   Removed Get prefix from field getters in Bus, Strip and Vban and Output types.
+-   Updates now require the consumer to pass a channel to receive updates.
+-   strip.comp now reference struct type
+-   strip.gate now reference struct type
+-   strip.eq, bus.eq now reference struct types
+-   All examples and tests have been updated to reflect the changes.
+
+### Added
+
+-   XY parameters added to strip type
+-   extra logging added to getters/setters in iRemote type.
+-   InitPooler to Remote type in case the Pooler needs reinitiating. (perhaps the GUI closed unexpectedly)
+
+### Fixed
+
+-   Functions that wrap CAPI calls in base.go now return correct error values.
+
+## [1.11.0] - 2022-10-10
+
+### Fixed
+
+-   type error in getLevel
+
+## [1.8.0] - 2022-09-17
+
+### Added
+
+-   vm-cli example added + example README
+-   Fade, App methods added to project README
+
 ## [1.7.0] - 2022-09-14
 
 ### Added

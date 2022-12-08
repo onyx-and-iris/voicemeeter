@@ -1,9 +1,6 @@
-module github.com/onyx-and-iris/voicemeeter
+module github.com/onyx-and-iris/voicemeeter/v2
 
 go 1.18
-
-// package files moved into root of repository
-retract [v1.0.0, v1.1.0]
 
 require (
 	github.com/sirupsen/logrus v1.9.0
