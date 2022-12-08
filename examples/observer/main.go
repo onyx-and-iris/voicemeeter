@@ -14,7 +14,7 @@ type observer struct {
 	events chan string
 }
 
-// newObserver add ldirty events to the eventlist and returns an observer type
+// newObserver returns an observer type
 func newObserver(vm *voicemeeter.Remote) *observer {
 	o := &observer{vm, make(chan string)}
 	return o
