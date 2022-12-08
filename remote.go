@@ -202,15 +202,15 @@ func (b *genericBuilder) setKind() remoteBuilder {
 // []iStrip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
 	log.Info("building strip")
-	_strip := make([]iStrip, b.k.NumStrip())
+	strip := make([]iStrip, b.k.NumStrip())
 	for i := 0; i < b.k.NumStrip(); i++ {
 		if i < b.k.PhysIn {
-			_strip[i] = newPhysicalStrip(i, b.k)
+			strip[i] = newPhysicalStrip(i, b.k)
 		} else {
-			_strip[i] = newVirtualStrip(i, b.k)
+			strip[i] = newVirtualStrip(i, b.k)
 		}
 	}
-	b.r.Strip = _strip
+	b.r.Strip = strip
 	return b
 }
 
@@ -218,26 +218,26 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 // []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
 	log.Info("building bus")
-	_bus := make([]iBus, b.k.NumBus())
+	bus := make([]iBus, b.k.NumBus())
 	for i := 0; i < b.k.NumBus(); i++ {
 		if i < b.k.PhysOut {
-			_bus[i] = newPhysicalBus(i, b.k)
+			bus[i] = newPhysicalBus(i, b.k)
 		} else {
-			_bus[i] = newVirtualBus(i, b.k)
+			bus[i] = newVirtualBus(i, b.k)
 		}
 	}
-	b.r.Bus = _bus
+	b.r.Bus = bus
 	return b
 }
 
 // makeButton makes a button slice and assigns it to remote.Button
 func (b *genericBuilder) makeButton() remoteBuilder {
 	log.Info("building button")
-	_button := make([]button, 80)
+	button := make([]button, 80)
 	for i := 0; i < 80; i++ {
-		_button[i] = newButton(i)
+		button[i] = newButton(i)
 	}
-	b.r.Button = _button
+	b.r.Button = button
 	return b
 }
 

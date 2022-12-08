@@ -6,8 +6,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// iRemote provides an interface between higher methods and lower functions
-// expected to be embedded
+// iRemote provides an interface between higher types and functions that
+// wrap CAPI calls
 type iRemote struct {
 	_identifier string
 	index       int
