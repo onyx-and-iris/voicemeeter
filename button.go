@@ -37,8 +37,8 @@ func (m *button) String() string {
 	return fmt.Sprintf("MacroButton%d", m.index)
 }
 
-// GetState returns the value of the State parameter
-func (m *button) GetState() bool {
+// State returns the value of the State parameter
+func (m *button) State() bool {
 	return m.getter(1)
 }
 
@@ -47,8 +47,8 @@ func (m *button) SetState(val bool) {
 	m.setter(val, 1)
 }
 
-// GetStateOnly returns the value of the StateOnly parameter
-func (m *button) GetStateOnly() bool {
+// StateOnly returns the value of the StateOnly parameter
+func (m *button) StateOnly() bool {
 	return m.getter(2)
 }
 
@@ -57,8 +57,8 @@ func (m *button) SetStateOnly(val bool) {
 	m.setter(val, 2)
 }
 
-// GetTrigger returns the value of the Trigger parameter
-func (m *button) GetTrigger() bool {
+// Trigger returns the value of the Trigger parameter
+func (m *button) Trigger() bool {
 	return m.getter(2)
 }
 
