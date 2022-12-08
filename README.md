@@ -8,9 +8,9 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Tested against
 
--   Basic 1.0.8.4
--   Banana 2.0.6.4
--   Potato 3.0.2.4
+-   Basic 1.0.8.8
+-   Banana 2.0.6.8
+-   Potato 3.0.2.8
 
 ## Requirements
 
@@ -193,14 +193,12 @@ The following methods are available
 -   `SetGain(val float64)` from -60.0 to 12.0
 -   `Mc() bool`
 -   `SetMc(val bool)`
--   `Comp() float64`
--   `SetComp(val float64)` from 0.0 to 10.0
--   `Gate() float64`
--   `SetGate(val float64)` from 0.0 to 10.0
 -   `Audibility() float64`
 -   `SetAudibility(val float64)` from 0.0 to 10.0
--   `A1() bool - GetA5() bool`
+-   `A1() bool - A5() bool`
 -   `SetA1(val bool) - SetA5(val bool)`
+-   `B1() bool - B3() bool`
+-   `SetB1(val bool) bool - SetB3(val bool) bool`
 -   `AppGain(name string, gain float64)`
 -   `AppMute(name string, val bool)`
 
@@ -208,16 +206,71 @@ example:
 
 ```go
 vm.Strip[3].SetGain(3.7)
-fmt.Println(vm.Strip[0].GetLabel())
+fmt.Println(vm.Strip[0].Label())
 vm.Strip[4].SetA1(true)
 
 vm.Strip[5].AppGain("Spotify", 0.5)
 vm.Strip[5].AppMute("Spotify", true)
 ```
 
-##### Gainlayers
+#### Comp
 
--   `vm.Strip[i].GainLayer()[j]`
+-   `vm.Strip[i].Comp()`
+
+The following methods are available
+
+-   `Knob() float64`
+-   `SetKnob(val float64)` from 0.0 to 10.0
+-   `GainIn() float64`
+-   `SetGainIn(val float64)` from -24.0 to 24.0
+-   `Ratio() float64`
+-   `SetRatio(val float64)` from 1.0 to 8.0
+-   `Threshold() float64`
+-   `SetThreshold(val float64)` from -40.0 to -3.0
+-   `Attack() float64`
+-   `SetAttack(val float64)` from 0.0 to 200.0
+-   `Release() float64`
+-   `SetRelease(val float64)` from 0.0 to 5000.0
+-   `Knee() float64`
+-   `SetKnee(val float64)` from 0.0 to 1.0
+-   `GainOut() float64`
+-   `SetGainOut(val float64)` from -24.0 to 24.0
+-   `MakeUp() bool`
+-   `SetMakeUp(val bool)`
+
+#### Gate
+
+-   `vm.Strip[i].Gate()`
+
+The following methods are available
+
+-   `Knob() float64`
+-   `SetKnob(val float64)` from 0.0 to 10.0
+-   `Threshold() float64`
+-   `SetThreshold(val float64)` from -60.0 to -10.0
+-   `Damping() float64`
+-   `SetDamping(val float64)` from -60.0 to -10.0
+-   `BPSidechain() int`
+-   `SetBPSidechain(val int)` from 100 to 4000
+-   `Attack() float64`
+-   `SetAttack(val float64)` from 0.0 to 1000.0
+-   `Hold() float64`
+-   `SetHold(val float64)` from 0.0 to 5000.0
+-   `Release() float64`
+-   `SetRelease(val float64)` from 0.0 to 5000.0
+
+#### Denoiser
+
+-   `vm.Strip[i].Denoiser()`
+
+The following methods are available
+
+-   `Knob() float64`
+-   `SetKnob(val float64)` from 0.0 to 10.0
+
+##### Gainlayer
+
+-   `vm.Strip[i].Gainlayer()[j]`
 
 The following methods are available
 
@@ -253,8 +306,6 @@ The following methods are available
 -   `String() string`
 -   `Mute() bool`
 -   `SetMute(val bool)`
--   `Eq() bool`
--   `SetEq(val bool)`
 -   `Mono() bool`
 -   `SetMono(val bool)`
 -   `Label() string`
@@ -264,7 +315,7 @@ The following methods are available
 
 ```go
 vm.Bus[3].SetEq(true)
-fmt.Println(vm.Bus[0].GetLabel())
+fmt.Println(vm.Bus[0].Label())
 ```
 
 ##### Modes
@@ -321,6 +372,24 @@ fmt.Println(vm.Bus[1].Levels().All())
 
 ### Strip | Bus
 
+#### EQ
+
+-   `vm.Strip[i].Eq()` | `vm.Bus[i].Eq()`
+
+The following methods are available.
+
+-   `On() bool`
+-   `SetOn(val bool)`
+-   `Ab() bool`
+-   `SetAb(val bool)`
+
+example:
+
+```go
+vm.Strip[1].Eq().SetOn(true)
+fmt.Println(vm.Bus[3].Eq().Ab())
+```
+
 The following methods are available.
 
 -   `FadeTo(target float64, time_ int)`: float, int
@@ -350,7 +419,7 @@ example:
 
 ```go
 vm.Button[37].SetState(true)
-fmt.Println(vm.Button[64].GetStateOnly())
+fmt.Println(vm.Button[64].StateOnly())
 ```
 
 ### Command
