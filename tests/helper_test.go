@@ -1,14 +1,17 @@
 package voicemeeter_test
 
 import (
-	"log"
+	"bytes"
 	"testing"
 
-	"github.com/onyx-and-iris/voicemeeter"
+	log "github.com/sirupsen/logrus"
+
+	"github.com/onyx-and-iris/voicemeeter/v2"
 )
 
 var (
-	vm, err = voicemeeter.NewRemote("potato", 30)
+	logstring bytes.Buffer
+	vm, err   = voicemeeter.NewRemote("potato", 30)
 )
 
 func TestMain(m *testing.M) {
@@ -21,6 +24,8 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 	defer vm.Logout()
+
+	log.SetOutput(&logstring)
 
 	m.Run()
 }

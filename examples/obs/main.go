@@ -7,7 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/onyx-and-iris/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter/v2"
 
 	"github.com/andreykaipov/goobs"
 	"github.com/andreykaipov/goobs/api/events"

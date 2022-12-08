@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/eiannone/keyboard"
-	"github.com/onyx-and-iris/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter/v2"
 )
 
 func init() {
@@ -39,9 +39,9 @@ Loop:
 		case '0':
 			fmt.Printf("Logged into Voicemeeter %s, version %s\n", vm.Type(), vm.Version())
 		case '1':
-			vm.Strip[0].SetMute(!vm.Strip[0].GetMute())
+			vm.Strip[0].SetMute(!vm.Strip[0].Mute())
 		case '2':
-			if vm.Strip[3].GetGain() == -12.8 {
+			if vm.Strip[3].Gain() == -12.8 {
 				vm.Strip[3].FadeBy(-8.3, 500)
 			} else {
 				vm.Strip[3].FadeTo(-12.8, 500)

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/onyx-and-iris/voicemeeter"
+	"github.com/onyx-and-iris/voicemeeter/v2"
 )
 
 type (
@@ -168,9 +168,9 @@ func getCmd(vm *voicemeeter.Remote, cmd string) error {
 			err = fmt.Errorf("unable to get %s", cmd)
 			return err
 		}
-		vPrinter.printf("Value of %s is: %s", cmd, valS)
+		fmt.Printf("Value of %s is: %s", cmd, valS)
 	} else {
-		vPrinter.printf("Value of %s is: %v", cmd, valF)
+		fmt.Printf("Value of %s is: %v", cmd, valF)
 	}
 	return nil
 }
