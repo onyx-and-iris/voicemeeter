@@ -35,7 +35,7 @@ func (r *Remote) Login() error {
 	if err != nil {
 		return err
 	}
-	r.pooler = newPooler(r.Kind)
+	r.InitPooler()
 	return nil
 }
 
@@ -48,6 +48,11 @@ func (r *Remote) Logout() error {
 		return err
 	}
 	return nil
+}
+
+// InitPooler initiates the Pooler
+func (r *Remote) InitPooler() {
+	r.pooler = newPooler(r.Kind)
 }
 
 // Type returns the type of Voicemeeter (basic, banana, potato)
@@ -69,20 +74,21 @@ func (r *Remote) Version() string {
 }
 
 // Pdirty returns true iff a parameter value has changed
-func (r *Remote) Pdirty() bool {
-	return pdirty()
+func (r *Remote) Pdirty() (bool, error) {
+	pdirty, err := pdirty()
+	return pdirty, err
 }
 
 // Mdirty returns true iff a macrobutton value has changed
-func (r *Remote) Mdirty() bool {
-	return mdirty()
+func (r *Remote) Mdirty() (bool, error) {
+	mdirty, err := mdirty()
+	return mdirty, err
 }
 
 // Sync is a helper method that waits for dirty parameters to clear
 func (r *Remote) Sync() {
 	time.Sleep(time.Duration(vmdelay) * time.Millisecond)
-	for r.Pdirty() || r.Mdirty() {
-	}
+	clear()
 }
 
 // GetFloat gets a float parameter value
@@ -131,13 +137,8 @@ func (r *Remote) SendText(script string) error {
 }
 
 // Register forwards the register method to Pooler
-func (r *Remote) Register(o observer) {
-	r.pooler.Register(o)
-}
-
-// Deregister forwards the deregister method to Pooler
-func (r *Remote) Deregister(o observer) {
-	r.pooler.Deregister(o)
+func (r *Remote) Register(channel chan string) {
+	r.pooler.Register(channel)
 }
 
 // EventAdd adds events to the Pooler
@@ -346,7 +347,7 @@ func init() {
 // NewRemote returns a Remote type for a kind
 // this is the interface entry point
 func NewRemote(kindId string, delay int) (*Remote, error) {
-	_kind, ok := kindMap[kindId]
+	kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
 		return nil, err
@@ -359,13 +360,13 @@ func NewRemote(kindId string, delay int) (*Remote, error) {
 	vmdelay = delay
 
 	director := director{}
-	switch _kind.Name {
+	switch kind.Name {
 	case "basic":
-		director.SetBuilder(&basicBuilder{genericBuilder{_kind, Remote{}}})
+		director.SetBuilder(&basicBuilder{genericBuilder{kind, Remote{}}})
 	case "banana":
-		director.SetBuilder(&bananaBuilder{genericBuilder{_kind, Remote{}}})
+		director.SetBuilder(&bananaBuilder{genericBuilder{kind, Remote{}}})
 	case "potato":
-		director.SetBuilder(&potatoBuilder{genericBuilder{_kind, Remote{}}})
+		director.SetBuilder(&potatoBuilder{genericBuilder{kind, Remote{}}})
 	}
 	director.Construct()
 	return director.Get(), nil
