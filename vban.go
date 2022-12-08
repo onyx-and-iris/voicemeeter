@@ -8,23 +8,23 @@ import (
 
 // iVban defines the interface vban types must satisfy
 type iVban interface {
-	GetOn() bool
+	On() bool
 	SetOn(val bool)
-	GetName() string
+	Name() string
 	SetName(val string)
-	GetIp() string
+	Ip() string
 	SetIp(val string)
-	GetPort() int
+	Port() int
 	SetPort(val int)
-	GetSr() int
+	Sr() int
 	SetSr(val int)
-	GetChannel() int
+	Channel() int
 	SetChannel(val int)
-	GetBit() int
+	Bit() int
 	SetBit(val int)
-	GetQuality() int
+	Quality() int
 	SetQuality(val int)
-	GetRoute() int
+	Route() int
 	SetRoute(val int)
 }
 
@@ -32,8 +32,8 @@ type vbanStream struct {
 	iRemote
 }
 
-// GetOn returns the value of the On parameter
-func (v *vbanStream) GetOn() bool {
+// On returns the value of the On parameter
+func (v *vbanStream) On() bool {
 	return v.getter_bool("On")
 }
 
@@ -42,8 +42,8 @@ func (v *vbanStream) SetOn(val bool) {
 	v.setter_bool("On", val)
 }
 
-// GetName returns the value of the Name parameter
-func (v *vbanStream) GetName() string {
+// Name returns the value of the Name parameter
+func (v *vbanStream) Name() string {
 	return v.getter_string("Name")
 }
 
@@ -52,8 +52,8 @@ func (v *vbanStream) SetName(val string) {
 	v.setter_string("Name", val)
 }
 
-// GetIp returns the value of the Ip parameter
-func (v *vbanStream) GetIp() string {
+// Ip returns the value of the Ip parameter
+func (v *vbanStream) Ip() string {
 	return v.getter_string("Ip")
 }
 
@@ -62,8 +62,8 @@ func (v *vbanStream) SetIp(val string) {
 	v.setter_string("Ip", val)
 }
 
-// GetPort returns the value of the Port parameter
-func (v *vbanStream) GetPort() int {
+// Port returns the value of the Port parameter
+func (v *vbanStream) Port() int {
 	return v.getter_int("Port")
 }
 
@@ -72,8 +72,8 @@ func (v *vbanStream) SetPort(val int) {
 	v.setter_int("Port", val)
 }
 
-// GetSr returns the value of the Sr parameter
-func (v *vbanStream) GetSr() int {
+// Sr returns the value of the Sr parameter
+func (v *vbanStream) Sr() int {
 	return v.getter_int("Sr")
 }
 
@@ -82,8 +82,8 @@ func (v *vbanStream) SetSr(val int) {
 	v.setter_int("Sr", val)
 }
 
-// GetChannel returns the value of the Channel parameter
-func (v *vbanStream) GetChannel() int {
+// Channel returns the value of the Channel parameter
+func (v *vbanStream) Channel() int {
 	return v.getter_int("Channel")
 }
 
@@ -92,8 +92,8 @@ func (v *vbanStream) SetChannel(val int) {
 	v.setter_int("Channel", val)
 }
 
-// GetBit returns the value of the Bit parameter
-func (v *vbanStream) GetBit() int {
+// Bit returns the value of the Bit parameter
+func (v *vbanStream) Bit() int {
 	val := v.getter_int("Bit")
 	if val == 1 {
 		return 16
@@ -115,8 +115,8 @@ func (v *vbanStream) SetBit(val int) {
 	v.setter_int("Bit", val)
 }
 
-// GetQuality returns the value of the Quality parameter
-func (v *vbanStream) GetQuality() int {
+// Quality returns the value of the Quality parameter
+func (v *vbanStream) Quality() int {
 	return v.getter_int("Quality")
 }
 
@@ -125,8 +125,8 @@ func (v *vbanStream) SetQuality(val int) {
 	v.setter_int("Quality", val)
 }
 
-// GetRoute returns the value of the Route parameter
-func (v *vbanStream) GetRoute() int {
+// Route returns the value of the Route parameter
+func (v *vbanStream) Route() int {
 	return v.getter_int("Route")
 }
 
@@ -141,7 +141,7 @@ type vbanInStream struct {
 
 func newVbanInStream(i int) iVban {
 	vbi := vbanInStream{vbanStream{iRemote{fmt.Sprintf("vban.instream[%d]", i), i}}}
-	return iVban(&vbi)
+	return &vbi
 }
 
 // SetSr logs a warning reason read only
@@ -165,7 +165,7 @@ type vbanOutStream struct {
 
 func newVbanOutStream(i int) iVban {
 	vbo := vbanOutStream{vbanStream{iRemote{fmt.Sprintf("vban.outstream[%d]", i), i}}}
-	return iVban(&vbo)
+	return &vbo
 }
 
 type vban struct {
@@ -174,17 +174,17 @@ type vban struct {
 }
 
 func newVban(k *kind) *vban {
-	_vbanIn := make([]iVban, k.VbanIn)
+	vbanIn := make([]iVban, k.VbanIn)
 	for i := 0; i < k.VbanIn; i++ {
-		_vbanIn[i] = newVbanInStream(i)
+		vbanIn[i] = newVbanInStream(i)
 	}
-	_vbanOut := make([]iVban, k.VbanOut)
+	vbanOut := make([]iVban, k.VbanOut)
 	for i := 0; i < k.VbanOut; i++ {
-		_vbanOut[i] = newVbanOutStream(i)
+		vbanOut[i] = newVbanOutStream(i)
 	}
 	return &vban{
-		InStream:  _vbanIn,
-		OutStream: _vbanOut,
+		InStream:  vbanIn,
+		OutStream: vbanOut,
 	}
 }
 

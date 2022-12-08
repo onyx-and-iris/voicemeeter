@@ -8,17 +8,16 @@ import (
 // iBus defines the interface bus types must satisfy
 type iBus interface {
 	String() string
-	GetMute() bool
+	Mute() bool
 	SetMute(val bool)
-	GetEq() bool
-	SetEq(val bool)
-	GetMono() bool
+	Mono() bool
 	SetMono(val bool)
-	GetLabel() string
+	Label() string
 	SetLabel(val string)
-	GetGain() float64
+	Gain() float64
 	SetGain(val float64)
-	Mode() iBusMode
+	Eq() *eQ
+	Mode() *busMode
 	Levels() *levels
 	FadeTo(target float32, time_ int)
 	FadeBy(change float32, time_ int)
@@ -27,12 +26,13 @@ type iBus interface {
 // bus represents a bus channel
 type bus struct {
 	iRemote
-	mode busMode
+	eQ   *eQ
+	mode *busMode
 	levels
 }
 
-// GetMute returns the value of the Mute parameter
-func (b *bus) GetMute() bool {
+// Mute returns the value of the Mute parameter
+func (b *bus) Mute() bool {
 	return b.getter_bool("Mute")
 }
 
@@ -41,18 +41,8 @@ func (b *bus) SetMute(val bool) {
 	b.setter_bool("Mute", val)
 }
 
-// GetEq returns the value of the Eq.On parameter
-func (b *bus) GetEq() bool {
-	return b.getter_bool("Eq.On")
-}
-
-// SetEq sets the value of the Eq.On parameter
-func (b *bus) SetEq(val bool) {
-	b.setter_bool("Eq.On", val)
-}
-
-// GetMono returns the value of the Mute parameter
-func (b *bus) GetMono() bool {
+// Mono returns the value of the Mute parameter
+func (b *bus) Mono() bool {
 	return b.getter_bool("Mono")
 }
 
@@ -61,8 +51,8 @@ func (b *bus) SetMono(val bool) {
 	b.setter_bool("Mono", val)
 }
 
-// GetLabel returns the value of the MC parameter
-func (b *bus) GetLabel() string {
+// Label returns the value of the MC parameter
+func (b *bus) Label() string {
 	return b.getter_string("Label")
 }
 
@@ -71,8 +61,8 @@ func (b *bus) SetLabel(val string) {
 	b.setter_string("Label", val)
 }
 
-// GetGain returns the value of the Gain parameter
-func (b *bus) GetGain() float64 {
+// Gain returns the value of the Gain parameter
+func (b *bus) Gain() float64 {
 	return b.getter_float("Gain")
 }
 
@@ -81,9 +71,14 @@ func (b *bus) SetGain(val float64) {
 	b.setter_float("Gain", val)
 }
 
+// Eq returns the eQ field
+func (b *bus) Eq() *eQ {
+	return b.eQ
+}
+
 // Mode returns address of a busMode struct
-func (b *bus) Mode() iBusMode {
-	return &b.mode
+func (b *bus) Mode() *busMode {
+	return b.mode
 }
 
 // Levels returns the levels field
@@ -110,11 +105,12 @@ type physicalBus struct {
 
 // newPhysicalBus returns a physicalBus type cast to an iBus
 func newPhysicalBus(i int, k *kind) iBus {
+	e := newEq(fmt.Sprintf("bus[%d].EQ", i), i)
 	b := newBusMode(i)
 	l := newBusLevels(i, k)
-	pb := physicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, b, l}}
+	pb := physicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
 
-	return iBus(&pb)
+	return &pb
 }
 
 // String implements the fmt.stringer interface
@@ -129,43 +125,16 @@ type virtualBus struct {
 
 // newVirtualBus returns a virtualBus type cast to an iBus
 func newVirtualBus(i int, k *kind) iBus {
+	e := newEq(fmt.Sprintf("bus[%d].EQ", i), i)
 	b := newBusMode(i)
 	l := newBusLevels(i, k)
-	vb := virtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, b, l}}
-	return iBus(&vb)
+	vb := virtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
+	return &vb
 }
 
 // String implements the fmt.stringer interface
 func (v *virtualBus) String() string {
 	return fmt.Sprintf("VirtualBus%d", v.index)
-}
-
-// iBusMode defines the interface busMode type must satisfy
-type iBusMode interface {
-	SetNormal(val bool)
-	GetNormal() bool
-	SetAmix(val bool)
-	GetAmix() bool
-	SetBmix(val bool)
-	GetBmix() bool
-	SetRepeat(val bool)
-	GetRepeat() bool
-	SetComposite(val bool)
-	GetComposite() bool
-	SetTvMix(val bool)
-	GetTvMix() bool
-	SetUpMix21(val bool)
-	GetUpMix21() bool
-	SetUpMix41(val bool)
-	GetUpMix41() bool
-	SetUpMix61(val bool)
-	GetUpMix61() bool
-	SetCenterOnly(val bool)
-	GetCenterOnly() bool
-	SetLfeOnly(val bool)
-	GetLfeOnly() bool
-	SetRearOnly(val bool)
-	GetRearOnly() bool
 }
 
 // busMode offers methods for getting/setting bus mode states
@@ -174,12 +143,12 @@ type busMode struct {
 }
 
 // newBusMode returns a busMode struct
-func newBusMode(i int) busMode {
-	return busMode{iRemote{fmt.Sprintf("bus[%d].mode", i), i}}
+func newBusMode(i int) *busMode {
+	return &busMode{iRemote{fmt.Sprintf("bus[%d].mode", i), i}}
 }
 
-// GetNormal gets the value of the Mode.Normal parameter
-func (bm *busMode) GetNormal() bool {
+// Normal gets the value of the Mode.Normal parameter
+func (bm *busMode) Normal() bool {
 	return bm.getter_bool("Normal")
 }
 
@@ -188,8 +157,8 @@ func (bm *busMode) SetNormal(val bool) {
 	bm.setter_bool("Normal", val)
 }
 
-// GetAmix gets the value of the Mode.Amix parameter
-func (bm *busMode) GetAmix() bool {
+// Amix gets the value of the Mode.Amix parameter
+func (bm *busMode) Amix() bool {
 	return bm.getter_bool("Amix")
 }
 
@@ -198,8 +167,8 @@ func (bm *busMode) SetAmix(val bool) {
 	bm.setter_bool("Amix", val)
 }
 
-// GetBmix gets the value of the Mode.Bmix parameter
-func (bm *busMode) GetBmix() bool {
+// Bmix gets the value of the Mode.Bmix parameter
+func (bm *busMode) Bmix() bool {
 	return bm.getter_bool("Bmix")
 }
 
@@ -208,8 +177,8 @@ func (bm *busMode) SetBmix(val bool) {
 	bm.setter_bool("Bmix", val)
 }
 
-// GetRepeat gets the value of the Mode.Repeat parameter
-func (bm *busMode) GetRepeat() bool {
+// Repeat gets the value of the Mode.Repeat parameter
+func (bm *busMode) Repeat() bool {
 	return bm.getter_bool("Repeat")
 }
 
@@ -218,8 +187,8 @@ func (bm *busMode) SetRepeat(val bool) {
 	bm.setter_bool("Repeat", val)
 }
 
-// GetComposite gets the value of the Mode.Composite parameter
-func (bm *busMode) GetComposite() bool {
+// Composite gets the value of the Mode.Composite parameter
+func (bm *busMode) Composite() bool {
 	return bm.getter_bool("Composite")
 }
 
@@ -228,8 +197,8 @@ func (bm *busMode) SetComposite(val bool) {
 	bm.setter_bool("Composite", val)
 }
 
-// GetTvMix gets the value of the Mode.TvMix parameter
-func (bm *busMode) GetTvMix() bool {
+// TvMix gets the value of the Mode.TvMix parameter
+func (bm *busMode) TvMix() bool {
 	return bm.getter_bool("TvMix")
 }
 
@@ -238,8 +207,8 @@ func (bm *busMode) SetTvMix(val bool) {
 	bm.setter_bool("TvMix", val)
 }
 
-// GetUpMix21 gets the value of the Mode.UpMix21 parameter
-func (bm *busMode) GetUpMix21() bool {
+// UpMix21 gets the value of the Mode.UpMix21 parameter
+func (bm *busMode) UpMix21() bool {
 	return bm.getter_bool("UpMix21")
 }
 
@@ -248,8 +217,8 @@ func (bm *busMode) SetUpMix21(val bool) {
 	bm.setter_bool("UpMix21", val)
 }
 
-// GetUpMix41 gets the value of the Mode.UpMix41 parameter
-func (bm *busMode) GetUpMix41() bool {
+// UpMix41 gets the value of the Mode.UpMix41 parameter
+func (bm *busMode) UpMix41() bool {
 	return bm.getter_bool("UpMix41")
 }
 
@@ -258,8 +227,8 @@ func (bm *busMode) SetUpMix41(val bool) {
 	bm.setter_bool("UpMix41", val)
 }
 
-// GetUpMix61 gets the value of the Mode.UpMix61 parameter
-func (bm *busMode) GetUpMix61() bool {
+// UpMix61 gets the value of the Mode.UpMix61 parameter
+func (bm *busMode) UpMix61() bool {
 	return bm.getter_bool("UpMix61")
 }
 
@@ -268,8 +237,8 @@ func (bm *busMode) SetUpMix61(val bool) {
 	bm.setter_bool("UpMix61", val)
 }
 
-// GetCenterOnly gets the value of the Mode.CenterOnly parameter
-func (bm *busMode) GetCenterOnly() bool {
+// CenterOnly gets the value of the Mode.CenterOnly parameter
+func (bm *busMode) CenterOnly() bool {
 	return bm.getter_bool("CenterOnly")
 }
 
@@ -278,8 +247,8 @@ func (bm *busMode) SetCenterOnly(val bool) {
 	bm.setter_bool("CenterOnly", val)
 }
 
-// GetLfeOnly gets the value of the Mode.LFE parameter
-func (bm *busMode) GetLfeOnly() bool {
+// LfeOnly gets the value of the Mode.LFE parameter
+func (bm *busMode) LfeOnly() bool {
 	return bm.getter_bool("LfeOnly")
 }
 
@@ -288,8 +257,8 @@ func (bm *busMode) SetLfeOnly(val bool) {
 	bm.setter_bool("LfeOnly", val)
 }
 
-// GetRearOnly gets the value of the Mode.RearOnly parameter
-func (bm *busMode) GetRearOnly() bool {
+// RearOnly gets the value of the Mode.RearOnly parameter
+func (bm *busMode) RearOnly() bool {
 	return bm.getter_bool("RearOnly")
 }
 
