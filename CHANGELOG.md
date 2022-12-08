@@ -17,7 +17,7 @@ V2 introduces some breaking changes.
 
 ### Changed
 
--   Removed Get prefix from field getters in Bus, Strip and Vban and Output types.
+-   Removed Get prefix from field getters in Bus, Strip, Vban, Button and Output types.
 -   Updates now require the consumer to pass a channel to receive updates.
 -   strip.comp now reference struct type
 -   strip.gate now reference struct type
