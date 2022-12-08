@@ -98,42 +98,42 @@ func (b *bus) FadeBy(change float32, time_ int) {
 	time.Sleep(time.Millisecond)
 }
 
-// physicalBus represents a single physical bus
-type physicalBus struct {
+// PhysicalBus represents a single physical bus
+type PhysicalBus struct {
 	bus
 }
 
-// newPhysicalBus returns a physicalBus type cast to an iBus
+// newPhysicalBus returns a PhysicalBus type cast to an iBus
 func newPhysicalBus(i int, k *kind) iBus {
 	e := newEq(fmt.Sprintf("bus[%d].EQ", i), i)
 	b := newBusMode(i)
 	l := newBusLevels(i, k)
-	pb := physicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
+	pb := PhysicalBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
 
 	return &pb
 }
 
 // String implements the fmt.stringer interface
-func (p *physicalBus) String() string {
+func (p *PhysicalBus) String() string {
 	return fmt.Sprintf("PhysicalBus%d", p.index)
 }
 
-// virtualBus represents a single virtual bus
-type virtualBus struct {
+// VirtualBus represents a single virtual bus
+type VirtualBus struct {
 	bus
 }
 
-// newVirtualBus returns a virtualBus type cast to an iBus
+// newVirtualBus returns a VirtualBus type cast to an iBus
 func newVirtualBus(i int, k *kind) iBus {
 	e := newEq(fmt.Sprintf("bus[%d].EQ", i), i)
 	b := newBusMode(i)
 	l := newBusLevels(i, k)
-	vb := virtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
+	vb := VirtualBus{bus{iRemote{fmt.Sprintf("bus[%d]", i), i}, e, b, l}}
 	return &vb
 }
 
 // String implements the fmt.stringer interface
-func (v *virtualBus) String() string {
+func (v *VirtualBus) String() string {
 	return fmt.Sprintf("VirtualBus%d", v.index)
 }
 

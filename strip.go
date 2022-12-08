@@ -26,8 +26,6 @@ type iStrip interface {
 	SetMc(val bool)
 	Audibility() float64
 	SetAudibility(val float64)
-	Denoiser() float64
-	SetDenoiser(val float64)
 	PanX() float64
 	SetPanX(val float64)
 	PanY() float64
@@ -47,6 +45,7 @@ type iStrip interface {
 	Eq() *eQ
 	Comp() *comp
 	Gate() *gate
+	Denoiser() *denoiser
 	GainLayer() []gainLayer
 	Levels() *levels
 	iOutputs
@@ -59,6 +58,7 @@ type strip struct {
 	eQ        *eQ
 	comp      *comp
 	gate      *gate
+	denoiser  *denoiser
 	gainLayer []gainLayer
 	levels    *levels
 }
@@ -123,16 +123,6 @@ func (s *strip) SetGain(val float64) {
 	s.setter_float("Gain", val)
 }
 
-// Denoiser returns the value of the Denoiser parameter
-func (s *strip) Denoiser() float64 {
-	return s.getter_float("Denoiser")
-}
-
-// SetDenoiser sets the value of the Denoiser parameter
-func (s *strip) SetDenoiser(val float64) {
-	s.setter_float("Denoiser", val)
-}
-
 // PanX returns the value of the Pan_X parameter
 func (s *strip) PanX() float64 {
 	return s.getter_float("Pan_x")
@@ -180,205 +170,217 @@ func (s *strip) FadeBy(change float64, time_ int) {
 	time.Sleep(time.Millisecond)
 }
 
-// physicalStrip represents a single physical strip
-type physicalStrip struct {
+// PhysicalStrip represents a single physical strip
+type PhysicalStrip struct {
 	strip
 }
 
-// newPhysicalStrip returns a physicalStrip type cast to an iStrip
+// newPhysicalStrip returns a PhysicalStrip type
 func newPhysicalStrip(i int, k *kind) iStrip {
 	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	e := newEq(fmt.Sprintf("strip[%d].EQ", i), i)
 	c := newComp(i)
 	g := newGate(i)
+	d := newDenoiser(i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)
 	}
 	l := newStripLevels(i, k)
-	ps := physicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, e, c, g, gl, l}}
+	ps := PhysicalStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, e, c, g, d, gl, l}}
 	return &ps
 }
 
 // String implements fmt.stringer interface
-func (p *physicalStrip) String() string {
+func (p *PhysicalStrip) String() string {
 	return fmt.Sprintf("PhysicalStrip%d", p.index)
 }
 
 // Audibility returns the value of the Audibility parameter
-func (p *physicalStrip) Audibility() float64 {
+func (p *PhysicalStrip) Audibility() float64 {
 	return p.getter_float("Audibility")
 }
 
 // SetAudibility sets the value of the Audibility parameter
-func (p *physicalStrip) SetAudibility(val float64) {
+func (p *PhysicalStrip) SetAudibility(val float64) {
 	p.setter_float("Audibility", val)
 }
 
 // Mc logs a warning reason invalid parameter
 // it always returns zero value
-func (p *physicalStrip) Mc() bool {
+func (p *PhysicalStrip) Mc() bool {
 	log.Warn("invalid parameter MC for physicalStrip")
 	return false
 }
 
 // SetMc logs a warning reason invalid parameter
-func (p *physicalStrip) SetMc(val bool) {
+func (p *PhysicalStrip) SetMc(val bool) {
 	log.Warn("invalid parameter MC for physicalStrip")
 }
 
 // Comp returns the comp field
-func (p *physicalStrip) Comp() *comp {
+func (p *PhysicalStrip) Comp() *comp {
 	return p.comp
 }
 
 // Gate returns the gate field
-func (p *physicalStrip) Gate() *gate {
+func (p *PhysicalStrip) Gate() *gate {
 	return p.gate
 }
 
+// Denoiser returns the denoiser field
+func (p *PhysicalStrip) Denoiser() *denoiser {
+	return p.denoiser
+}
+
 // ColorX returns the value of the Color_X parameter
-func (p *physicalStrip) ColorX() float64 {
+func (p *PhysicalStrip) ColorX() float64 {
 	return p.getter_float("Color_x")
 }
 
 // SetColorX sets the value of the Color_X parameter
-func (p *physicalStrip) SetColorX(val float64) {
+func (p *PhysicalStrip) SetColorX(val float64) {
 	p.setter_float("Color_x", val)
 }
 
 // ColorY returns the value of the Color_Y parameter
-func (p *physicalStrip) ColorY() float64 {
+func (p *PhysicalStrip) ColorY() float64 {
 	return p.getter_float("Color_y")
 }
 
 // SetColorY sets the value of the Color_Y parameter
-func (p *physicalStrip) SetColorY(val float64) {
+func (p *PhysicalStrip) SetColorY(val float64) {
 	p.setter_float("Color_y", val)
 }
 
 // FxX returns the value of the Color_X parameter
-func (p *physicalStrip) FxX() float64 {
+func (p *PhysicalStrip) FxX() float64 {
 	return p.getter_float("fx_x")
 }
 
 // SetFxX sets the value of the Color_X parameter
-func (p *physicalStrip) SetFxX(val float64) {
+func (p *PhysicalStrip) SetFxX(val float64) {
 	p.setter_float("fx_x", val)
 }
 
 // FxY returns the value of the Color_Y parameter
-func (p *physicalStrip) FxY() float64 {
+func (p *PhysicalStrip) FxY() float64 {
 	return p.getter_float("fx_y")
 }
 
 // SetFxY sets the value of the Color_Y parameter
-func (p *physicalStrip) SetFxY(val float64) {
+func (p *PhysicalStrip) SetFxY(val float64) {
 	p.setter_float("fx_y", val)
 }
 
-// virtualStrip represents a single virtual strip
-type virtualStrip struct {
+// VirtualStrip represents a single virtual strip
+type VirtualStrip struct {
 	strip
 }
 
-// newVirtualStrip returns a virtualStrip type cast to an iStrip
+// newVirtualStrip returns a VirtualStrip type
 func newVirtualStrip(i int, k *kind) iStrip {
 	o := newOutputs(fmt.Sprintf("strip[%d]", i), i)
 	e := newEq(fmt.Sprintf("strip[%d].EQ", i), i)
 	c := newComp(i)
 	g := newGate(i)
+	d := newDenoiser(i)
 	gl := make([]gainLayer, 8)
 	for j := 0; j < 8; j++ {
 		gl[j] = newGainLayer(i, j)
 	}
 	l := newStripLevels(i, k)
-	vs := virtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, e, c, g, gl, l}}
+	vs := VirtualStrip{strip{iRemote{fmt.Sprintf("strip[%d]", i), i}, o, e, c, g, d, gl, l}}
 	return &vs
 }
 
 // String implements fmt.stringer interface
-func (v *virtualStrip) String() string {
+func (v *VirtualStrip) String() string {
 	return fmt.Sprintf("VirtualStrip%d", v.index)
 }
 
 // Comp returns the comp field
-func (v *virtualStrip) Comp() *comp {
+func (v *VirtualStrip) Comp() *comp {
 	return v.comp
 }
 
 // Gate returns the gate field
-func (v *virtualStrip) Gate() *gate {
+func (v *VirtualStrip) Gate() *gate {
 	return v.gate
 }
 
+// Denoiser returns the denoiser field
+func (v *VirtualStrip) Denoiser() *denoiser {
+	return v.denoiser
+}
+
 // Mc returns the value of the MC parameter
-func (v *virtualStrip) Mc() bool {
+func (v *VirtualStrip) Mc() bool {
 	return v.getter_bool("MC")
 }
 
 // SetMc sets the value of the MC parameter
-func (v *virtualStrip) SetMc(val bool) {
+func (v *VirtualStrip) SetMc(val bool) {
 	v.setter_bool("MC", val)
 }
 
 // ColorX logs a warning reason invalid parameter
 // it always returns zero value
-func (v *virtualStrip) ColorX() float64 {
+func (v *VirtualStrip) ColorX() float64 {
 	log.Warn("invalid parameter ColorX for virtualStrip")
 	return 0
 }
 
 // SetColorX logs a warning reason invalid parameter
-func (v *virtualStrip) SetColorX(val float64) {
+func (v *VirtualStrip) SetColorX(val float64) {
 	log.Warn("invalid parameter ColorX for virtualStrip")
 }
 
 // ColorY logs a warning reason invalid parameter
 // it always returns zero value
-func (v *virtualStrip) ColorY() float64 {
+func (v *VirtualStrip) ColorY() float64 {
 	log.Warn("invalid parameter ColorY for virtualStrip")
 	return 0
 }
 
 // SetColorY logs a warning reason invalid parameter
-func (v *virtualStrip) SetColorY(val float64) {
+func (v *VirtualStrip) SetColorY(val float64) {
 	log.Warn("invalid parameter ColorY for virtualStrip")
 }
 
 // FxX logs a warning reason invalid parameter
 // it always returns zero value
-func (v *virtualStrip) FxX() float64 {
+func (v *VirtualStrip) FxX() float64 {
 	log.Warn("invalid parameter FxX for virtualStrip")
 	return 0
 }
 
 // SetFxX logs a warning reason invalid parameter
-func (v *virtualStrip) SetFxX(val float64) {
+func (v *VirtualStrip) SetFxX(val float64) {
 	log.Warn("invalid parameter SetFxX for virtualStrip")
 }
 
 // FxY logs a warning reason invalid parameter
 // it always returns zero value
-func (v *virtualStrip) FxY() float64 {
+func (v *VirtualStrip) FxY() float64 {
 	log.Warn("invalid parameter FxY for virtualStrip")
 	return 0
 }
 
 // SetFxY logs a warning reason invalid parameter
-func (v *virtualStrip) SetFxY(val float64) {
+func (v *VirtualStrip) SetFxY(val float64) {
 	log.Warn("invalid parameter SetFxY for virtualStrip")
 }
 
 // Audibility logs a warning reason invalid parameter
 // it always returns zero value
-func (v *virtualStrip) Audibility() float64 {
+func (v *VirtualStrip) Audibility() float64 {
 	log.Warn("invalid parameter Audibility for virtualStrip")
 	return 0
 }
 
 // SetAudibility logs a warning reason invalid parameter
-func (v *virtualStrip) SetAudibility(val float64) {
+func (v *VirtualStrip) SetAudibility(val float64) {
 	log.Warn("invalid parameter Audibility for virtualStrip")
 }
 
@@ -396,6 +398,22 @@ func (v *strip) AppMute(name string, val bool) {
 		value = 0
 	}
 	v.setter_string("AppMute", fmt.Sprintf("(\"%s\", %f)", name, float64(value)))
+}
+
+type denoiser struct {
+	iRemote
+}
+
+func newDenoiser(i int) *denoiser {
+	return &denoiser{iRemote{fmt.Sprintf("strip[%d].denoiser", i), i}}
+}
+
+func (d *denoiser) Knob() float64 {
+	return d.getter_float("")
+}
+
+func (d *denoiser) SetKnob(val float64) {
+	d.setter_float("", val)
 }
 
 type comp struct {
@@ -510,12 +528,12 @@ func (g *gate) SetDamping(val float64) {
 	g.setter_float("Damping", val)
 }
 
-func (g *gate) BPSidechain() float64 {
-	return g.getter_float("BPSidechain")
+func (g *gate) BPSidechain() int {
+	return g.getter_int("BPSidechain")
 }
 
-func (g *gate) SetBPSidechain(val float64) {
-	g.setter_float("BPSidechain", val)
+func (g *gate) SetBPSidechain(val int) {
+	g.setter_int("BPSidechain", val)
 }
 
 func (g *gate) Attack() float64 {

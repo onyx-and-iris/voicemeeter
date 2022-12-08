@@ -28,72 +28,72 @@ type iVban interface {
 	SetRoute(val int)
 }
 
-type vbanStream struct {
+type stream struct {
 	iRemote
 }
 
 // On returns the value of the On parameter
-func (v *vbanStream) On() bool {
+func (v *stream) On() bool {
 	return v.getter_bool("On")
 }
 
 // SetOn sets the value of the On parameter
-func (v *vbanStream) SetOn(val bool) {
+func (v *stream) SetOn(val bool) {
 	v.setter_bool("On", val)
 }
 
 // Name returns the value of the Name parameter
-func (v *vbanStream) Name() string {
+func (v *stream) Name() string {
 	return v.getter_string("Name")
 }
 
 // SetLabel sets the value of the Name parameter
-func (v *vbanStream) SetName(val string) {
+func (v *stream) SetName(val string) {
 	v.setter_string("Name", val)
 }
 
 // Ip returns the value of the Ip parameter
-func (v *vbanStream) Ip() string {
+func (v *stream) Ip() string {
 	return v.getter_string("Ip")
 }
 
 // SetIp sets the value of the Ip parameter
-func (v *vbanStream) SetIp(val string) {
+func (v *stream) SetIp(val string) {
 	v.setter_string("Ip", val)
 }
 
 // Port returns the value of the Port parameter
-func (v *vbanStream) Port() int {
+func (v *stream) Port() int {
 	return v.getter_int("Port")
 }
 
 // SetPort sets the value of the Port parameter
-func (v *vbanStream) SetPort(val int) {
+func (v *stream) SetPort(val int) {
 	v.setter_int("Port", val)
 }
 
 // Sr returns the value of the Sr parameter
-func (v *vbanStream) Sr() int {
+func (v *stream) Sr() int {
 	return v.getter_int("Sr")
 }
 
 // SetSr sets the value of the Sr parameter
-func (v *vbanStream) SetSr(val int) {
+func (v *stream) SetSr(val int) {
 	v.setter_int("Sr", val)
 }
 
 // Channel returns the value of the Channel parameter
-func (v *vbanStream) Channel() int {
+func (v *stream) Channel() int {
 	return v.getter_int("Channel")
 }
 
 // SetChannel sets the value of the Channel parameter
-func (v *vbanStream) SetChannel(val int) {
+func (v *stream) SetChannel(val int) {
 	v.setter_int("Channel", val)
 }
 
 // Bit returns the value of the Bit parameter
-func (v *vbanStream) Bit() int {
+func (v *stream) Bit() int {
 	val := v.getter_int("Bit")
 	if val == 1 {
 		return 16
@@ -102,7 +102,7 @@ func (v *vbanStream) Bit() int {
 }
 
 // SetBit sets the value of the Bit parameter
-func (v *vbanStream) SetBit(val int) {
+func (v *stream) SetBit(val int) {
 	switch val {
 	case 16:
 		val = 1
@@ -116,55 +116,55 @@ func (v *vbanStream) SetBit(val int) {
 }
 
 // Quality returns the value of the Quality parameter
-func (v *vbanStream) Quality() int {
+func (v *stream) Quality() int {
 	return v.getter_int("Quality")
 }
 
 // SetQuality sets the value of the Quality parameter
-func (v *vbanStream) SetQuality(val int) {
+func (v *stream) SetQuality(val int) {
 	v.setter_int("Quality", val)
 }
 
 // Route returns the value of the Route parameter
-func (v *vbanStream) Route() int {
+func (v *stream) Route() int {
 	return v.getter_int("Route")
 }
 
 // SetRoute sets the value of the Route parameter
-func (v *vbanStream) SetRoute(val int) {
+func (v *stream) SetRoute(val int) {
 	v.setter_int("Route", val)
 }
 
-type vbanInStream struct {
-	vbanStream
+type VbanInstream struct {
+	stream
 }
 
 func newVbanInStream(i int) iVban {
-	vbi := vbanInStream{vbanStream{iRemote{fmt.Sprintf("vban.instream[%d]", i), i}}}
+	vbi := VbanInstream{stream{iRemote{fmt.Sprintf("vban.instream[%d]", i), i}}}
 	return &vbi
 }
 
 // SetSr logs a warning reason read only
-func (vbi *vbanInStream) SetSr(val int) {
+func (vbi *VbanInstream) SetSr(val int) {
 	log.Warn("SR is readonly for vban instreams")
 }
 
 // SetChannel logs a warning reason read only
-func (vbi *vbanInStream) SetChannel(val int) {
+func (vbi *VbanInstream) SetChannel(val int) {
 	log.Warn("channel is readonly for vban instreams")
 }
 
 // SetBit logs a warning reason read only
-func (vbi *vbanInStream) SetBit(val int) {
+func (vbi *VbanInstream) SetBit(val int) {
 	log.Warn("bit is readonly for vban instreams")
 }
 
-type vbanOutStream struct {
-	vbanStream
+type VbanOutStream struct {
+	stream
 }
 
 func newVbanOutStream(i int) iVban {
-	vbo := vbanOutStream{vbanStream{iRemote{fmt.Sprintf("vban.outstream[%d]", i), i}}}
+	vbo := VbanOutStream{stream{iRemote{fmt.Sprintf("vban.outstream[%d]", i), i}}}
 	return &vbo
 }
 
