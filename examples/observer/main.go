@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -16,8 +17,7 @@ type observer struct {
 
 // newObserver returns an observer type
 func newObserver(vm *voicemeeter.Remote) *observer {
-	o := &observer{vm, make(chan string)}
-	return o
+	return &observer{vm, make(chan string)}
 }
 
 // OnUpdate satisfies the observer interface defined in publisher.go
@@ -49,7 +49,7 @@ func init() {
 
 func runObserver(vm *voicemeeter.Remote) {
 	o := newObserver(vm)
-	o.Listen()
+	go o.Listen()
 }
 
 // main connects to Voiceemeter, registers observer for updates
@@ -62,6 +62,8 @@ func main() {
 	defer vm.Logout()
 
 	runObserver(vm)
+
+	time.Sleep(time.Duration(30) * time.Second)
 }
 
 // vmConnect connects to Voicemeeter potato and logs into the API
