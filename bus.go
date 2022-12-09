@@ -26,9 +26,9 @@ type iBus interface {
 // bus represents a bus channel
 type bus struct {
 	iRemote
-	eQ   *eQ
-	mode *busMode
-	levels
+	eQ     *eQ
+	mode   *busMode
+	levels *levels
 }
 
 // Mute returns the value of the Mute parameter
@@ -83,7 +83,7 @@ func (b *bus) Mode() *busMode {
 
 // Levels returns the levels field
 func (b *bus) Levels() *levels {
-	return &b.levels
+	return b.levels
 }
 
 // FadeTo sets the value of gain to target over at time interval of time_
@@ -268,16 +268,16 @@ func (bm *busMode) SetRearOnly(val bool) {
 }
 
 // newBusLevels represents the levels field for a channel
-func newBusLevels(i int, k *kind) levels {
+func newBusLevels(i int, k *kind) *levels {
 	init := i * 8
-	return levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8, "bus"}
+	return &levels{iRemote{fmt.Sprintf("bus[%d]", i), i}, k, init, 8, "bus"}
 }
 
 // All returns the level values for a bus
 func (l *levels) All() []float64 {
-	var levels []float64
-	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, convertLevel(_levelCache.busLevels[i]))
+	levels := make([]float64, l.offset)
+	for i := range levels {
+		levels[i] = convertLevel(_levelCache.busLevels[i+l.init])
 	}
 	return levels
 }

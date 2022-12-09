@@ -598,9 +598,9 @@ func newStripLevels(i int, k *kind) *levels {
 // PreFader returns the level values for this strip, PREFADER mode
 func (l *levels) PreFader() []float64 {
 	_levelCache.stripMode = 0
-	var levels []float64
-	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
+	levels := make([]float64, l.offset)
+	for i := range levels {
+		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
 	}
 	return levels
 }
@@ -608,9 +608,9 @@ func (l *levels) PreFader() []float64 {
 // PostFader returns the level values for this strip, POSTFADER mode
 func (l *levels) PostFader() []float64 {
 	_levelCache.stripMode = 1
-	var levels []float64
-	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
+	levels := make([]float64, l.offset)
+	for i := range levels {
+		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
 	}
 	return levels
 }
@@ -618,9 +618,9 @@ func (l *levels) PostFader() []float64 {
 // PostMute returns the level values for this strip, POSTMUTE mode
 func (l *levels) PostMute() []float64 {
 	_levelCache.stripMode = 2
-	var levels []float64
-	for i := l.init; i < l.init+l.offset; i++ {
-		levels = append(levels, convertLevel(_levelCache.stripLevels[i]))
+	levels := make([]float64, l.offset)
+	for i := range levels {
+		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
 	}
 	return levels
 }
