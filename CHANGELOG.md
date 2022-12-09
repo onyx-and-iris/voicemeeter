@@ -19,9 +19,9 @@ V2 introduces some breaking changes.
 
 -   Removed Get prefix from field getters in Bus, Strip, Vban, Button and Output types.
 -   Updates now require the consumer to pass a channel to receive updates.
--   strip.comp now reference struct type
--   strip.gate now reference struct type
--   strip.eq, bus.eq now reference struct types
+-   strip.comp now references comp struct type
+-   strip.gate now reference gate struct type
+-   strip.eq, bus.eq now reference eQ struct types
 -   All examples and tests have been updated to reflect the changes.
 
 ### Added
