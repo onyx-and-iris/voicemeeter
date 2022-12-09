@@ -213,7 +213,7 @@ vm.Strip[5].AppGain("Spotify", 0.5)
 vm.Strip[5].AppMute("Spotify", true)
 ```
 
-#### Comp
+##### Comp
 
 -   `vm.Strip[i].Comp()`
 
@@ -238,7 +238,13 @@ The following methods are available
 -   `MakeUp() bool`
 -   `SetMakeUp(val bool)`
 
-#### Gate
+example:
+
+```go
+vm.Strip[3].Comp().SetRatio(3.5)
+```
+
+##### Gate
 
 -   `vm.Strip[i].Gate()`
 
@@ -259,7 +265,13 @@ The following methods are available
 -   `Release() float64`
 -   `SetRelease(val float64)` from 0.0 to 5000.0
 
-#### Denoiser
+example:
+
+```go
+fmt.Println(vm.Strip[4].Gate().Attack())
+```
+
+##### Denoiser
 
 -   `vm.Strip[i].Denoiser()`
 
@@ -267,6 +279,12 @@ The following methods are available
 
 -   `Knob() float64`
 -   `SetKnob(val float64)` from 0.0 to 10.0
+
+example:
+
+```go
+vm.Strip[1].Denoiser().SetKnob(4.2)
+```
 
 ##### Gainlayer
 
@@ -312,6 +330,8 @@ The following methods are available
 -   `SetLabel(val string)`
 -   `Gain() float64`
 -   `SetGain(val float64)` from -60.0 to 12.0
+
+example:
 
 ```go
 vm.Bus[3].SetEq(true)
@@ -372,9 +392,9 @@ fmt.Println(vm.Bus[1].Levels().All())
 
 ### Strip | Bus
 
-#### EQ
+##### EQ
 
--   `vm.Strip[i].Eq()` | `vm.Bus[i].Eq()`
+-   `vm.Strip[i].Eq()` `vm.Bus[i].Eq()`
 
 The following methods are available.
 
@@ -445,7 +465,7 @@ vm.Command.Show()
 
 ##### Instream | Outstream
 
--   `vm.Vban.InStream` `vm.Vban.OutStream`
+-   `vm.Vban.InStream[i]` `vm.Vban.OutStream[i]`
 
 The following methods are available
 

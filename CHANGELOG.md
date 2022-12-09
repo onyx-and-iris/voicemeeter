@@ -18,10 +18,10 @@ V2 introduces some breaking changes.
 ### Changed
 
 -   Removed Get prefix from field getters in Bus, Strip, Vban, Button and Output types.
--   Updates now require the consumer to pass a channel to receive updates.
+-   Pooler now communicates event updates over a channel.
 -   strip.comp now references comp struct type
--   strip.gate now reference gate struct type
--   strip.eq, bus.eq now reference eQ struct types
+-   strip.gate now references gate struct type
+-   strip.eq, bus.eq now reference eQ struct type
 -   All examples and tests have been updated to reflect the changes.
 
 ### Added
