@@ -600,7 +600,7 @@ func (l *levels) PreFader() []float64 {
 	_levelCache.stripMode = 0
 	levels := make([]float64, l.offset)
 	for i := range levels {
-		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
+		levels[i] = convertLevel(_levelCache.stripLevels[l.init+i])
 	}
 	return levels
 }
@@ -610,7 +610,7 @@ func (l *levels) PostFader() []float64 {
 	_levelCache.stripMode = 1
 	levels := make([]float64, l.offset)
 	for i := range levels {
-		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
+		levels[i] = convertLevel(_levelCache.stripLevels[l.init+i])
 	}
 	return levels
 }
@@ -620,7 +620,7 @@ func (l *levels) PostMute() []float64 {
 	_levelCache.stripMode = 2
 	levels := make([]float64, l.offset)
 	for i := range levels {
-		levels[i] = convertLevel(_levelCache.stripLevels[i+l.init])
+		levels[i] = convertLevel(_levelCache.stripLevels[l.init+i])
 	}
 	return levels
 }

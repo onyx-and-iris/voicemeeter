@@ -277,7 +277,7 @@ func newBusLevels(i int, k *kind) *levels {
 func (l *levels) All() []float64 {
 	levels := make([]float64, l.offset)
 	for i := range levels {
-		levels[i] = convertLevel(_levelCache.busLevels[i+l.init])
+		levels[i] = convertLevel(_levelCache.busLevels[l.init+i])
 	}
 	return levels
 }
