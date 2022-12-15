@@ -20,7 +20,7 @@ func newObserver(vm *voicemeeter.Remote) *observer {
 	return &observer{vm, make(chan string)}
 }
 
-// Listen registers the observer channel and listens for udpates.
+// Listen registers the observer channel and listens for updates.
 func (o observer) Listen() {
 	o.vm.Register(o.events)
 
@@ -53,8 +53,7 @@ func runObserver(vm *voicemeeter.Remote) {
 	go o.Listen()
 }
 
-// main connects to Voiceemeter, registers observer for updates
-// runs updates for 30 seconds and then deregisters observer.
+// main connects to Voiceemeter and runs a single observer for 30 seconds.
 func main() {
 	vm, err := vmConnect()
 	if err != nil {
