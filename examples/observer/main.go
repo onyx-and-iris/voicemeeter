@@ -20,8 +20,7 @@ func newObserver(vm *voicemeeter.Remote) *observer {
 	return &observer{vm, make(chan string)}
 }
 
-// OnUpdate satisfies the observer interface defined in publisher.go
-// for each event type an action is triggered when the event occurs.
+// Listen registers the observer channel and listens for udpates.
 func (o observer) Listen() {
 	o.vm.Register(o.events)
 
@@ -47,6 +46,7 @@ func init() {
 	log.SetLevel(log.InfoLevel)
 }
 
+// runObserver initiates a single observer and starts its Listen() function.
 func runObserver(vm *voicemeeter.Remote) {
 	o := newObserver(vm)
 	go o.Listen()
@@ -67,6 +67,7 @@ func main() {
 }
 
 // vmConnect connects to Voicemeeter potato and logs into the API
+// it also add ldirty to event updates.
 func vmConnect() (*voicemeeter.Remote, error) {
 	vm, err := voicemeeter.NewRemote("basic", 0)
 	if err != nil {
