@@ -17,15 +17,16 @@ V2 introduces some breaking changes.
 
 ### Changed
 
--   Removed Get prefix from field getters in Bus, Strip, Vban, Button and Output types.
+-   Removed Get prefix from getters in Bus, Strip, Vban, Button and Output types.
 -   Pooler now communicates event updates over a channel.
--   strip.comp now references comp struct type
--   strip.gate now references gate struct type
--   strip.eq, bus.eq now reference eQ struct type
+-   strip.comp now references comp struct type. (see readme for changes in setting comp parameters)
+-   strip.gate now references gate struct type. (see readme for changes in setting gate parameters)
+-   strip.eq, bus.eq now reference eQ struct type. (see readme for changes in setting eq parameters)
 -   All examples and tests have been updated to reflect the changes.
 
 ### Added
 
+-   denoiser type to strip types.
 -   XY parameters added to strip type
 -   extra logging added to getters/setters in iRemote type.
 -   InitPooler to Remote type in case the Pooler needs reinitiating. (perhaps the GUI closed unexpectedly)
