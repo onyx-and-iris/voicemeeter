@@ -59,7 +59,7 @@ func TestStrip4Label(t *testing.T) {
 	})
 }
 
-func TestStrip5Gain(t *testing.T) {
+func TestStrip4Gain(t *testing.T) {
 	//t.Skip("skipping test")
 	vm.Strip[4].SetGain(-20.8)
 	t.Run("Should return -20.8 when Strip[4].SetGain(-20.8)", func(t *testing.T) {
@@ -72,15 +72,15 @@ func TestStrip5Gain(t *testing.T) {
 	})
 }
 
-func TestStrip3CompKnob(t *testing.T) {
+func TestStrip4CompKnob(t *testing.T) {
 	//t.Skip("skipping test")
 	vm.Strip[4].Comp().SetKnob(8.1)
-	t.Run("Should return 8.1 when Strip[4].SetComp(8.1)", func(t *testing.T) {
+	t.Run("Should return 8.1 when Strip[4].Comp().SetKnob(8.1)", func(t *testing.T) {
 		assert.Equal(t, vm.Strip[4].Comp().Knob(), 8.1)
 	})
 
 	vm.Strip[4].Comp().SetKnob(1.6)
-	t.Run("Should return 1.6 when Strip[4].SetComp(1.6)", func(t *testing.T) {
+	t.Run("Should return 1.6 when Strip[4].Comp().SetKnob(1.6)", func(t *testing.T) {
 		assert.Equal(t, vm.Strip[4].Comp().Knob(), 1.6)
 	})
 }
@@ -100,18 +100,18 @@ func TestStrip0CompGainIn(t *testing.T) {
 
 func TestStrip3GateKnob(t *testing.T) {
 	//t.Skip("skipping test")
-	vm.Strip[4].Gate().SetKnob(8.1)
-	t.Run("Should return 8.1 when Strip[4].SetComp(8.1)", func(t *testing.T) {
-		assert.Equal(t, vm.Strip[4].Gate().Knob(), 8.1)
+	vm.Strip[3].Gate().SetKnob(8.1)
+	t.Run("Should return 8.1 when Strip[3].Gate().SetKnob(8.1)", func(t *testing.T) {
+		assert.Equal(t, vm.Strip[3].Gate().Knob(), 8.1)
 	})
 
-	vm.Strip[4].Gate().SetKnob(1.6)
-	t.Run("Should return 1.6 when Strip[4].SetComp(1.6)", func(t *testing.T) {
-		assert.Equal(t, vm.Strip[4].Gate().Knob(), 1.6)
+	vm.Strip[3].Gate().SetKnob(1.6)
+	t.Run("Should return 1.6 when Strip[3].Gate().SetKnob(1.6)", func(t *testing.T) {
+		assert.Equal(t, vm.Strip[3].Gate().Knob(), 1.6)
 	})
 }
 
-func TestStrip0GateAttack(t *testing.T) {
+func TestStrip0CompAttack(t *testing.T) {
 	//t.Skip("skipping test")
 	vm.Strip[0].Comp().SetAttack(3.4)
 	t.Run("Should return 3.4 when Strip[0].Comp().SetAttack(3.4)", func(t *testing.T) {
@@ -119,8 +119,21 @@ func TestStrip0GateAttack(t *testing.T) {
 	})
 
 	vm.Strip[0].Comp().SetAttack(190.3)
-	t.Run("Should return -19.3 when Strip[0].Comp().SetAttack(-19.3)", func(t *testing.T) {
+	t.Run("Should return 190.3 when Strip[0].Comp().SetAttack(190.3)", func(t *testing.T) {
 		assert.Equal(t, vm.Strip[0].Comp().Attack(), 190.3)
+	})
+}
+
+func TestStrip4Denoiser(t *testing.T) {
+	//t.Skip("skipping test")
+	vm.Strip[4].Denoiser().SetKnob(2.1)
+	t.Run("Should return 2.1 when Strip[4].Denoiser().SetKnob(2.1)", func(t *testing.T) {
+		assert.Equal(t, vm.Strip[4].Denoiser().Knob(), 2.1)
+	})
+
+	vm.Strip[4].Denoiser().SetKnob(5.6)
+	t.Run("Should return 5.6 when Strip[4].Denoiser().SetKnob(5.6)", func(t *testing.T) {
+		assert.Equal(t, vm.Strip[4].Denoiser().Knob(), 5.6)
 	})
 }
 
