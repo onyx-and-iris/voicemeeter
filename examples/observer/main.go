@@ -46,7 +46,8 @@ func init() {
 	log.SetLevel(log.InfoLevel)
 }
 
-// runObserver initiates a single observer and starts its Listen() function.
+// runObserver initiates a single observer and
+// starts its Listen() function in a goroutine.
 func runObserver(vm *voicemeeter.Remote) {
 	o := newObserver(vm)
 	go o.Listen()
