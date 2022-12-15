@@ -23,7 +23,7 @@ Initialize your own module then `go get`
 
 ```
 go mod init github.com/x/y
-go get github.com/onyx-and-iris/voicemeeter
+go get github.com/onyx-and-iris/voicemeeter/v2
 ```
 
 ## `Use`
