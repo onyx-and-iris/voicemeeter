@@ -75,22 +75,20 @@ type pooler struct {
 }
 
 func newPooler(k *kind) *pooler {
-	if p == nil {
-		p = &pooler{
-			k:          k,
-			run:        true,
-			event:      newEvent(),
-			pdirtyDone: make(chan bool),
-			mdirtyDone: make(chan bool),
-			midiDone:   make(chan bool),
-			ldirtyDone: make(chan bool),
-		}
-		go p.done()
-		go p.parameters()
-		go p.macrobuttons()
-		go p.midi()
-		go p.levels()
+	p = &pooler{
+		k:          k,
+		run:        true,
+		event:      newEvent(),
+		pdirtyDone: make(chan bool),
+		mdirtyDone: make(chan bool),
+		midiDone:   make(chan bool),
+		ldirtyDone: make(chan bool),
 	}
+	go p.done()
+	go p.parameters()
+	go p.macrobuttons()
+	go p.midi()
+	go p.levels()
 	return p
 }
 

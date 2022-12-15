@@ -55,6 +55,17 @@ func (r *Remote) InitPooler() {
 	r.pooler = newPooler(r.Kind)
 }
 
+// Run launches the Voicemeeter GUI for a kind.
+func (r *Remote) Run(kindId string) error {
+	err := runVoicemeeter(kindId)
+	if err != nil {
+		return err
+	}
+	time.Sleep(time.Second)
+	clear()
+	return nil
+}
+
 // Type returns the type of Voicemeeter (basic, banana, potato)
 func (r *Remote) Type() string {
 	val, err := getVMType()
