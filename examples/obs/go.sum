@@ -13,8 +13,8 @@ github.com/hashicorp/logutils v1.0.0 h1:dLEQVugN8vlakKOUE3ihGLTZJRB4j+M2cdTm/ORI
 github.com/hashicorp/logutils v1.0.0/go.mod h1:QIAnNjmIWmVIIkWDTG1z5v++HQmx9WQRO+LraFDTW64=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d/go.mod h1:YUTz3bUH2ZwIWBy3CJBeOBEugqcmXREj14T+iG/4k4U=
-github.com/onyx-and-iris/voicemeeter v1.10.1 h1:kpPN/cTYe1JG2aLUD+/m/bMUbp7wXrqrk1fL+sV8yko=
-github.com/onyx-and-iris/voicemeeter v1.10.1/go.mod h1:LayUoN/MWSqKXSOGQ7AcLvwoefsL+zQ9CjncLs3WqsU=
+github.com/onyx-and-iris/voicemeeter/v2 v2.0.0 h1:AXem+OMeKDuJd2KoLpzHEU70Rx2057p4XKgiOJkXCIo=
+github.com/onyx-and-iris/voicemeeter/v2 v2.0.0/go.mod h1:ULRO0N2Wg7Ymj7CEg4TI7CJobx9yVEZ5Lbh7oWi7woA=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sirupsen/logrus v1.9.0 h1:trlNQbNUG3OdDrDil03MCb1H2o9nJ1x4/5LYw7byDE0=
