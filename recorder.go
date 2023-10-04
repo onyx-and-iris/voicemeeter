@@ -51,3 +51,13 @@ func (r *recorder) Rew() {
 func (r *recorder) Loop(val bool) {
 	r.setter_bool("Mode.Loop", val)
 }
+
+// Gain returns the value of the Gain parameter
+func (r *recorder) Gain() float64 {
+	return r.getter_float("Gain")
+}
+
+// SetGain sets the value of the Gain parameter
+func (r *recorder) SetGain(val float64) {
+	r.setter_float("Gain", val)
+}
