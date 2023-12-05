@@ -1,4 +1,4 @@
-module main
+module hotkeys
 
 go 1.19
 

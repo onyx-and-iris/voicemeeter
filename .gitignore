@@ -19,3 +19,7 @@ config.toml
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# work files
+go.work
+go.work.sum

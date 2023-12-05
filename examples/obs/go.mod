@@ -1,4 +1,4 @@
-module main
+module obs
 
 go 1.18
 
