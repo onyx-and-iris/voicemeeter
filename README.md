@@ -8,14 +8,14 @@ For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Tested against
 
--   Basic 1.0.8.8
--   Banana 2.0.6.8
--   Potato 3.0.2.8
+- Basic 1.0.8.8
+- Banana 2.0.6.8
+- Potato 3.0.2.8
 
 ## Requirements
 
--   [Voicemeeter](https://voicemeeter.com/)
--   Go 1.18 or greater
+- [Voicemeeter](https://voicemeeter.com/)
+- Go 1.18 or greater
 
 ## Installation
 
@@ -73,9 +73,9 @@ func vmConnect() (*voicemeeter.Remote, error) {
 
 Pass the kind of Voicemeeter as an argument. kindId may be:
 
--   `basic`
--   `banana`
--   `potato`
+- `basic`
+- `banana`
+- `potato`
 
 ### `delay`
 
@@ -179,28 +179,28 @@ Use this to force dirty parameters to clear after a delay in milliseconds.
 
 The following methods are available
 
--   `Mute() bool`
--   `SetMute(val bool)`
--   `Mono() bool`
--   `SetMono(val bool)`
--   `Solo() bool`
--   `SetSolo(val bool)`
--   `Limit() int`
--   `SetLimit(val int)` from -40 to 12
--   `Label() string`
--   `SetLabel(val string)`
--   `Gain() float64`
--   `SetGain(val float64)` from -60.0 to 12.0
--   `Mc() bool`
--   `SetMc(val bool)`
--   `Audibility() float64`
--   `SetAudibility(val float64)` from 0.0 to 10.0
--   `A1() bool - A5() bool`
--   `SetA1(val bool) - SetA5(val bool)`
--   `B1() bool - B3() bool`
--   `SetB1(val bool) bool - SetB3(val bool) bool`
--   `AppGain(name string, gain float64)`
--   `AppMute(name string, val bool)`
+- `Mute() bool`
+- `SetMute(val bool)`
+- `Mono() bool`
+- `SetMono(val bool)`
+- `Solo() bool`
+- `SetSolo(val bool)`
+- `Limit() int`
+- `SetLimit(val int)` from -40 to 12
+- `Label() string`
+- `SetLabel(val string)`
+- `Gain() float64`
+- `SetGain(val float64)` from -60.0 to 12.0
+- `Mc() bool`
+- `SetMc(val bool)`
+- `Audibility() float64`
+- `SetAudibility(val float64)` from 0.0 to 10.0
+- `A1() bool - A5() bool`
+- `SetA1(val bool) - SetA5(val bool)`
+- `B1() bool - B3() bool`
+- `SetB1(val bool) bool - SetB3(val bool) bool`
+- `AppGain(name string, gain float64)`
+- `AppMute(name string, val bool)`
 
 example:
 
@@ -215,28 +215,28 @@ vm.Strip[5].AppMute("Spotify", true)
 
 ##### Comp
 
--   `vm.Strip[i].Comp()`
+- `vm.Strip[i].Comp()`
 
 The following methods are available
 
--   `Knob() float64`
--   `SetKnob(val float64)` from 0.0 to 10.0
--   `GainIn() float64`
--   `SetGainIn(val float64)` from -24.0 to 24.0
--   `Ratio() float64`
--   `SetRatio(val float64)` from 1.0 to 8.0
--   `Threshold() float64`
--   `SetThreshold(val float64)` from -40.0 to -3.0
--   `Attack() float64`
--   `SetAttack(val float64)` from 0.0 to 200.0
--   `Release() float64`
--   `SetRelease(val float64)` from 0.0 to 5000.0
--   `Knee() float64`
--   `SetKnee(val float64)` from 0.0 to 1.0
--   `GainOut() float64`
--   `SetGainOut(val float64)` from -24.0 to 24.0
--   `MakeUp() bool`
--   `SetMakeUp(val bool)`
+- `Knob() float64`
+- `SetKnob(val float64)` from 0.0 to 10.0
+- `GainIn() float64`
+- `SetGainIn(val float64)` from -24.0 to 24.0
+- `Ratio() float64`
+- `SetRatio(val float64)` from 1.0 to 8.0
+- `Threshold() float64`
+- `SetThreshold(val float64)` from -40.0 to -3.0
+- `Attack() float64`
+- `SetAttack(val float64)` from 0.0 to 200.0
+- `Release() float64`
+- `SetRelease(val float64)` from 0.0 to 5000.0
+- `Knee() float64`
+- `SetKnee(val float64)` from 0.0 to 1.0
+- `GainOut() float64`
+- `SetGainOut(val float64)` from -24.0 to 24.0
+- `MakeUp() bool`
+- `SetMakeUp(val bool)`
 
 example:
 
@@ -246,24 +246,24 @@ vm.Strip[3].Comp().SetRatio(3.5)
 
 ##### Gate
 
--   `vm.Strip[i].Gate()`
+- `vm.Strip[i].Gate()`
 
 The following methods are available
 
--   `Knob() float64`
--   `SetKnob(val float64)` from 0.0 to 10.0
--   `Threshold() float64`
--   `SetThreshold(val float64)` from -60.0 to -10.0
--   `Damping() float64`
--   `SetDamping(val float64)` from -60.0 to -10.0
--   `BPSidechain() int`
--   `SetBPSidechain(val int)` from 100 to 4000
--   `Attack() float64`
--   `SetAttack(val float64)` from 0.0 to 1000.0
--   `Hold() float64`
--   `SetHold(val float64)` from 0.0 to 5000.0
--   `Release() float64`
--   `SetRelease(val float64)` from 0.0 to 5000.0
+- `Knob() float64`
+- `SetKnob(val float64)` from 0.0 to 10.0
+- `Threshold() float64`
+- `SetThreshold(val float64)` from -60.0 to -10.0
+- `Damping() float64`
+- `SetDamping(val float64)` from -60.0 to -10.0
+- `BPSidechain() int`
+- `SetBPSidechain(val int)` from 100 to 4000
+- `Attack() float64`
+- `SetAttack(val float64)` from 0.0 to 1000.0
+- `Hold() float64`
+- `SetHold(val float64)` from 0.0 to 5000.0
+- `Release() float64`
+- `SetRelease(val float64)` from 0.0 to 5000.0
 
 example:
 
@@ -273,12 +273,12 @@ fmt.Println(vm.Strip[4].Gate().Attack())
 
 ##### Denoiser
 
--   `vm.Strip[i].Denoiser()`
+- `vm.Strip[i].Denoiser()`
 
 The following methods are available
 
--   `Knob() float64`
--   `SetKnob(val float64)` from 0.0 to 10.0
+- `Knob() float64`
+- `SetKnob(val float64)` from 0.0 to 10.0
 
 example:
 
@@ -288,12 +288,12 @@ vm.Strip[1].Denoiser().SetKnob(4.2)
 
 ##### Gainlayer
 
--   `vm.Strip[i].Gainlayer()[j]`
+- `vm.Strip[i].Gainlayer()[j]`
 
 The following methods are available
 
--   `Get() float64`
--   `Set(val float64)`
+- `Get() float64`
+- `Set(val float64)`
 
 example:
 
@@ -303,13 +303,13 @@ vm.Strip[6].GainLayer()[3].Set(-13.6)
 
 ##### Levels
 
--   `vm.Strip[i].Levels()`
+- `vm.Strip[i].Levels()`
 
 The following methods are available
 
--   `PreFader() []float64`
--   `PostFader() []float64`
--   `PostMute() []float64`
+- `PreFader() []float64`
+- `PostFader() []float64`
+- `PostMute() []float64`
 
 example:
 
@@ -321,15 +321,15 @@ fmt.Println(vm.Strip[5].Levels().PreFader())
 
 The following methods are available
 
--   `String() string`
--   `Mute() bool`
--   `SetMute(val bool)`
--   `Mono() bool`
--   `SetMono(val bool)`
--   `Label() string`
--   `SetLabel(val string)`
--   `Gain() float64`
--   `SetGain(val float64)` from -60.0 to 12.0
+- `String() string`
+- `Mute() bool`
+- `SetMute(val bool)`
+- `Mono() bool`
+- `SetMono(val bool)`
+- `Label() string`
+- `SetLabel(val string)`
+- `Gain() float64`
+- `SetGain(val float64)` from -60.0 to 12.0
 
 example:
 
@@ -340,34 +340,34 @@ fmt.Println(vm.Bus[0].Label())
 
 ##### Modes
 
--   `vm.Bus[i].Mode()`
+- `vm.Bus[i].Mode()`
 
 The following methods are available
 
--   `SetNormal(val bool)`
--   `Normal() bool`
--   `SetAmix(val bool)`
--   `Amix() bool`
--   `SetBmix(val bool)`
--   `Bmix() bool`
--   `SetRepeat(val bool)`
--   `Repeat() bool`
--   `SetComposite(val bool)`
--   `Composite() bool`
--   `SetTvMix(val bool)`
--   `TvMix() bool`
--   `SetUpMix21(val bool)`
--   `UpMix21() bool`
--   `SetUpMix41(val bool)`
--   `UpMix41() bool`
--   `SetUpMix61(val bool)`
--   `UpMix61() bool`
--   `SetCenterOnly(val bool)`
--   `CenterOnly() bool`
--   `SetLfeOnly(val bool)`
--   `LfeOnly() bool`
--   `SetRearOnly(val bool)`
--   `RearOnly() bool`
+- `SetNormal(val bool)`
+- `Normal() bool`
+- `SetAmix(val bool)`
+- `Amix() bool`
+- `SetBmix(val bool)`
+- `Bmix() bool`
+- `SetRepeat(val bool)`
+- `Repeat() bool`
+- `SetComposite(val bool)`
+- `Composite() bool`
+- `SetTvMix(val bool)`
+- `TvMix() bool`
+- `SetUpMix21(val bool)`
+- `UpMix21() bool`
+- `SetUpMix41(val bool)`
+- `UpMix41() bool`
+- `SetUpMix61(val bool)`
+- `UpMix61() bool`
+- `SetCenterOnly(val bool)`
+- `CenterOnly() bool`
+- `SetLfeOnly(val bool)`
+- `LfeOnly() bool`
+- `SetRearOnly(val bool)`
+- `RearOnly() bool`
 
 example:
 
@@ -378,11 +378,11 @@ vm.Bus[4].Mode().SetCenterOnly(true)
 
 ##### Levels
 
--   `vm.Bus[i].Levels()`
+- `vm.Bus[i].Levels()`
 
 The following methods are available
 
--   `All() []float64`
+- `All() []float64`
 
 example:
 
@@ -394,14 +394,14 @@ fmt.Println(vm.Bus[1].Levels().All())
 
 ##### EQ
 
--   `vm.Strip[i].Eq()` `vm.Bus[i].Eq()`
+- `vm.Strip[i].Eq()` `vm.Bus[i].Eq()`
 
 The following methods are available.
 
--   `On() bool`
--   `SetOn(val bool)`
--   `Ab() bool`
--   `SetAb(val bool)`
+- `On() bool`
+- `SetOn(val bool)`
+- `Ab() bool`
+- `SetAb(val bool)`
 
 example:
 
@@ -412,8 +412,8 @@ fmt.Println(vm.Bus[3].Eq().Ab())
 
 The following methods are available.
 
--   `FadeTo(target float64, time_ int)`: float, int
--   `FadeBy(change float64, time_ int)`: float, int
+- `FadeTo(target float64, time_ int)`: float, int
+- `FadeBy(change float64, time_ int)`: float, int
 
 Modify gain to or by the selected amount in db over a time interval in ms.
 
@@ -428,12 +428,12 @@ vm.Bus[3].FadeTo(-12.8, 500)
 
 The following methods are available
 
--   `State() bool`
--   `SetState(val bool)`
--   `StateOnly() bool`
--   `SetStateOnly(val bool)`
--   `Trigger() bool`
--   `SetTrigger(val bool)`
+- `State() bool`
+- `SetState(val bool)`
+- `StateOnly() bool`
+- `SetStateOnly(val bool)`
+- `Trigger() bool`
+- `SetTrigger(val bool)`
 
 example:
 
@@ -446,11 +446,11 @@ fmt.Println(vm.Button[64].StateOnly())
 
 The following methods are available
 
--   `Show()` Show Voicemeeter GUI if it's hidden
--   `Hide()` Hide Voicemeeter GUI if it's shown
--   `Shutdown()` Shuts down the GUI
--   `Restart()` Restart the audio engine
--   `Lock(val bool)` Lock the Voicemeeter GUI
+- `Show()` Show Voicemeeter GUI if it's hidden
+- `Hide()` Hide Voicemeeter GUI if it's shown
+- `Shutdown()` Shuts down the GUI
+- `Restart()` Restart the audio engine
+- `Lock(val bool)` Lock the Voicemeeter GUI
 
 example:
 
@@ -461,32 +461,32 @@ vm.Command.Show()
 
 ### VBAN
 
--   `vm.Vban.Enable()` `vm.Vban.Disable()` Turn VBAN on or off
+- `vm.Vban.Enable()` `vm.Vban.Disable()` Turn VBAN on or off
 
 ##### Instream | Outstream
 
--   `vm.Vban.InStream[i]` `vm.Vban.OutStream[i]`
+- `vm.Vban.InStream[i]` `vm.Vban.OutStream[i]`
 
 The following methods are available
 
--   `On() bool`
--   `SetOn(val bool)`
--   `Name() string`
--   `SetName(val string)`
--   `Ip() string`
--   `SetIp(val string)`
--   `Port() int`
--   `SetPort(val int)` from 1024 to 65535
--   `Sr() int`
--   `SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
--   `Channel() int`
--   `SetChannel(val int)` from 1 to 8
--   `Bit() int`
--   `SetBit(val int)` 16 or 24
--   `Quality() int`
--   `SetQuality(val int)` from 0 to 4
--   `Route() int`
--   `SetRoute(val int)` from 0 to 8
+- `On() bool`
+- `SetOn(val bool)`
+- `Name() string`
+- `SetName(val string)`
+- `Ip() string`
+- `SetIp(val string)`
+- `Port() int`
+- `SetPort(val int)` from 1024 to 65535
+- `Sr() int`
+- `SetSr(val int)` (11025, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000)
+- `Channel() int`
+- `SetChannel(val int)` from 1 to 8
+- `Bit() int`
+- `SetBit(val int)` 16 or 24
+- `Quality() int`
+- `SetQuality(val int)` from 0 to 4
+- `Route() int`
+- `SetRoute(val int)` from 0 to 8
 
 example:
 
@@ -505,10 +505,10 @@ vm.Vban.OutStream[3].SetBit(24)
 
 The following methods are available
 
--   `Ins()`
--   `Outs()`
--   `Input(val int)`
--   `Output(val int)`
+- `Ins()`
+- `Outs()`
+- `Input(val int)`
+- `Output(val int)`
 
 example:
 
@@ -522,13 +522,13 @@ for i := 0; i < int(vm.Device.Ins()); i++ {
 
 The following methods are available
 
--   `Play()`
--   `Stop()`
--   `Pause()`
--   `Replay()`
--   `Record()`
--   `Ff()`
--   `Rew()`
+- `Play()`
+- `Stop()`
+- `Pause()`
+- `Replay()`
+- `Record()`
+- `Ff()`
+- `Rew()`
 
 example:
 
@@ -547,9 +547,9 @@ vm.Recorder.SetB2(false)
 
 The following methods are available
 
--   `Channel()` returns the current midi channel
--   `Current()` returns the most recently pressed midi button
--   `Get(<button>)` returns the value in cache for the midi button
+- `Channel()` returns the current midi channel
+- `Current()` returns the most recently pressed midi button
+- `Get(<button>)` returns the value in cache for the midi button
 
 example:
 
@@ -562,10 +562,10 @@ var val = vm.Midi.Get(current)
 
 By default level updates are disabled. Any event may be enabled or disabled. The following events exist:
 
--   `pdirty` parameter updates
--   `mdirty` macrobutton updates
--   `midi` midi updates
--   `ldirty` level updates
+- `pdirty` parameter updates
+- `mdirty` macrobutton updates
+- `midi` midi updates
+- `ldirty` level updates
 
 example:
 
@@ -587,4 +587,4 @@ go test ./...
 
 ### Official Documentation
 
--   [Voicemeeter Remote C API](https://github.com/onyx-and-iris/Voicemeeter-SDK/blob/update-docs/VoicemeeterRemoteAPI.pdf)
+- [Voicemeeter Remote C API](https://github.com/onyx-and-iris/Voicemeeter-SDK/blob/main/VoicemeeterRemoteAPI.pdf)
