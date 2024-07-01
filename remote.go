@@ -20,7 +20,9 @@ type Remote struct {
 	Recorder *recorder
 	Midi     *midi_t
 
-	pooler *pooler
+	pooler  *pooler
+	timeout int
+	bits    int
 }
 
 // String implements the fmt.stringer interface
@@ -31,7 +33,7 @@ func (r *Remote) String() string {
 // Login logs into the API
 // then it intializes the pooler
 func (r *Remote) Login() error {
-	err := login(r.Kind.Name)
+	err := login(r.Kind.Name, r.timeout, r.bits)
 	if err != nil {
 		return err
 	}
@@ -57,12 +59,10 @@ func (r *Remote) InitPooler() {
 
 // Run launches the Voicemeeter GUI for a kind.
 func (r *Remote) Run(kindId string) error {
-	err := runVoicemeeter(kindId)
+	err := runVoicemeeter(kindId, r.bits)
 	if err != nil {
 		return err
 	}
-	time.Sleep(time.Second)
-	clear()
 	return nil
 }
 
@@ -173,6 +173,7 @@ type remoteBuilder interface {
 	makeDevice() remoteBuilder
 	makeRecorder() remoteBuilder
 	makeMidi() remoteBuilder
+	setDefaults() remoteBuilder
 	Build() remoteBuilder
 	Get() *Remote
 }
@@ -212,7 +213,7 @@ func (b *genericBuilder) setKind() remoteBuilder {
 // makeStrip makes a strip slice and assigns it to remote.Strip
 // []iStrip comprises of both physical and virtual strip types
 func (b *genericBuilder) makeStrip() remoteBuilder {
-	log.Info("building strip")
+	log.Debug("building strip")
 	strip := make([]iStrip, b.k.NumStrip())
 	for i := 0; i < b.k.NumStrip(); i++ {
 		if i < b.k.PhysIn {
@@ -228,7 +229,7 @@ func (b *genericBuilder) makeStrip() remoteBuilder {
 // makeBus makes a bus slice and assigns it to remote.Bus
 // []t_bus comprises of both physical and virtual bus types
 func (b *genericBuilder) makeBus() remoteBuilder {
-	log.Info("building bus")
+	log.Debug("building bus")
 	bus := make([]iBus, b.k.NumBus())
 	for i := 0; i < b.k.NumBus(); i++ {
 		if i < b.k.PhysOut {
@@ -243,7 +244,7 @@ func (b *genericBuilder) makeBus() remoteBuilder {
 
 // makeButton makes a button slice and assigns it to remote.Button
 func (b *genericBuilder) makeButton() remoteBuilder {
-	log.Info("building button")
+	log.Debug("building button")
 	button := make([]button, 80)
 	for i := 0; i < 80; i++ {
 		button[i] = newButton(i)
@@ -254,36 +255,43 @@ func (b *genericBuilder) makeButton() remoteBuilder {
 
 // makeCommand makes a command type and assigns it to remote.Command
 func (b *genericBuilder) makeCommand() remoteBuilder {
-	log.Info("building command")
+	log.Debug("building command")
 	b.r.Command = newCommand()
 	return b
 }
 
 // makeVban makes a vban type and assigns it to remote.Vban
 func (b *genericBuilder) makeVban() remoteBuilder {
-	log.Info("building vban")
+	log.Debug("building vban")
 	b.r.Vban = newVban(b.k)
 	return b
 }
 
 // makeDevice makes a device type and assigns it to remote.Device
 func (b *genericBuilder) makeDevice() remoteBuilder {
-	log.Info("building device")
+	log.Debug("building device")
 	b.r.Device = newDevice()
 	return b
 }
 
 // makeRecorder makes a recorder type and assigns it to remote.Recorder
 func (b *genericBuilder) makeRecorder() remoteBuilder {
-	log.Info("building recorder")
+	log.Debug("building recorder")
 	b.r.Recorder = newRecorder()
 	return b
 }
 
 // makeMidi makes a midi type and assigns it to remote.Midi
 func (b *genericBuilder) makeMidi() remoteBuilder {
-	log.Info("building midi")
+	log.Debug("building midi")
 	b.r.Midi = newMidi()
+	return b
+}
+
+// setDefaults sets defaults for optional members
+func (b *genericBuilder) setDefaults() remoteBuilder {
+	b.r.bits = 64
+	b.r.timeout = 2
 	return b
 }
 
@@ -306,7 +314,8 @@ func (basb *genericBuilder) Build() remoteBuilder {
 		makeCommand().
 		makeVban().
 		makeDevice().
-		makeMidi()
+		makeMidi().
+		setDefaults()
 }
 
 // bananaBuilder represents a builder specific to banana type
@@ -324,7 +333,8 @@ func (banb *bananaBuilder) Build() remoteBuilder {
 		makeVban().
 		makeDevice().
 		makeRecorder().
-		makeMidi()
+		makeMidi().
+		setDefaults()
 }
 
 // potatoBuilder represents a builder specific to potato type
@@ -342,13 +352,30 @@ func (potb *potatoBuilder) Build() remoteBuilder {
 		makeVban().
 		makeDevice().
 		makeRecorder().
-		makeMidi()
+		makeMidi().
+		setDefaults()
 }
 
 var (
 	vmsync  bool
 	vmdelay int
 )
+
+type Option func(*Remote)
+
+func WithTimeout(timeout int) Option {
+	return func(r *Remote) {
+		r.timeout = timeout
+	}
+}
+
+func WithBits(bits int) Option {
+	return func(r *Remote) {
+		if bits == 32 || bits == 64 {
+			r.bits = bits
+		}
+	}
+}
 
 func init() {
 	log.SetOutput(os.Stdout)
@@ -357,7 +384,7 @@ func init() {
 
 // NewRemote returns a Remote type for a kind
 // this is the interface entry point
-func NewRemote(kindId string, delay int) (*Remote, error) {
+func NewRemote(kindId string, delay int, opts ...Option) (*Remote, error) {
 	kind, ok := kindMap[kindId]
 	if !ok {
 		err := fmt.Errorf("unknown Voicemeeter kind '%s'", kindId)
@@ -380,5 +407,11 @@ func NewRemote(kindId string, delay int) (*Remote, error) {
 		director.SetBuilder(&potatoBuilder{genericBuilder{kind, Remote{}}})
 	}
 	director.Construct()
-	return director.Get(), nil
+	r := director.Get()
+
+	for _, opt := range opts {
+		opt(r)
+	}
+
+	return r, nil
 }

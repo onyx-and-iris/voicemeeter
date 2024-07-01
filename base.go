@@ -2,8 +2,10 @@ package voicemeeter
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"math"
+	"runtime"
 	"strings"
 	"syscall"
 	"time"
@@ -45,16 +47,29 @@ var (
 // login logs into the API,
 // attempts to launch Voicemeeter if it's not running,
 // initializes dirty parameters.
-func login(kindId string) error {
+func login(kindId string, timeout, bits int) error {
 	res, _, _ := vmLogin.Call()
 	if res == 1 {
-		runVoicemeeter(kindId)
-		time.Sleep(time.Second)
+		runVoicemeeter(kindId, bits)
 	} else if res != 0 {
 		err := fmt.Errorf("VBVMR_Login returned %d", res)
 		return err
 	}
-	log.Info("Logged into Voicemeeter ", kindId)
+
+	var ver_s string
+	start := time.Now()
+	var err error
+	for time.Since(start).Seconds() < float64(timeout) {
+		time.Sleep(time.Duration(100) * time.Millisecond)
+		if ver_s, err = getVersion(); err == nil {
+			log.Infof("Logged into Voicemeeter %s v%s", kindMap[kindId], ver_s)
+			log.Debugf("Log in time: %.2f", time.Since(start).Seconds())
+			break
+		}
+	}
+	if err != nil {
+		return errors.New("timeout logging into the API")
+	}
 	clear()
 	return nil
 }
@@ -68,18 +83,22 @@ func logout(kindId string) error {
 		err := fmt.Errorf("VBVMR_Logout returned %d", int32(res))
 		return err
 	}
-	log.Info("Logged out of Voicemeeter ", kindId)
+	log.Infof("Logged out of Voicemeeter %s", kindMap[kindId])
 	return nil
 }
 
 // runVoicemeeter attempts to launch a Voicemeeter GUI of a kind.
-func runVoicemeeter(kindId string) error {
+func runVoicemeeter(kindId string, bits int) error {
 	vals := map[string]uint64{
 		"basic":  1,
 		"banana": 2,
 		"potato": 3,
 	}
-	res, _, _ := vmRunvm.Call(uintptr(vals[kindId]))
+	val := vals[kindId]
+	if strings.Contains(runtime.GOARCH, "64") && bits == 64 {
+		val += 3
+	}
+	res, _, _ := vmRunvm.Call(uintptr(val))
 	if int32(res) != 0 {
 		err := fmt.Errorf("VBVMR_RunVoicemeeter returned %d", int32(res))
 		return err
@@ -93,6 +112,7 @@ func getVersion() (string, error) {
 	res, _, _ := vmGetvmVersion.Call(uintptr(unsafe.Pointer(&ver)))
 	if int32(res) != 0 {
 		err := fmt.Errorf("VBVMR_GetVoicemeeterVersion returned %d", int32(res))
+		log.Error(err.Error())
 		return "", err
 	}
 	v1 := (ver & 0xFF000000) >> 24
