@@ -15,7 +15,7 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 ### Added
 
-- Added a configurable timeout in seconds (defaults to 2).
+- Added a configurable login timeout in seconds (defaults to 2).
 - Option function added for overriding the type of Voicemeeter GUI runVoicemeeter() will launch.
 - Explanation of Option functions added to README.
 
