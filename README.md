@@ -81,17 +81,17 @@ Pass a delay in milliseconds to force the getters to wait for dirty parameters t
 
 Useful if not listening for event updates.
 
+### `voicemeeter.WithTimeout(timeout int)`
+
+Set a login timeout, defaults to 2 seconds. For example to set it to 1s:
+
+`voicemeeter.NewRemote("banana", 20, voicemeeter.WithTimeout(1))`
+
 ### `voicemeeter.WithBits(bits int)`
 
 Override the type of Voicemeeter GUI to launch on 64 bit systems. For example, to force 32 bit GUI:
 
 `voicemeeter.NewRemote("banana", 20, voicemeeter.WithBits(32))`
-
-### `voicemeeter.WithBits(timeout int)`
-
-Set a login timeout, defaults to 2 seconds. For example to set it to 1s:
-
-`voicemeeter.NewRemote("banana", 20, voicemeeter.WithBits(1))`
 
 ## `Remote Type`
 
