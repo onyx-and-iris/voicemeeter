@@ -1,16 +1,14 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/onyx-and-iris/voicemeeter.svg)](https://pkg.go.dev/github.com/onyx-and-iris/voicemeeter/v2)
 
-# A Go Wrapper for Voicemeeter API
-
-This package offers a Go interface for the Voicemeeter Remote C API.
+# A Go Wrapper for the Voicemeeter API
 
 For an outline of past/future changes refer to: [CHANGELOG](CHANGELOG.md)
 
 ## Tested against
 
-- Basic 1.0.8.8
-- Banana 2.0.6.8
-- Potato 3.0.2.8
+- Basic 1.1.1.1
+- Banana 2.1.1.1
+- Potato 3.1.1.1
 
 ## Requirements
 
@@ -67,7 +65,7 @@ func vmConnect() (*voicemeeter.Remote, error) {
 }
 ```
 
-## `voicemeeter.NewRemote(<kindId>, <delay>)`
+## `voicemeeter.NewRemote(<kindId>, <delay>, opts ...Option)`
 
 ### `kindId`
 
@@ -82,6 +80,18 @@ Pass the kind of Voicemeeter as an argument. kindId may be:
 Pass a delay in milliseconds to force the getters to wait for dirty parameters to clear.
 
 Useful if not listening for event updates.
+
+### `voicemeeter.WithBits(bits int)`
+
+Override the type of Voicemeeter GUI to launch on 64 bit systems. For example, to force 32 bit GUI:
+
+`voicemeeter.NewRemote("banana", 20, voicemeeter.WithBits(32))`
+
+### `voicemeeter.WithBits(timeout int)`
+
+Set a login timeout, defaults to 2 seconds. For example to set it to 1s:
+
+`voicemeeter.NewRemote("banana", 20, voicemeeter.WithBits(1))`
 
 ## `Remote Type`
 
