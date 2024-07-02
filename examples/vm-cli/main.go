@@ -54,8 +54,10 @@ func main() {
 		help        bool
 	)
 
-	flag.BoolVar(&help, "help", false, "print the help dialogue")
-	flag.BoolVar(&help, "h", false, "print the help dialogue (shorthand)")
+	flag.Usage = usage
+
+	flag.BoolVar(&help, "help", false, "print the help message")
+	flag.BoolVar(&help, "h", false, "print the help message (shorthand)")
 	flag.StringVar(&kind, "kind", "banana", "kind of voicemeeter")
 	flag.StringVar(&kind, "k", "banana", "kind of voicemeeter (shorthand)")
 	flag.IntVar(&delay, "delay", 20, "delay between commands")
@@ -64,12 +66,12 @@ func main() {
 	flag.BoolVar(&interactive, "i", false, "toggle interactive mode (shorthand)")
 	flag.IntVar(&loglevel, "loglevel", int(log.WarnLevel), "set the log level")
 	flag.IntVar(&loglevel, "l", int(log.WarnLevel), "set the log level (shorthand)")
-	flag.BoolVar(&vPrinter.verbose, "verbose", false, "toggle console output")
-	flag.BoolVar(&vPrinter.verbose, "v", false, "toggle console output (shorthand)")
+	flag.BoolVar(&vPrinter.verbose, "verbose", false, "enable extra console output (toggle and set messages)")
+	flag.BoolVar(&vPrinter.verbose, "v", false, "enable extra console output (toggle and set messages) (shorthand)")
 	flag.Parse()
 
 	if help {
-		help_dialogue()
+		flag.Usage()
 		return
 	}
 
@@ -90,7 +92,7 @@ func main() {
 
 	args := flag.Args()
 	if len(args) == 0 {
-		help_dialogue()
+		flag.Usage()
 		return
 	}
 
@@ -101,10 +103,10 @@ func main() {
 	}
 }
 
-func help_dialogue() {
-	fmt.Printf("usage: ./vm-cli [-h] [-i] [-k] [-l] [-d] [-v]\n" +
+func usage() {
+	fmt.Println("usage: ./vm-cli.exe [-h] [-i] [-k] [-l] [-d] [-v]\n" +
 		"Where:\n" +
-		"\th: Print the help dialogue\n" +
+		"\th: Print the help message\n" +
 		"\ti: Enable interactive mode\n" +
 		"\tk: The kind of Voicemeeter GUI to launch, defaults to Banana\n" +
 		"\tl: Log level 0 up to 6, (defaults to 3, Warn Level)\n" +

@@ -12,7 +12,7 @@ Commands that begin with `!` will toggle a parameter, commands that contain `=` 
 
 You may pass the following optional flags:
 
-- -h: Print the help dialogue
+- -h: Print the help message
 - -i: Enable interactive mode
 - -k: The kind of Voicemeeter GUI to launch, defaults to Banana
 - -l: Log level (0 up to 6), defaults to 3, Warn Level
