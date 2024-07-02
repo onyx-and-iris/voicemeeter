@@ -26,7 +26,7 @@ for example:
 Expected output:
 
 ```
-time="<timestamp>" level=info msg="Logged into Voicemeeter Potato v2.1.1.1"
+time="<timestamp>" level=info msg="Logged into Voicemeeter Potato v3.1.1.1"
 Setting strip[0].mute=0
 strip[0].mute: 0.00
 Toggling strip[0].mute
