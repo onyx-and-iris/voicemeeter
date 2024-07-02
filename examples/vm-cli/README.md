@@ -26,13 +26,14 @@ for example:
 Expected output:
 
 ```
-time="<timestamp>" level=info msg="Logged into Voicemeeter Banana v2.1.1.1"
-strip[0].mute: 1.00
-Toggling strip[0].mute
+time="<timestamp>" level=info msg="Logged into Voicemeeter Potato v2.1.1.1"
+Setting strip[0].mute=0
 strip[0].mute: 0.00
-Setting strip[0].label=podmic
-strip[0].label: podmic
-time="<timestamp>" level=info msg="Logged out of Voicemeeter Banana"
+Toggling strip[0].mute
+strip[0].mute: 1.00
+Setting bus[0].gain=-8.8
+Setting command.lock=1
+time="<timestamp>" level=info msg="Logged out of Voicemeeter Potato"
 ```
 
 If running in interactive mode enter `Q`, to exit.
