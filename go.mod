@@ -3,7 +3,7 @@ module github.com/onyx-and-iris/voicemeeter/v2
 go 1.18
 
 require (
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.1
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
 )
