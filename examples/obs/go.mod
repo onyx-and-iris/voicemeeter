@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.2.0
 	github.com/andreykaipov/goobs v0.10.0
 	github.com/onyx-and-iris/voicemeeter/v2 v2.0.0
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.1
 )
 
 require (
