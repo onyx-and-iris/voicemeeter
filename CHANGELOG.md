@@ -9,7 +9,14 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 
 ## [Unreleased]
 
-- [x]
+- [x] 
+
+## [2.1.1] - 2026-04-12
+
+### Added
+
+- {Bus}.Sel()/{Bus}.SetSel() and {Bus}.Monitor()/{Bus}.SetMonitor(). [PR #9](https://github.com/onyx-and-iris/voicemeeter/pull/9)
+
 
 ## [2.1.0] - 2024-07-01
 
@@ -18,6 +25,7 @@ Before any major/minor/patch bump all unit tests will be run to verify they pass
 - Added a configurable login timeout in seconds (defaults to 2).
 - Option function added for overriding the type of Voicemeeter GUI runVoicemeeter() will launch.
 - Explanation of Option functions added to README.
+- {Recorder}.Gain. [PR #4](https://github.com/onyx-and-iris/voicemeeter/pull/4)
 
 ### Changed
 
