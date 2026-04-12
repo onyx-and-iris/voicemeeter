@@ -336,6 +336,10 @@ The following methods are available
 - `SetMute(val bool)`
 - `Mono() bool`
 - `SetMono(val bool)`
+- `Sel() bool`
+- `SetSel(val bool)`
+- `Monitor() bool`
+- `SetMonitor(val bool)`
 - `Label() string`
 - `SetLabel(val string)`
 - `Gain() float64`
