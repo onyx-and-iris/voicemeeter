@@ -12,6 +12,10 @@ type iBus interface {
 	SetMute(val bool)
 	Mono() bool
 	SetMono(val bool)
+	Sel() bool
+	SetSel(val bool)
+	Monitor() bool
+	SetMonitor(val bool)
 	Label() string
 	SetLabel(val string)
 	Gain() float64
@@ -49,6 +53,26 @@ func (b *bus) Mono() bool {
 // SetMono sets the value of the Mute parameter
 func (b *bus) SetMono(val bool) {
 	b.setter_bool("Mono", val)
+}
+
+// Sel returns the value of the Sel parameter
+func (b *bus) Sel() bool {
+	return b.getter_bool("Sel")
+}
+
+// SetSel sets the alue of the Sel parameter
+func (b *bus) SetSel(val bool) {
+	b.setter_bool("Sel", val)
+}
+
+// Monitor returns the value of the Monitor parameter
+func (b *bus) Monitor() bool {
+	return b.getter_bool("Monitor")
+}
+
+// SetMonitor sets the alue of the Monitor parameter
+func (b *bus) SetMonitor(val bool) {
+	b.setter_bool("Monitor", val)
 }
 
 // Label returns the value of the MC parameter
